@@ -1,0 +1,160 @@
+CHANGELOG
+=========
+
+
+October 23 2014, Release version 0.9.5
+======================================
+    - Since the code is stable and no more bug has been found, the software is released in the current state, and version number increases to 0.95. Two stand alone versions have been produced for Linux and Windows : they function with my personal Windows 8.1 Update1 and Ubuntu 14.04, they need intensive tests with other windows and linuw operating systems.
+
+
+October 23 2014, Release version 0.9.5b4
+========================================
+  FIXED:
+    - corrected a bug that make the sentence "closing ASMM Creator ..." appears in the terminal when a document was modified, "Exit" button pushed, and "Cancel" selected when it was asked to save or not [asmm_xml.py].
+    - corrected a bug which permits a contact role to be writen in the XML file even if a contact name doesn't exist [asmm_xml.py].
+    - corrected a but which crashes the application when a contact role read in the XML file was missing [asmm_xml.py].
+    
+  MODIFIED:
+    - modified path to retrieve fonts to help creation of the stand alone application under Windows [asmm_pdf.py].
+    
+  ADDED:
+    - a licence file to the "fonts" directory to comply with Fedora font licence.
+    - the version number to ASMM starting and closing sentence [asmm_creator.py][mainwindow.py].
+    
+
+October 22 2014, Release version 0.9.5b3
+========================================
+  MODIFIED:
+    - "asmm_pdf.py" and "asmm_xml.py" have been moved to "functions" directory as they are functions. Code in the main program has been modified according to the new location.
+
+
+October 21 2014, Release version 0.9.5b2
+========================================
+    - Some work has been done since the 20th of October to produce a stable stand alone version for Windows and Linux, through PyInstaller.
+    
+  ADDED:
+    - "import netCDF4" was added to help PyInstaller add this module to the stand alone file [asmm_creator.py].
+    - "import numpy" was added to help PyInstaller add this module to the stand alone file [asmm_creator.py].
+    - titles have been added to the different pages to improve clarity of the code for futur modification [UI_mainwindow.py].
+    
+  MODIFIED:
+    - modified "asmm_pdf.py" code to use free policies on every systems (Windows, Linux, MacOS). PyInstaller had problems to point towards the correct directory.
+    
+  NON RESOLVED ISSUES:
+    - PyInstaller seems to be unable to locate by itself netCDF4 plugins dedicated to python. Temporary solution: the ".spec" file has been modified to include manually the netCDF4 plugins.
+    - On Windows Operating Systemps, in particular Win8.1, the reading of a netcdf file to obtain latitude/longitude coordinates raises an error in the terminal concerning python and the module "win32com". As this module is not called by ASMM Creator, and as ASMM Creator doesn't crash after this error, this issue is not critical and doesn't prevent the use of the software.
+    
+    
+October 20 2014, Release version 0.9.5b1
+========================================  
+  FIXED:
+    - when "Print" button was clicked  then "Cancel", an error was raised invoking a missing filename. This has been corrected by added a condition on the filename with a return function [mainwindow.py].
+    
+
+October 17 2014, Release version 0.9.4
+======================================
+    - Since the code is stable and no more bug has been found, the software is released in the current state, and version number increases to 0.94.
+     
+    
+October 13-17 2014, Release version 0.9.4b2 - b13
+=================================================
+  FIXED:
+    - few issues converning the "asmm_pdf.py" code
+    
+  ADDED:
+    - a function to allow the user to enter is own PDF filename [asmm_pdf.py].
+    - a function to allow a printing on multiple pages [asmm_pdf.py].
+    - new functions to produce tick boxes, squares, lines, in the pdf document [asmm_pdf.py].
+    - the possibility to use fonts installed on particular Operating Systems (deprecated) [asmm_pdf.py].
+    - few free policies to avoid use of non distributable policies on a linux operating systems[asmm_pdf.py].
+    
+  MODIFIED:
+    - the "About ASMM Creator" text has been modifies to change the version number and to integrate link and text about Reportlab plugin.
+    
+    
+October 13 2014, Release version 0.9.4b1
+========================================
+    - First implementation of a plugin to allow a pdf printing of the XML file. It's a demonstrator and need improvements and agreement from EUFAR community.
+    
+  ADDED:
+    - "Print" button has been added in "File" menu, code has been added to link the "Print" button to the new plugin [UI_mainwindow.py][mainwindow.py]
+    - the first version of the plugin to allow printing through Reportlab libraries has been created [asmm_pdf.py]
+     
+
+October 13 2014, Release version 0.9.3
+======================================
+    - Since no more bug has been discovered, the software is released in the current state, and version number increases to 0.93.
+    
+
+October 10 2014, Release version 0.9.3b6
+========================================
+  MODIFIED:
+    - the code in "asmm_xml" has been modified for clarification: few "newline" deleted, few lines have been moved to be in the right section, ... [asmm_xml.py].
+    - "if __name__ == "__main__":" statement has been removed from "UI_mainwindow.py" as it is deprecated, not executed, and a modified version is present in "asmm_creator.py" [UI_mainwindow.py].
+    - some files have been updated to reflect the new EUFAR2 FP7 project and to comply with python international standards : PKG-INFO, requires.txt, SOURCES.txt, setup.cfg, setup.py. Those files are needed to prepare an installation package.
+
+  ADDED:
+    - few lines of code have been added to allow the software to adapt itself to the height of a screen [UI_mainwindow.py].
+    
+
+October 9 2014, Release version 0.9.3b5
+=======================================
+  FIXED:
+    - when "Save as ..." button was clicked, then "Cancel", an error was raised invoking a missing filename. This has been corrected by added a condition on the filename with a return function [mainwindow.py].
+    - when "Read bounding box information from NetCDF" button was clicked, then "Cancel", an error was raised invoking a missing filename. This has been corrected by added a condition on the filename with a return function [mainwindow.py].
+    
+  MODIFIED:
+    - when "Open" button was clicked, all cells/checkboxes were automatically cleared, even if the button was not clicked intentionnaly. The "self.reset_all_fields" function has been moved to "asmm_xml.py" file in order to clear the document only if a user is agree to reada new one by selecting the new file [mainwindow.py][asmm_xml.py].
+    
+  ADDED:
+    - a function to automatically add extension to filename has been coded [mainwindow.py].
+
+	
+October 8 2014, Release version 0.9.3b4
+=======================================
+  FIXED:
+    - ASMM Creator wasn't saving the "Scientific Aims" checkboxes to the XML file, the code "self.scientific_aims_check_dict" has been added to the main code in order to properly save checkboxes to XML file [mainwindow.py].
+    - the element "GR_other" has been corrected to "GR_Other" in order to properly save this part in XML file [asmm_xml.py].
+
+  MODIFIED:
+    - the part "geographic bounding box" was saved in the "Contact Information" part. It has been modified to be saved properly in the "Geographical region" part [asmm_xml.py].
+    - few lines of code, involving "return" function, have been deleted in order to simplify the main code. Those functions were never invoked as placed in an "if ... else" statement which never could be TRUE [mainwindow.py].
+    
+
+October 7 2014, Release version 0.9.3b3
+=======================================
+  FIXED:
+    - ASMM Creator wasn't saving the "Scientific Aims" checkboxes to the XML file, the code "self.scientific_aims_check_dict" has been added to the main code in order to properly save checkboxes to XML file [mainwindow.py].
+    - the element "GR_other" has been corrected to "GR_Other" in order to properly save this part in XML file [asmm_xml.py].
+
+  MODIFIED:
+    - ASMM Creator was calling for EGADS in order to read netcdf files for latitude/longitude coordinates and altitude. This call has been removed and a function based on EGADS has been integrated in ASMM Creator package, to avoid issue if EGADS is not installed alongside of ASMM Creator [mainwindow.py].
+ 
+  ADDED:
+    - the netcdf reading function has been added to the import part [mainwindow.py].
+    
+
+October 6 2014, Release version 0.9.3b2
+=======================================
+  MODIFIED:
+    - the "title_string" variable has been modified to see "unsaved" and/or "modified" when the document has been modified and/or not been saved [mainwindow.py].
+    - the function "on_groundListWidget_doubleClicked" and other relatives have been deleted to avoid confusion and wrong manipulation in the software [mainwindow.py].
+    - the main code has been expanded with a line to inform that the software has been executed and is running [asmm_creator.py].
+    - the main code has been expanded with a line to inform that the software is currently closing [mainwindow.py.py].
+    
+
+September 29 2014, Release version 0.9.3b1
+==========================================
+  ADDED:
+    - a button to exit the application have been placed near the button "Generate XML" [mainwindow.py].
+    
+
+September 15 2014, Release version 0.9.2
+========================================
+    - Different kind of tests have been run in order to isolate all bugs and all necessary modifications to apply to the software
+
+    
+September 1 2014, Release version 0.9.2
+=======================================
+    - ASMM Creator was coded by Matt Freer
+    
