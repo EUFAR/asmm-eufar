@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
 
-"""
-Module implementing MainWindow.
-"""
+import webbrowser
 import datetime
-from PyQt4 import QtGui
-from PyQt4.QtCore import QDate
+import os, sys
+from PyQt4 import QtGui, QtCore
+#from PyQt4.QtCore import QDate
 from PyQt4.QtCore import QObject
 from PyQt4.QtCore import SIGNAL
 from PyQt4.QtCore import QString
@@ -18,34 +17,42 @@ from PyQt4.QtGui import QLineEdit
 from PyQt4.QtGui import QListWidget
 from PyQt4.QtGui import QMessageBox
 from PyQt4.QtGui import QTextEdit
+from PyQt4.QtGui import QWidget
+from PyQt4.QtGui import QToolButton
+from PyQt4.QtGui import QPushButton
+from PyQt4.QtGui import QCursor
 from Ui_mainwindow import Ui_MainWindow
+from Ui_aboutwindow import Ui_aboutWindow
+from Ui_aboutstandard import Ui_aboutStandard
+from Ui_logwindow import Ui_Changelog
 from _version import _version
 from _version import _xml_version
 from functions.asmm_xml import create_asmm_xml
 from functions.asmm_xml import read_asmm_xml
 from functions.asmm_pdf import create_asmm_pdf
 from functions.netcdf_lite import NetCdf
+from functions import button_functions
+from functions.button_functions import add_clicked
+from functions.button_functions import button_clicked
+from functions.sql_functions import objectsInit
+
+
+try:
+    _fromUtf8 = QtCore.QString.fromUtf8
+except AttributeError:
+    def _fromUtf8(s):
+        return s
+
 
 class MainWindow(QMainWindow, Ui_MainWindow):
-    """
-    The main ASMM' window is defined here
-    """
     def __init__(self, parent=None):
-        """
-        Constructor
-        """
         QMainWindow.__init__(self, parent)
+        if getattr(sys, 'frozen', False):
+            self.progPath = sys._MEIPASS
+        else:
+            self.progPath = os.path.abspath(".")
         self.setupUi(self)
-        self.ground_site_list = []
-        self.research_vessel_list = []
-        self.arm_site_list = []
-        self.arm_mobile_list = []
-        self.dateLine.setDate(QDate.currentDate())
-        self.out_file_name = None
-        self.saved = False
-        self.modified = False
-        self.create_date = None
-
+        objectsInit(self)
         all_check_boxes = self.findChildren(QCheckBox)
         for check_box in all_check_boxes:
             QObject.connect(check_box, SIGNAL("stateChanged(int)"), self.set_modified)
@@ -56,176 +63,66 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         for widget in all_line_edits:
             QObject.connect(widget, SIGNAL("textChanged(QString)"), self.set_modified)   
         QObject.connect(self.dateLine, SIGNAL("dateChanged(QDate)"), self.set_modified)
-
+        all_info_boxes = self.findChildren(QToolButton)
+        for widget in all_info_boxes:
+            QObject.connect(widget, SIGNAL("clicked()"), self.infoButton_clicked)
+        all_add_boxes = self.findChildren(QPushButton)
+        for widget in all_add_boxes:
+            QObject.connect(widget, SIGNAL("clicked()"), self.addButton_clicked)
         self.make_window_title()
-
-        self.scientific_aims_check_dict = {self.satelliteCalValCheck:'satelliteCalVal',
-                                          self.aerosolCheck:'aerosol',
-                                          self.aerosolRadiativeCheck:'aerosolRadiative',
-                                          self.aerosolMicrophysicalCheck:'aerosolMicrophysical',
-                                          self.anthroPollutionCheck:'anthroPollution',
-                                          self.mesoscaleImpactsCheck:'mesoscaleImpacts',
-                                          self.cloudMicrophysicsCheck:'cloudMicrophysics',
-                                          self.cloudDynamicsCheck:'cloudDynamics',
-                                          self.cloudRadiativeCheck:'cloudRadiative',
-                                          self.cloudConvectionCheck:'cloudConvection',
-                                          self.blCloudCheck:'blCloud',
-                                          self.blDynamicsCheck:'blDynamics',
-                                          self.radiationCheck:'radiation',
-                                          self.radiationAtmosSpectroscopyCheck:'radiationAtmosSpectroscopy',
-                                          self.radiationSurfPropertiesCheck:'radiationSurfProperties',
-                                          self.radiationOtherCheck:'radiationOther',
-                                          self.gasChemCheck:'gasChem',
-                                          self.gasChemOrganicsCheck:'gasChemOrganics',
-                                          self.gasChemOxidantsCheck:'gasChemOxidants',
-                                          self.gasChemOtherCheck:'gasChemOther'
-                                          }
-
-        self.geographical_region_check_dict = {self.polarCheck:'polar',
-                                              self.midLatitudesCheck:'midLatitudes',
-                                              self.subTropicalCheck:'subTropical',
-                                              self.tropicalCheck:'tropical',
-                                              self.maritimeCheck:'maritime',
-                                              self.continentalCheck:'continental',
-                                              self.oceanicIslandsCheck:'oceanicIslands',
-                                              self.geogOtherCheck:'other'}
-
-        self.atmospheric_features_check_dict = {self.stationaryCheck:'stationary',
-                                                self.stationaryAnticyclonicCheck:'stationaryAnticyclonic',
-                                                self.stationaryCyclonicCheck:'stationaryCyclonic',
-                                                self.warmFrontCheck:'warmFront',
-                                                self.warmConveyorBeltCheck:'warmConveyorBelt',
-                                                self.coldFrontCheck:'coldFront',
-                                                self.occludedFrontCheck:'occludedFront',
-                                                self.warmSectorCheck:'warmSector',
-                                                self.postColdFrontalAirMassCheck:'postColdFrontalAirMass',
-                                                self.arcticColdAirOutbreakCheck:'arcticColdAirOutbreak',
-                                                self.orographicInfluenceCheck:'orographicInfluence',
-                                                self.seaBreezeFrontCheck:'seaBreezeFront',
-                                                self.stratosphericFoldCheck:'stratosphericFold',
-                                                self.extendedConvergenceLineCheck:'extendedConvergenceLine',
-                                                self.easterlyWaveCheck:'easterlyWave',
-                                                self.equatorialWaveCheck:'equatorialWave',
-                                                self.tropicalCycloneCheck:'tropycalCyclone',
-                                                self.mesoscaleOrganizedConvectionCheck:'mesoscaleOrganizedConvection'}
-
-        self.cloud_types_check_dict = {self.waterCloudsCheck:'waterClouds',
-                                       self.mixedPhaseCloudsCheck:'mixedPhaseClouds',
-                                       self.iceCloudsCheck:'iceClouds',
-                                       self.cirrusCheck:'cirrus',
-                                       self.contrailsCheck:'contrails',
-                                       self.stratocumulusCheck:'stratocumulus',
-                                       self.shallowCumulusCheck:'shallowCumulus',
-                                       self.cumulusCongestusCheck:'cumulusCongestus',
-                                       self.cumulonimbusToweringCumulusCheck:'cumulonimbusToweringCumulus',
-                                       self.altostratusAltocumulusCheck:'altostratusAltocumulus',
-                                       self.waveCloudsCheck:'waveClouds',
-                                       self.deepFrontalStratiformCloudsCheck:'deepFrontalStratiformClouds',
-                                       self.cloudFreeAboveAircraftCheck:'cloudFreeAboveAircraft',
-                                       self.cloudFreeBelowAircraftCheck:'cloudFreeBelowAircraft'}
-
-        self.particles_sampled_check_dict = {self.rainCheck:'rain',
-                                             self.drizzleCheck:'drizzle',
-                                             self.dropletsCheck:'droplets',
-                                             self.pristineIceCrystalsCheck:'pristineIceCrystals',
-                                             self.snowOrAggregatesCheck:'snowOrAggregates',
-                                             self.graupelOrHailCheck:'graupelOrHail',
-                                             self.seaSaltAerosolCheck:'seaSaltAerosol',
-                                             self.continentalAerosolCheck:'continentalAerosol',
-                                             self.urbanPlumeCheck:'urbanPlume',
-                                             self.biomassBurningCheck:'biomassBurning',
-                                             self.desertOrMineralDustCheck:'desertOrMineralDust',
-                                             self.volcanicAshCheck:'volcanicAsh'}
-
-        self.surfaces_overflown_check_dict = {self.oceanCheck:'ocean',
-                                              self.semiAridCheck:'semiArid',
-                                              self.seaIceCheck:'seaIce',
-                                              self.desertCheck:'desert',
-                                              self.snowCheck:'snow',
-                                              self.urbanCheck:'urban',
-                                              self.lakeIceCheck:'lakeIce',
-                                              self.mountainousCheck:'mountainous',
-                                              self.vegetationCheck:'vegetation',
-                                              self.hillyCheck:'hilly',
-                                              self.forestCheck:'forest',
-                                              self.flatCheck:'flat'}
-
-        self.altitude_ranges_check_dict = {self.boundaryLayerCheck:'boundaryLayer',
-                                           self.blNearSurfaceCheck:'blNearSurface',
-                                           self.blSubCloudCheck:'blSubCloud',
-                                           self.blInCloudCheck:'blInCloud',
-                                           self.lowerTroposphereCheck:'lowerTroposphere',
-                                           self.midTroposphereCheck:'midTroposphere',
-                                           self.upperTroposphereCheck:'upperTroposphere',
-                                           self.lowerStratosphereCheck:'lowerStratosphere'}
-
-        self.flight_types_check_dict = {self.straightLevelRunsCheck:'straightLevelRuns',
-                                        self.stackedStraightLevelRunsCheck:'stackedStraightLevelRuns',
-                                        self.separatedStraightLevelRuns:'separatedStraightLevelRuns',
-                                        self.racetracksCheck:'racetracks',
-                                        self.orbitsCheck:'orbits',
-                                        self.lagrangianDescentsCheck:'lagrangianDescents',
-                                        self.deepProfileAscentDescentsCheck:'deepProfileAscentDescents',
-                                        self.dropsondeDeployedCheck:'dropsondeDeployed',
-                                        self.selfCalibrationCheck:'selfCalibration'}
-
-        self.satellite_coordination_check_dict = {self.polarMetopCheck:'polarMetop',
-                                                  self.polarNpoessCheck:'polarNpoess',
-                                                  self.polarAtrainCheck:'polarAtrain',
-                                                  self.polarOtherCheck:'polarOther',
-                                                  self.geosynchMsgCheck:'geosynchMsg',
-                                                  self.geosynchOtherCheck:'geosynchOther',
-                                                  self.modisCheck:'modis',
-                                                  self.cloudsatCheck:'cloudsat',
-                                                  self.caliopCheck:'caliop',
-                                                  self.iasiCheck:'iasi',
-                                                  self.airsCheck:'airs',
-                                                  self.crisCheck:'cris',
-                                                  self.amsuMhsCheck:'amsuMhs'}
 
 
     @pyqtSignature("")
     def on_groundAddButton_clicked(self):
         self.addListItem("Add Ground Site", "Ground Site Name:", self.groundListWidget, self.ground_site_list)
 
+
     @pyqtSignature("")
     def on_groundRemoveButton_clicked(self):
         self.removeListItem(self.groundListWidget, self.ground_site_list)
+
 
     @pyqtSignature("")
     def on_armAddButton_clicked(self):
         self.addListItem("Add ARM Site", "ARM Site Name:", self.armListWidget, self.arm_site_list)
 
+
     @pyqtSignature("")
     def on_armRemoveButton_clicked(self):
         self.removeListItem(self.armListWidget, self.arm_site_list)
+
 
     @pyqtSignature("")
     def on_armMobileAddButton_clicked(self):
         self.addListItem("Add ARM Mobile Site", "ARM Mobile Site Name:", self.armMobileListWidget, self.arm_mobile_list)
 
+
     @pyqtSignature("")
     def on_armMobileRemoveButton_clicked(self):
         self.removeListItem(self.armMobileListWidget, self.arm_mobile_list)
+
 
     @pyqtSignature("")
     def on_vesselAddButton_clicked(self):
         self.addListItem("Add Research Vessel", "Research Vessel Name:", self.vesselListWidget, self.research_vessel_list)
 
+
     @pyqtSignature("")
     def on_vesselRemoveButton_clicked(self):
         self.removeListItem(self.vesselListWidget, self.research_vessel_list)
+
 
     @pyqtSignature("")
     def on_generateXMLButton_clicked(self):
         self.save_document()
 
+
     @pyqtSignature("")
     def on_exitButton_clicked(self):
         self.close()
 
+
     @pyqtSignature("")
-    # modified for clarification
     def on_actionNew_triggered(self):
         if self.modified:
             result = self.make_onsave_msg_box()
@@ -238,16 +135,18 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 return
         self.reset_all_fields()
 
+
     @pyqtSignature("")
     def on_actionSave_triggered(self):
         self.save_document()
+
 
     @pyqtSignature("")
     def on_actionSave_As_triggered(self):
 	self.save_document(save_as=True)
 
+
     @pyqtSignature("")
-    # added to permit printing
     def on_actionPrint_triggered(self):
         self.out_file_name_pdf = self.get_file_name_pdf()
         if not self.out_file_name_pdf:
@@ -255,6 +154,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 	if '.pdf' not in self.out_file_name_pdf:
 	    self.out_file_name_pdf = self.out_file_name_pdf + '.pdf'
 	create_asmm_pdf(self, self.out_file_name_pdf)
+
 
     @pyqtSignature("")
     def on_actionOpen_triggered(self):
@@ -266,136 +166,59 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 		return
         self.open_file()
 
+
     @pyqtSignature("")
     def on_actionExit_triggered(self):
         self.close()
 
-    def closeEvent(self, event):
-        if self.modified:
-            result = self.make_onsave_msg_box()
-            if result == QMessageBox.Save:
-                self.save_document()
-                print 'closing ASMM Metadata Creator V{0} ...'.format(_version)
-                event.accept()
-            elif result == QMessageBox.Discard:
-		print 'closing ASMM Metadata Creator V{0} ...'.format(_version)
-                event.accept()
-            else:
-                event.ignore()
-        else:
-	    print 'closing ASMM Metadata Creator V{0} ...'.format(_version)
-            self.close()
 
-    def make_window_title(self):
-        if self.saved:
-            title_string = "ASMM Creator V{0} - ".format(_version) + self.out_file_name
-        else:
-            title_string = "ASMM Creator V{0} - unsaved".format(_version)
-        if self.modified:
-            title_string += ' - modified'
-        self.setWindowTitle(title_string)
+    @pyqtSignature("")
+    def on_actionEUFAR_N7SP_triggered(self):
+        webbrowser.open('http://www.eufar.net/')
 
-    def set_modified(self):
-        if not self.modified:
-            self.modified = True
-            self.make_window_title()
-
-    def save_document(self, save_as=False):
-	# modified code for simplification
-	if not self.out_file_name or save_as:
-            self.out_file_name = self.get_file_name()
-	    if not self.out_file_name:
-		return
-	    if '.xml' not in self.out_file_name:
-		self.out_file_name = self.out_file_name + '.xml'
-	create_asmm_xml(self, self.out_file_name)
-	self.make_window_title()
-
-    def get_file_name(self):
-        file_dialog = QFileDialog()
-        file_dialog.setDefaultSuffix('xml')
-        out_file_name = unicode(file_dialog.getSaveFileName(self, "Save XML File", filter='XML Files (*.xml);;Text Files (*.txt)'))
-        return out_file_name
-
-    def get_file_name_pdf(self):
-        file_dialog = QFileDialog()
-        file_dialog.setDefaultSuffix('pdf')
-        out_file_name_pdf = unicode(file_dialog.getSaveFileName(self, "Save PDF File", filter='PDF Files (*.pdf)'))
-        return out_file_name_pdf
-
-    def reset_all_fields(self):
-        all_check_boxes = self.findChildren(QCheckBox)
-        for check_box in all_check_boxes:
-            check_box.setCheckState(False)
-        all_text_edits = self.findChildren(QTextEdit)
-        for widget in all_text_edits:
-            widget.clear()
-        all_line_edits = self.findChildren(QLineEdit)
-        for widget in all_line_edits:
-            widget.clear()
-        all_list_widgets = self.findChildren(QListWidget)
-        for widget in all_list_widgets:
-            widget.clear()
-        self.ground_site_list = []
-        self.research_vessel_list = []
-        self.arm_site_list = []
-        self.arm_mobile_list = []
-        self.dateLine.setDate(QDate.currentDate())
-        self.out_file_name = None
-        self.modified = False
-        self.saved = False
-        self.create_date = None
-        self.make_window_title()
-
-    def make_onsave_msg_box(self):
-        msgBox = QMessageBox()
-        msgBox.setText("The document has been modified.")
-        msgBox.setInformativeText("Do you want to save your changes?")
-        msgBox.setStandardButtons(QMessageBox.Save | QMessageBox.Discard | QMessageBox.Cancel)
-        msgBox.setDefaultButton(QMessageBox.Save)
-        msgBox.setIcon(QMessageBox.Warning)
-        screen_center = QtGui.QDesktopWidget().availableGeometry().center()
-        msgBox.move(screen_center)
-        result = msgBox.exec_()
-        return result
-
-    def open_file(self):
-        (out_file_name, filter) = QFileDialog.getOpenFileNameAndFilter(self, "Open XML File", filter="XML Files (*.xml)")
-        out_file_name = unicode(out_file_name)
-        if out_file_name:
-            read_asmm_xml(self, out_file_name)
-            self.saved = True
-            self.modified = False
-            self.out_file_name = out_file_name
-            self.make_window_title()
-
-    def addListItem(self, title, label, listWidget, item_list):
-        (new_item, response) = QInputDialog.getText(self, title, label, text=QString(),)
-        if new_item and response:
-            self.modified = True
-            item_list.append(new_item)
-            listWidget.addItem(new_item)
-            self.make_window_title()
-
-    def removeListItem(self, listWidget, item_list):
-        selected_line = listWidget.currentRow()
-        if selected_line >= 0:
-            selected_item = listWidget.currentItem()
-            item_list.remove(unicode(selected_item.text()))
-            listWidget.takeItem(selected_line)
-            self.modified = True
-            self.make_window_title()
 
     @pyqtSignature("")
     def on_actionASMM_CreatorAbout_triggered(self):
-        aboutBox = QMessageBox()
-        aboutBox.about(self, "About ASMM Metadata Creator",
-                       "The ASMM Metadata Creator V{0} was developed by EUFAR using Python and PyQT. XML files generated by this version conform to V{1} of the ASMM XML standard. The opensource PDF plugin used for PDF report generation is provided and owned by Reportlab (<a href=http://www.reportlab.com/opensource>http://www.reportlab.com/opensource</a>).<br> <br>".format(_version, _xml_version) +
-                       "For more information, or to submit a bug report, please contact <a href='mailto:eufarsp@eufar.net'>eufarsp@eufar.net</a> <br><br>" +
-                       "The latest version and source code of the ASMM metadata creator can be found at <a href=http://asmm-creator.googlecode.com>http://asmm-creator.googlecode.com</a>")
+        aboutText = "<html><head/><body><p align=justify>The ASMM Creator V%s was developed by EUFAR using Python and PyQT. XML files generated by this version conform to V%s of the ASMM XML standard. The opensource PDF plugin used for PDF report generation is provided and owned by Reportlab (<a href=http://www.reportlab.com/opensource>http://www.reportlab.com/opensource</a>).</p><p>For more information, or to submit a bug report, please contact <a href='mailto:xxxxxxxxxxxxxxxxx'>xxxxxxxxxxxxxxxxxxxxx</a></p><p>The latest version and source code of the ASMM creator can be found at <a href=https://github.com/eufarn7sp/asmm-eufar>https://github.com/ eufarn7sp/asmm-eufar</a></p></body></html>" % (_version, _xml_version)
+        self.aboutWindow = MyAbout(aboutText)
+        x1, y1, w1, h1 = self.geometry().getRect()
+        x2, y2, w2, h2 = self.aboutWindow.geometry().getRect()
+        x2 = x1 + w1/2 - w2/2
+        y2 = y1 + h1/2 - h2/2
+        self.aboutWindow.setGeometry(x2, y2, w2, h2)
+        resolution = QtGui.QDesktopWidget().screenGeometry()
+        self.aboutWindow.setMinimumSize(QtCore.QSize(450, self.aboutWindow.sizeHint().height()))
+        self.aboutWindow.setMaximumSize(QtCore.QSize(452, self.aboutWindow.sizeHint().height()))
+        self.aboutWindow.exec_()
+
+    
+    @pyqtSignature("")
+    def on_actionASMM_XML_Standard_triggered(self):
+        aboutText = "<html><head/><body><p align=justify>The Airborne Science Mission Metadata (ASMM) standard is intended to unify descriptions of science research flights. This common description will allow users of the airborne science data to search past datasets for specific meteorological conditions, geographical regions, cloud-types encountered, particles sampled, and other parameters not evident from the data itself.<br> <br> For more information, please read the following document: <a href=https://xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx>ASMM - XML Implementation Rules.pdf</a></p></body></html>"
+        self.aboutWindow = MyStandard(aboutText)
+        x1, y1, w1, h1 = self.geometry().getRect()
+        x2, y2, w2, h2 = self.aboutWindow.geometry().getRect()
+        x2 = x1 + w1/2 - w2/2
+        y2 = y1 + h1/2 - h2/2
+        self.aboutWindow.setGeometry(x2, y2, w2, h2)
+        resolution = QtGui.QDesktopWidget().screenGeometry()
+        self.aboutWindow.setMinimumSize(QtCore.QSize(450, self.aboutWindow.sizeHint().height()))
+        self.aboutWindow.setMaximumSize(QtCore.QSize(452, self.aboutWindow.sizeHint().height()))
+        self.aboutWindow.exec_()
+ 
 
     @pyqtSignature("")
-    # modified for clarification
+    def on_actionChangelog_triggered(self):
+        self.logWindow = MyLog()
+        x1, y1, w1, h1 = self.geometry().getRect()
+        x2, y2, w2, h2 = self.logWindow.geometry().getRect()
+        x2 = x1 + w1/2 - w2/2
+        y2 = y1 + h1/2 - h2/2
+        self.logWindow.setGeometry(x2, y2, w2, h2)
+        self.logWindow.exec_()
+
+
+    @pyqtSignature("")
     def on_readBoundingBoxButton_clicked(self):
         lat_min = None
         lat_max = None
@@ -403,10 +226,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         lon_max = None
         alt_min = None
         alt_max = None
-        filename = QFileDialog.getOpenFileName(self,
-                                               'Open associated NetCDF',
-                                               '',
-                                               'NetCDF files (*.nc *.cdf);;All Files (*.*)')
+        filename = QFileDialog.getOpenFileName(self,'Open associated NetCDF','','NetCDF files (*.nc *.cdf);;All Files (*.*)')
 	if not filename:
 		return
         f = NetCdf(str(filename))
@@ -445,3 +265,196 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.southBoundLatitudeLine.setText(str(lat_min))
         self.minAltitudeLine.setText(str(alt_min))
         self.maxAltitudeLine.setText(str(alt_max))
+
+
+    def closeEvent(self, event):
+        if self.modified:
+            result = self.make_onsave_msg_box()
+            if result == QMessageBox.Save:
+                self.save_document()
+                print 'closing ASMM Metadata Creator V{0} ...'.format(_version)
+                event.accept()
+            elif result == QMessageBox.Discard:
+                print 'closing ASMM Metadata Creator V{0} ...'.format(_version)
+                event.accept()
+            else:
+                event.ignore()
+        else:
+            print 'closing ASMM Metadata Creator V{0} ...'.format(_version)
+            self.close()
+
+
+    def make_window_title(self):
+        if self.saved:
+            title_string = "ASMM Creator V{0} - ".format(_version) + self.out_file_name
+        else:
+            title_string = "ASMM Creator V{0} - unsaved".format(_version)
+        if self.modified:
+            title_string += ' - modified'
+        self.setWindowTitle(title_string)
+
+    def set_modified(self):
+        if not self.modified:
+            self.modified = True
+            self.make_window_title()
+
+
+    def save_document(self, save_as=False):
+        if not self.out_file_name or save_as:
+            self.out_file_name = self.get_file_name()
+            if not self.out_file_name:
+                return
+            if '.xml' not in self.out_file_name:
+                self.out_file_name = self.out_file_name + '.xml'
+        create_asmm_xml(self, self.out_file_name)
+        self.make_window_title()
+
+
+    def get_file_name(self):
+        file_dialog = QFileDialog()
+        file_dialog.setDefaultSuffix('xml')
+        out_file_name = unicode(file_dialog.getSaveFileName(self, "Save XML File", filter='XML Files (*.xml);;Text Files (*.txt)'))
+        return out_file_name
+
+
+    def get_file_name_pdf(self):
+        file_dialog = QFileDialog()
+        file_dialog.setDefaultSuffix('pdf')
+        out_file_name_pdf = unicode(file_dialog.getSaveFileName(self, "Save PDF File", filter='PDF Files (*.pdf)'))
+        return out_file_name_pdf
+
+
+    def reset_all_fields(self):
+        all_check_boxes = self.findChildren(QCheckBox)
+        for check_box in all_check_boxes:
+            check_box.setCheckState(False)
+        all_text_edits = self.findChildren(QTextEdit)
+        for widget in all_text_edits:
+            widget.clear()
+        all_line_edits = self.findChildren(QLineEdit)
+        for widget in all_line_edits:
+            widget.clear()
+        all_list_widgets = self.findChildren(QListWidget)
+        for widget in all_list_widgets:
+            widget.clear()
+        objectsInit(self)
+        for i in reversed(range(self.gridLayout_5.count())):
+            self.gridLayout_5.itemAt(i).widget().deleteLater()
+        for i in reversed(range(self.gridLayout_8.count())):
+            self.gridLayout_8.itemAt(i).widget().deleteLater()    
+        for i in reversed(range(self.gridLayout_9.count())):
+            self.gridLayout_9.itemAt(i).widget().deleteLater()
+        for i in reversed(range(self.gridLayout_10.count())):
+            self.gridLayout_10.itemAt(i).widget().deleteLater()
+        for i in reversed(range(self.gridLayout_11.count())):
+            self.gridLayout_11.itemAt(i).widget().deleteLater()
+        for i in reversed(range(self.gridLayout_13.count())):
+            self.gridLayout_13.itemAt(i).widget().deleteLater()
+        for i in reversed(range(self.gridLayout_14.count())):
+            self.gridLayout_14.itemAt(i).widget().deleteLater()
+        for i in reversed(range(self.gridLayout_15.count())):
+            self.gridLayout_15.itemAt(i).widget().deleteLater()
+        for i in reversed(range(self.gridLayout_25.count())):
+            self.gridLayout_25.itemAt(i).widget().deleteLater()
+        self.make_window_title()
+
+
+    def make_onsave_msg_box(self):
+        msgBox = QMessageBox()
+        msgBox.setText("The document has been modified.")
+        msgBox.setInformativeText("Do you want to save your changes?")
+        msgBox.setStandardButtons(QMessageBox.Save | QMessageBox.Discard | QMessageBox.Cancel)
+        msgBox.setDefaultButton(QMessageBox.Save)
+        msgBox.setIcon(QMessageBox.Warning)
+        screen_center = QtGui.QDesktopWidget().availableGeometry().center()
+        msgBox.move(screen_center)
+        result = msgBox.exec_()
+        return result
+
+
+    def open_file(self):
+        (out_file_name, filter) = QFileDialog.getOpenFileNameAndFilter(self, "Open XML File", filter="XML Files (*.xml)")
+        out_file_name = unicode(out_file_name)
+        if out_file_name:
+            read_asmm_xml(self, out_file_name)
+            self.saved = True
+            self.modified = False
+            self.out_file_name = out_file_name
+            self.make_window_title()
+
+
+    def addListItem(self, title, label, listWidget, item_list):
+        (new_item, response) = QInputDialog.getText(self, title, label, text=QString(),)
+        if new_item and response:
+            self.modified = True
+            item_list.append(new_item)
+            listWidget.addItem(new_item)
+            self.make_window_title()
+
+
+    def removeListItem(self, listWidget, item_list):
+        selected_line = listWidget.currentRow()
+        if selected_line >= 0:
+            selected_item = listWidget.currentItem()
+            item_list.remove(unicode(selected_item.text()))
+            listWidget.takeItem(selected_line)
+            self.modified = True
+            self.make_window_title()
+
+
+    def infoButton_clicked(self):
+        if "infoButton" in self.sender().objectName():
+            button_clicked(self)
+            
+            
+    def addButton_clicked(self):
+        if "addButton" in self.sender().objectName():
+              add_clicked(self)
+
+
+class MyAbout(QtGui.QDialog, Ui_aboutWindow):
+    def __init__(self, aboutText):
+        QWidget.__init__(self)
+        if getattr(sys, 'frozen', False):
+            self.progPath = sys._MEIPASS
+        else:
+            self.progPath = os.path.abspath(".")
+        self.setupUi(self)
+        self.aw_label_1.setText(aboutText)
+        self.aw_okButton.clicked.connect(self.closeWindow)
+
+    def closeWindow(self):
+        self.close()
+        
+        
+class MyLog(QtGui.QDialog, Ui_Changelog):
+    def __init__(self):
+        QWidget.__init__(self)
+        if getattr(sys, 'frozen', False):
+            self.progPath = sys._MEIPASS
+        else:
+            self.progPath = os.path.abspath(".")
+        self.setupUi(self)
+        self.log_txBrower.setPlainText(open(self.progPath + "/" + "Documentation/changelog.txt").read())
+        self.lg_okButton.clicked.connect(self.closeWindow)
+        
+    def closeWindow(self):
+        self.close()
+ 
+ 
+class MyStandard(QtGui.QDialog, Ui_aboutStandard):
+    def __init__(self, aboutText):
+        QWidget.__init__(self)
+        if getattr(sys, 'frozen', False):
+            self.progPath = sys._MEIPASS
+        else:
+            self.progPath = os.path.abspath(".")
+        self.setupUi(self)
+        self.aw_label_1.setText(aboutText)
+        self.aw_okButton.clicked.connect(self.closeWindow)
+
+    def closeWindow(self):
+        self.close() 
+ 
+
+        
