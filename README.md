@@ -1,5 +1,8 @@
 # asmm-eufar
 
+A detailed changelog can be found in the Documentation directory.
+Current version: 0.9.6b20
+
 Overview
 
 This project intends to develop a tool for creating, modifying and viewing Airborne Science Mission Metadata (ASMM) XML files. Executables for Windows and Linux, once they are available, will be provided in the EXE directory. The related documentation, including a changelog and an XML schema file, is located in the Documentation directory. 
