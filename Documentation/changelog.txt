@@ -3,20 +3,36 @@ CHANGELOG
 
 
 TO DO:
+======
     - Add a function to print a report [ONLINE].
     - Revamp the function to print a report [OFFLINE].
     - Add a function to read a netCDF file to acquire geographic information [ONLINE].
 
 
-June 10 2015, Release version 0.9.6b20
-======================================
+KNOWN ISSUES:
+=============
+    - PyInstaller seems to be unable to locate by itself netCDF4 plugins dedicated to python. Temporary solution: the ".spec" file has been modified to include manually the netCDF4 plugins [OFFLINE].
+    - On Windows Operating Systemps, in particular Win8.1, the reading of a netcdf file to obtain latitude/longitude coordinates raises an error in the terminal concerning python and the module "win32com". As this module is not called by ASMM Creator, and as ASMM Creator doesn't crash after this error, this issue is not critical and doesn't prevent the use of the software [OFFLINE].
+
+
+June 12 2015, Release version 0.9.6
+===================================
+  As the code is stable and no more bug has been found, the software is released in the current state, and version number increases to 0.9.6 [OFFLINE].
+
+
+June 11-12 2015, Release version 0.9.6b21-22
+============================================
+  MODIFIED:
+    - the function to save xml file has been modified to include all new checkboxes created by the user [OFFLINE][asmm_xml.py].
+    - the ASMM menu has been a bit reorganized with the introduction of information about the ASMM XML Standard [OFFLINE][mainwindow.py].
+    - the function to create a new file has been modified to take care of the new checkboxes created by the user [OFFLINE][mainwindow.py].
+    
+  FIXED:
+    - few http links in the software have been fixed to redirect to the documents on GitHub [ONLINE][OFFLINE][mainwindow.py].
+
   ADDED:
     - a new window has been added to give information about the ASMM XML Standard [OFFLINE][mainwindow.py][Ui_aboutstandard.py].
     - a new function to let the user enter his own checkboxes has been introduced [OFFLINE][mainwindow.py][buttons_functions.py][Ui_addcheckbox.py].
-    
-  MODIFIED:
-    - the ASMM menu has been a bit reorganized with the introduction of information about the ASMM XML Standard [OFFLINE][mainwindow.py].
-    - the function to create a new file has been modified to take care of the new checkboxes created by the user [OFFLINE][mainwindow.py].
 
 
 June 10 2015, Release version 0.9.6b20
@@ -102,7 +118,7 @@ April 9-21 2015, Release version 0.9.6b1-b11
 
 October 23 2014, Release version 0.9.5
 ======================================
-    As the code is stable and no more bug has been found, the software is released in the current state, and version number increases to 0.95. Two stand alone versions have been produced for Linux and Windows : they function with my personal Windows 8.1 Update1 and Ubuntu 14.04, they need intensive tests with other windows and linux operating systems.
+  As the code is stable and no more bug has been found, the software is released in the current state, and version number increases to 0.9.5. Two stand alone versions have been produced for Linux and Windows : they function with my personal Windows 8.1 Update1 and Ubuntu 14.04, they need intensive tests with other windows and linux operating systems.
 
 
 October 23 2014, Release version 0.9.5b4
@@ -137,10 +153,6 @@ October 21 2014, Release version 0.9.5b2
     
   MODIFIED:
     - modified "asmm_pdf.py" code to use free policies on every systems (Windows, Linux, MacOS). PyInstaller had problems to point towards the correct directory.
-    
-  NON RESOLVED ISSUES:
-    - PyInstaller seems to be unable to locate by itself netCDF4 plugins dedicated to python. Temporary solution: the ".spec" file has been modified to include manually the netCDF4 plugins.
-    - On Windows Operating Systemps, in particular Win8.1, the reading of a netcdf file to obtain latitude/longitude coordinates raises an error in the terminal concerning python and the module "win32com". As this module is not called by ASMM Creator, and as ASMM Creator doesn't crash after this error, this issue is not critical and doesn't prevent the use of the software.
     
     
 October 20 2014, Release version 0.9.5b1

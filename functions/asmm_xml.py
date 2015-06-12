@@ -1,14 +1,10 @@
-'''
-Created on Mar 6, 2012
-Modified on Sep 1, 2014
-
-@author: freer, henry
-'''
 
 import datetime
 import xml.dom.minidom
 from PyQt4.QtCore import Qt
 from PyQt4.QtCore import QDate
+from PyQt4.QtGui import QCheckBox
+from functions.button_functions import add_read
 
 NAMESPACE_URI = 'http://www.eufar.net/ASMM'
 
@@ -23,6 +19,7 @@ def create_asmm_xml(self, out_file_name):
     add_element(doc, "CreationDate", doc_root, self.create_date)
     add_element(doc, "RevisionDate", doc_root, current_date)
 
+
     ############################
     # Flight Information
     ############################
@@ -36,6 +33,7 @@ def create_asmm_xml(self, out_file_name):
     add_element(doc, "Operator", flightInformation, self.operatorLine.text())
     add_element(doc, "Country", flightInformation, self.countryLine.text())
 
+
     ###########################
     # Metadata Contact Info
     ###########################
@@ -47,12 +45,19 @@ def create_asmm_xml(self, out_file_name):
 	add_element(doc, "ContactRole", contactInfo, self.contactRoleBox.currentText())
     add_element(doc, "ContactEmail", contactInfo, self.contactEmailLine.text())
 
+
     ############################
     # Scientific Aims
     ############################
     scientificAims = add_element(doc, "ScientificAims", doc_root)
     add_check_elements(doc, self.scientific_aims_check_dict, "SA_Code", scientificAims)
+    if self.sa_ck_list:
+        for i in range(self.gridLayout_5.count()):
+            if isinstance(self.gridLayout_5.itemAt(i).widget(), QCheckBox):
+                if self.gridLayout_5.itemAt(i).widget().isChecked():
+                    add_element(doc,"SA_User", scientificAims, self.gridLayout_5.itemAt(i).widget().text())
     add_comment_element(doc, "SA_Other", scientificAims, self.SAOtherTextBox.toPlainText())
+
 
     ############################
     # Geographical Region
@@ -66,56 +71,104 @@ def create_asmm_xml(self, out_file_name):
     add_element(doc, "minAltitude", geographicBoundingBox, self.minAltitudeLine.text())
     add_element(doc, "maxAltitude", geographicBoundingBox, self.maxAltitudeLine.text())
     add_check_elements(doc, self.geographical_region_check_dict, "GR_Code", geographicalRegion)
+    if self.gr_ck_list:
+        for i in range(self.gridLayout_8.count()):
+            if isinstance(self.gridLayout_8.itemAt(i).widget(), QCheckBox):
+                if self.gridLayout_8.itemAt(i).widget().isChecked():
+                    add_element(doc,"GR_User", geographicalRegion, self.gridLayout_8.itemAt(i).widget().text())
     add_comment_element(doc, "GR_Other", geographicalRegion, self.GROtherTextBox.toPlainText())
+
 
     ############################
     # Atmospheric Features
     ############################
     atmosphericFeatures = add_element(doc, "AtmosFeatures", doc_root)
     add_check_elements(doc, self.atmospheric_features_check_dict, "AF_Code", atmosphericFeatures)
+    if self.af_ck_list:
+        for i in range(self.gridLayout_9.count()):
+            if isinstance(self.gridLayout_9.itemAt(i).widget(), QCheckBox):
+                if self.gridLayout_9.itemAt(i).widget().isChecked():
+                    add_element(doc,"AF_User", atmosphericFeatures, self.gridLayout_9.itemAt(i).widget().text())
     add_comment_element(doc, "AF_Other", atmosphericFeatures, self.AFOtherTextBox.toPlainText())
+
 
     ############################
     # Cloud Types
     ############################
     cloudTypes = add_element(doc, "CloudTypes", doc_root)
     add_check_elements(doc, self.cloud_types_check_dict, "CT_Code", cloudTypes)
+    if self.ct_ck_list:
+        for i in range(self.gridLayout_10.count()):
+            if isinstance(self.gridLayout_10.itemAt(i).widget(), QCheckBox):
+                if self.gridLayout_10.itemAt(i).widget().isChecked():
+                    add_element(doc,"CT_User", cloudTypes, self.gridLayout_10.itemAt(i).widget().text())
     add_comment_element(doc, "CT_Other", cloudTypes, self.CTOtherTextBox.toPlainText())
+
 
     ############################
     # Particles Sampled
     ############################
     particlesSampled = add_element(doc, "ParticlesSampled", doc_root)
     add_check_elements(doc, self.particles_sampled_check_dict, "PS_Code", particlesSampled)
+    if self.ps_ck_list:
+        for i in range(self.gridLayout_11.count()):
+            if isinstance(self.gridLayout_11.itemAt(i).widget(), QCheckBox):
+                if self.gridLayout_11.itemAt(i).widget().isChecked():
+                    add_element(doc,"PS_User", particlesSampled, self.gridLayout_11.itemAt(i).widget().text())
     add_comment_element(doc, "PS_Other", particlesSampled, self.PSOtherTextBox.toPlainText())
+
 
     ############################
     # Surfaces Overflown
     ############################
     surfacesOverflown = add_element(doc, "SurfacesOverflown", doc_root)
     add_check_elements(doc, self.surfaces_overflown_check_dict, "SO_Code", surfacesOverflown)
+    if self.so_ck_list:
+        for i in range(self.gridLayout_13.count()):
+            if isinstance(self.gridLayout_13.itemAt(i).widget(), QCheckBox):
+                if self.gridLayout_13.itemAt(i).widget().isChecked():
+                    add_element(doc,"SO_User", surfacesOverflown, self.gridLayout_13.itemAt(i).widget().text())
     add_comment_element(doc, "SO_Other", surfacesOverflown, self.SOOtherTextBox.toPlainText())
+
 
     ############################
     # Altitude Ranges
     ############################
     altitudeRanges = add_element(doc, "AltitudeRanges", doc_root)
     add_check_elements(doc, self.altitude_ranges_check_dict, "AR_Code", altitudeRanges)
+    if self.ar_ck_list:
+        for i in range(self.gridLayout_14.count()):
+            if isinstance(self.gridLayout_14.itemAt(i).widget(), QCheckBox):
+                if self.gridLayout_14.itemAt(i).widget().isChecked():
+                    add_element(doc,"AR_User", altitudeRanges, self.gridLayout_14.itemAt(i).widget().text())
     add_comment_element(doc, "AR_Other", altitudeRanges, self.AROtherTextBox.toPlainText())
+
 
     ############################
     # Flight Types
     ############################
     flightTypes = add_element(doc, "FlightTypes", doc_root)
     add_check_elements(doc, self.flight_types_check_dict, "FT_Code", flightTypes)
+    if self.fm_ck_list:
+        for i in range(self.gridLayout_15.count()):
+            if isinstance(self.gridLayout_15.itemAt(i).widget(), QCheckBox):
+                if self.gridLayout_15.itemAt(i).widget().isChecked():
+                    add_element(doc,"FT_User", flightTypes, self.gridLayout_15.itemAt(i).widget().text())
     add_comment_element(doc, "FT_Other", flightTypes, self.FTOtherTextBox.toPlainText())
+
 
     ############################
     # Satellite coordination
     ############################
     satelliteCoordination = add_element(doc, "SatelliteCoordination", doc_root)
     add_check_elements(doc, self.satellite_coordination_check_dict, "SC_Code", satelliteCoordination)
+    if self.sc_ck_list:
+        for i in range(self.gridLayout_25.count()):
+            if isinstance(self.gridLayout_25.itemAt(i).widget(), QCheckBox):
+                if self.gridLayout_25.itemAt(i).widget().isChecked():
+                    add_element(doc,"SC_User", satelliteCoordination, self.gridLayout_25.itemAt(i).widget().text())
     add_comment_element(doc, "SC_Other", satelliteCoordination, self.SCOtherTextBox.toPlainText())
+
 
     ############################
     # Surface Observations
@@ -129,13 +182,14 @@ def create_asmm_xml(self, out_file_name):
         add_element(doc, "ArmSite", surfaceObs, item)
     for item in self.arm_mobile_list:
         add_element(doc, "ArmMobile", surfaceObs, item)
-
+        
     ############################
     # Other Comments
     ############################
     if self.OtherCommentsTextBox.toPlainText():
         add_element(doc, "OtherComments", doc_root, self.OtherCommentsTextBox.toPlainText())
-    
+   
+   
     ############################
     # File Creation
     ############################
@@ -152,6 +206,7 @@ def read_asmm_xml(self, in_file_name):
     f = open(in_file_name, 'r')
     doc = xml.dom.minidom.parse(f)
 
+
     ############################
     # Flight Information
     ############################
@@ -167,6 +222,7 @@ def read_asmm_xml(self, in_file_name):
     set_text_value(self.operatorLine, flightInformation, "Operator")
     set_text_value(self.countryLine, flightInformation, "Country")
 
+
     #############################
     # Metadata Contact Info
     #############################
@@ -179,12 +235,17 @@ def read_asmm_xml(self, in_file_name):
     else:
 	self.contactRoleBox.setCurrentIndex(self.contactRoleBox.findText(combo_text))
 
+
     #############################
     # Scientific Aims
     #############################
     scientificAims = get_element(doc, "ScientificAims")
     set_check_values(self.scientific_aims_check_dict, scientificAims, "SA_Code")
     set_text_value(self.SAOtherTextBox, scientificAims, "SA_Other")
+    values = get_element_values(scientificAims, "SA_User")
+    for item in values:
+        add_read(self, "SA", item)
+    
 
     #############################
     # Geographical Region
@@ -199,6 +260,10 @@ def read_asmm_xml(self, in_file_name):
     set_text_value(self.maxAltitudeLine, geographicBoundingBox, "maxAltitude")
     set_check_values(self.geographical_region_check_dict, geographicalRegion, "GR_Code")
     set_text_value(self.GROtherTextBox, geographicalRegion, "GR_Other")
+    values = get_element_values(geographicalRegion, "GR_User")
+    for item in values:
+        add_read(self, "GR", item)
+    
 
     #############################
     # Atmospheric Features
@@ -206,6 +271,10 @@ def read_asmm_xml(self, in_file_name):
     atmosphericFeatures = get_element(doc, "AtmosFeatures")
     set_check_values(self.atmospheric_features_check_dict, atmosphericFeatures, "AF_Code")
     set_text_value(self.AFOtherTextBox, atmosphericFeatures, "AF_Other")
+    values = get_element_values(atmosphericFeatures, "AF_User")
+    for item in values:
+        add_read(self, "AF", item)
+
 
     #############################
     # Cloud Types
@@ -213,6 +282,10 @@ def read_asmm_xml(self, in_file_name):
     cloudTypes = get_element(doc, "CloudTypes")
     set_check_values(self.cloud_types_check_dict, cloudTypes, "CT_Code")
     set_text_value(self.CTOtherTextBox, cloudTypes, "CT_Other")
+    values = get_element_values(cloudTypes, "CT_User")
+    for item in values:
+        add_read(self, "CT", item)
+    
 
     #############################
     # Particles Sampled
@@ -220,6 +293,10 @@ def read_asmm_xml(self, in_file_name):
     particlesSampled = get_element(doc, "ParticlesSampled")
     set_check_values(self.particles_sampled_check_dict, particlesSampled, "PS_Code")
     set_text_value(self.PSOtherTextBox, particlesSampled, "PS_Other")
+    values = get_element_values(particlesSampled, "PS_User")
+    for item in values:
+        add_read(self, "PS", item)
+    
 
     #############################
     # Surfaces Overflown
@@ -227,6 +304,10 @@ def read_asmm_xml(self, in_file_name):
     surfacesOverflown = get_element(doc, "SurfacesOverflown")
     set_check_values(self.surfaces_overflown_check_dict, surfacesOverflown, "SO_Code")
     set_text_value(self.SOOtherTextBox, surfacesOverflown, "SO_Other")
+    values = get_element_values(surfacesOverflown, "SO_User")
+    for item in values:
+        add_read(self, "SO", item)
+    
 
     #############################
     # Altitude Ranges
@@ -234,13 +315,21 @@ def read_asmm_xml(self, in_file_name):
     altitudeRanges = get_element(doc, "AltitudeRanges")
     set_check_values(self.altitude_ranges_check_dict, altitudeRanges, "AR_Code")
     set_text_value(self.AROtherTextBox, altitudeRanges, "AR_Other")
-
+    values = get_element_values(altitudeRanges, "AR_User")
+    for item in values:
+        add_read(self, "AR", item)
+        
+    
     #############################
     # Flight Types
     #############################
     flightTypes = get_element(doc, "FlightTypes")
     set_check_values(self.flight_types_check_dict, flightTypes, "FT_Code")
     set_text_value(self.FTOtherTextBox, flightTypes, "FT_Other")
+    values = get_element_values(flightTypes, "FT_User")
+    for item in values:
+        add_read(self, "FM", item)
+    
 
     #############################
     # Satellite Coordination
@@ -248,6 +337,10 @@ def read_asmm_xml(self, in_file_name):
     satelliteCoordination = get_element(doc, "SatelliteCoordination")
     set_check_values(self.satellite_coordination_check_dict, satelliteCoordination, "SC_Code")
     set_text_value(self.SCOtherTextBox, satelliteCoordination, "SC_Other")
+    values = get_element_values(satelliteCoordination, "SC_User")
+    for item in values:
+        add_read(self, "SC", item)
+
 
     #############################
     # Surface Observations
@@ -261,7 +354,8 @@ def read_asmm_xml(self, in_file_name):
     self.armListWidget.addItems(self.arm_site_list)
     self.arm_mobile_list = get_element_values(surfaceObservations, "ArmMobile")
     self.armMobileListWidget.addItems(self.arm_mobile_list)
-
+    
+    
     ##############################
     # Other Comments
     ##############################
@@ -270,6 +364,7 @@ def read_asmm_xml(self, in_file_name):
 
 def get_element(parent, element_name):
     return parent.getElementsByTagNameNS(NAMESPACE_URI, element_name)[0]
+
 
 def get_element_value(parent, element_name):
     elements = parent.getElementsByTagNameNS(NAMESPACE_URI, element_name)
@@ -280,6 +375,7 @@ def get_element_value(parent, element_name):
             if node.nodeType == node.TEXT_NODE:
                 return node.data.strip()
 
+
 def get_element_values(parent, element_name):
     value_list = []
     elements = parent.getElementsByTagNameNS(NAMESPACE_URI, element_name)
@@ -287,16 +383,19 @@ def get_element_values(parent, element_name):
         value_list.append(element.childNodes[0].data.strip())
     return value_list
 
+
 def set_check_values(check_dict, parent, element_name):
     elements = parent.getElementsByTagNameNS(NAMESPACE_URI, element_name)
     for element in elements:
         check_widget = find_key(check_dict, element.childNodes[0].data.strip())
         check_widget.setChecked(True)
 
+
 def set_text_value(text_widget, parent, element_name):
     node_data = get_element_value(parent, element_name)
     if node_data:
         text_widget.setText(node_data)
+
 
 def add_element(doc, element_name, parent, value=None):
     new_element = doc.createElementNS(NAMESPACE_URI, "asmm:" + element_name)
@@ -306,14 +405,17 @@ def add_element(doc, element_name, parent, value=None):
     parent.appendChild(new_element)
     return new_element
 
+
 def add_comment_element(doc, element_name, parent, value):
     if value:
         add_element(doc, element_name, parent, value)
+
 
 def add_check_elements(doc, check_dict, code_name, parent):
     for key, val in check_dict.iteritems():
         if key.isChecked():
             add_element(doc, code_name, parent, val)
+
 
 def find_key(dic, val):
     return [k for k, v in dic.iteritems() if v == val][0]

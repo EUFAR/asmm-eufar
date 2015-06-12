@@ -194,7 +194,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     @pyqtSignature("")
     def on_actionASMM_XML_Standard_triggered(self):
-        aboutText = "<html><head/><body><p align=justify>The Airborne Science Mission Metadata (ASMM) standard is intended to unify descriptions of science research flights. This common description will allow users of the airborne science data to search past datasets for specific meteorological conditions, geographical regions, cloud-types encountered, particles sampled, and other parameters not evident from the data itself.<br> <br> For more information, please read the following document: <a href=https://xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx>ASMM - XML Implementation Rules.pdf</a></p></body></html>"
+        aboutText = "<html><head/><body><p align=justify>The Airborne Science Mission Metadata (ASMM) standard is intended to unify descriptions of science research flights. This common description will allow users of the airborne science data to search past datasets for specific meteorological conditions, geographical regions, cloud-types encountered, particles sampled, and other parameters not evident from the data itself.<br> <br> For more information, please read the following document: <a href=https://github.com/eufarn7sp/asmm-eufar/blob/master/Documentation/ASMM%20-%20XML%20Implementation%20Rules.pdf>ASMM - XML Implementation Rules.pdf</a></p></body></html>"
         self.aboutWindow = MyStandard(aboutText)
         x1, y1, w1, h1 = self.geometry().getRect()
         x2, y2, w2, h2 = self.aboutWindow.geometry().getRect()
