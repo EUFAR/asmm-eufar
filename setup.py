@@ -34,7 +34,7 @@ Topic :: Text Processing :: Markup :: XML
 doclines = __doc__.split('\n')
 
 
-setup(name='asmm_creator',
+setup(name='asmm',
       version=_version,
       description=doclines[0],
       long_description='\n'.join(doclines[2:]),
@@ -46,8 +46,8 @@ setup(name='asmm_creator',
       download_url='http://code.google.com/p/asmm-creator',
       license='New BSD License',
       keywords=['airbornescience', 'xml', 'eufar', 'science', 'metadata'],
-      packages=['ui','fonts','functions'],
+      packages=['ui','font','functions','icons'],
       classifiers=filter(None, classifiers.split("\n")),
-      requires=['PyQt','reportlab (>=3.1.31)'],
-      install_requires=['PyQt','reportlab (>=3.1.31)']
+      requires=['PyQt4 (>=4.11.2)','reportlab (>=3.1.31)','netCDF4-python (>=1.1.7)'],
+      install_requires=['PyQt4 (>=4.11.2)','reportlab (>=3.1.31)','netCDF4-python (>=1.1.7)']
       )

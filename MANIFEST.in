@@ -2,3 +2,4 @@ include *.py
 recursive-include ui *.py *.ui
 recursive-include functions *.py
 recursive-include fonts *.ttf
+recursive-include icons *.png *.ico

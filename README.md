@@ -16,6 +16,6 @@ This project - Airborne Science Mission Metadata (ASMM) - was motivated by the n
 Libraries
 
 This software needs the following libraries to allow proper operation:
-  - PyQt4 4.11.2 -> http://www.riverbankcomputing.co.uk/software/pyqt/download
+  - PyQt4 4.11.2+ -> http://www.riverbankcomputing.co.uk/software/pyqt/download
   - netCDF4 for python 1.1.7+ -> https://pypi.python.org/pypi/netCDF4
   - Reportlab PDF Toolkit 3.1.31 -> https://bitbucket.org/rptlab/reportlab
