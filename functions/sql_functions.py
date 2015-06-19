@@ -201,4 +201,27 @@ def objectsInit(self):
                                               self.amsuMhsCheck:'amsuMhs'
                                               }
     
-    
+    self.operators_aircraft = [
+        ["Alfred Wegener Institute","BT-67 POLAR 5","AWI","BT-67"],
+        ["CNR - Istituto per i Sistemi Agricoli e Forestali del Mediterraneo","Sky Arrow 650","CNR-ISAFoM","Sky Arrow 650"],
+        ["CNR - Istituto di Metodologie per l'Analisi Ambientale","Partenavia P-68","CNR-IMAA","P-68"],
+        ["Deutsches Zentrum fur Luft- und Raumfahrt","Cessna 208","DLR","Cessna 208"],
+        ["Deutsches Zentrum fur Luft- und Raumfahrt","Dornier DO-228 D-CFFU","DLR","DO-228"],
+        ["Deutsches Zentrum fur Luft- und Raumfahrt","Dornier DO-228 D-CODE","DLR","DO-228"],
+        ["Deutsches Zentrum fur Luft- und Raumfahrt","Mystere/Falcon 20","DLR","Mystere/Falcon 20"],
+        ["ENVISCOPE","Learjet 35","Enviscope","Learjet 35"],
+        ["ENVISCOPE","Partenavia P-68","Enviscope","P-68"],
+        ["NERC - Facility for Airborne Atmospheric Measurements","BAe-146","FAAM","BAe-146"],
+        ["FUB - Institut fur Weltraumwissenschaften","Cessna 207","FUB-ISS","Cessna 207"],
+        ["Instituto Nacional de Tecnica Aeroespacial","CASA-212 AR","INTA","CASA-212"],
+        ["Instituto Nacional de Tecnica Aeroespacial","CASA-212 RS","INTA","CASA-212"],
+        ["KIT - Institute of Meteorology and Climate Research","Enduro","KIT-IMK-IFU","Enduro"],
+        ["NERC - Airborne Research and Survey Facility","Dornier DO-228","NERC-ARSF","DO-228"],
+        ["NERC - British Antarctic Survey","DHC-6 Twin Otter","NERC-BAS","DHC-6"],
+        ["SAFIRE","ATR-42","SAFIRE","ATR-42"],
+        ["SAFIRE","Mystere/Falcon 20","SAFIRE","Mystere/Falcon 20"],
+        ["SAFIRE","Piper PA23","SAFIRE","PA23"],
+        ["UEDIN - Airborne GeoSciences","HK36TTC ECO Dimona","UEDIN-IAES","HK36TTC ECO Dimona"],
+        ]
+
+    self.countries = ["Do your choice...","Afghanistan","Albania","Algeria","Amazonia","American Samoa","Amsterdam And St. Paul Islands","Andaman Islands","Andorra","Angola","Anguilla","Antigua And Barbuda","Argentina","Armenia","Aruba","Ascension Island","Australia","Austria","Azerbaijan","Bahamas","Bahrain","Baker Island","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bhutan","Bolivia","Bonaire","Bosnia And Herzegovina","Botswana","Bouvet Island","Brazil","British Isles","Brunei","Bulgaria","Burkina Faso","Burma","Burundi","Cambodia","Cameroon","Canada","Caribbean","Cayman Islands","Central African Republic","Ceuta","Chad","Channel Islands","Chile","China","Christmas Island","Cocos Islands","Colombia","Comoros","Congo, Democratic Republic","Congo, Republic","Cook Islands","Corsica","Costa Rica","Cote D'ivoire","Croatia","Crozet Islands","Cuba","Curacao","Cyprus","Czech Republic","Denmark","Dhekelia","Djibouti","Dominica","Dominican Republic","Ecuador","Egypt","El Salvador","Equatorial Guinea","Eritrea","Estonia","Ethiopia","Faeroe Islands","Falkland Islands","Fiji","Finland","France","French Guiana","French Polynesia","Gabon","Galapagos Islands","Gambia","Gaza Strip","Georgia, Republic","Germany","Ghana","Gibraltar","Gough Island","Greece","Greenland","Grenada","Guadeloupe","Guam","Guatemala","Guinea","Guinea-Bissau","Guyana","Haiti","Hawaii Island","Hawaiian Islands","Honduras","Hong Kong","Howland Island","Hungary","Iceland","India","Indonesia","Iran","Iraq","Ireland","Israel","Italy","Jamaica","Japan","Jarvis Island","Johnston Atoll","Jordan","Kahoolawe","Kauai","Kazakhstan","Kenya","Kerguelen Islands","Kingman Reef","Kiribati","Kosovo","Kuwait","Kyrgyzstan","Laeso","Lake Chad","Lake Malawi","Lake Tanganyika","Lake Victoria","Lanai","Laos","Latvia","Lebanon","Lesotho","Liberia","Libya","Liechtenstein","Lithuania","Luxembourg","Macau","Macedonia","Madagascar","Madeira","Malawi","Malaysia","Maldives","Mali","Malta","Marshall Islands","Martinique","Maui","Mauritania","Mauritius","Melanesia","Mexico","Micronesia","Midway Atoll","Moldova","Molokai","Monaco","Mongolia","Montenegro","Montserrat","Morocco","Mozambique","Namibia","Nauru","Navassa Island","Nepal","Netherlands Antilles","Netherlands","New Caledonia","New Zealand","Nicaragua","Nicobar Islands","Niger","Nigeria","Niihau","Niue","Norfolk Island","North Korea","Northern Mariana Islands","Norway","Oahu","Okinawa","Oman","Pakistan","Palau","Palestine","Palmyra Atoll","Panama","Papua New Guinea","Paraguay","Peru","Philippines","Pitcairn Island","Pitcairn Islands","Poland","Polynesia","Portugal","Puerto Rico","Qatar","Red Sea","Reunion","Romania","Russia","Rwanda","Saba","Sable Island","Samoa","San Marino","Sao Tome And Principe","Sardinia","Saudi Arabia","Scandinavia","Senegal","Serbia","Seychelles","Sicily","Sierra Leone","Singapore","Slovakia","Slovenia","Solomon Islands","Somalia","South Africa","South Georgia Island","South Korea","South Orkney Islands","South Sandwich Islands","Spain","Spratly Islands","Sri Lanka","St Barthelemy","St Eustatius","St Helena","St Kitts And Nevis","St Lucia","St Maarten","St Martin","St Pierre And Miquelon","St Vincent And The Grenadines","Sudan","Suriname","Svalbard And Jan Mayen","Swaziland","Sweden","Switzerland","Syria","Taiwan","Tajikistan","Tanzania","Thailand","Togo","Tokelau","Tonga","Trinidad And Tobago","Tristan Da Cunha","Tunisia","Turkey","Turkmenistan","Turks And Caicos Islands","Tuvalu","Uganda","Ukraine","United Arab Emirates","United Kingdom","United States of America","Uruguay","Uzbekistan","Vanuatu","Vatican City","Venezuela","Vietnam","Virgin Islands","Wake Island","Wallis And Futuna Islands","Yemen","Zambia","Zanzibar","Zimbabwe"]

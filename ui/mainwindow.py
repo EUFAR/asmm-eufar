@@ -4,7 +4,6 @@ import webbrowser
 import datetime
 import os, sys
 from PyQt4 import QtGui, QtCore
-#from PyQt4.QtCore import QDate
 from PyQt4.QtCore import QObject
 from PyQt4.QtCore import SIGNAL
 from PyQt4.QtCore import QString
@@ -21,10 +20,12 @@ from PyQt4.QtGui import QWidget
 from PyQt4.QtGui import QToolButton
 from PyQt4.QtGui import QPushButton
 from PyQt4.QtGui import QCursor
+from PyQt4.QtGui import QComboBox
 from Ui_mainwindow import Ui_MainWindow
 from Ui_aboutwindow import Ui_aboutWindow
 from Ui_aboutstandard import Ui_aboutStandard
 from Ui_logwindow import Ui_Changelog
+from Ui_presavewindow import Ui_presaveWindow
 from _version import _version
 from _version import _xml_version
 from functions.asmm_xml import create_asmm_xml
@@ -69,6 +70,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         all_add_boxes = self.findChildren(QPushButton)
         for widget in all_add_boxes:
             QObject.connect(widget, SIGNAL("clicked()"), self.addButton_clicked)
+        all_rolbox_edits = self.findChildren(QComboBox)
+        for widget in all_rolbox_edits:
+            QObject.connect(widget, SIGNAL("activated(QString)"), self.set_modified)
+        QObject.connect(self.operatorList, SIGNAL("activated(QString)"), self.operator_changed)
+        self.countryList.addItems(self.countries)
         self.make_window_title()
 
 
@@ -125,15 +131,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSignature("")
     def on_actionNew_triggered(self):
         if self.modified:
-            result = self.make_onsave_msg_box()
-            if result == QMessageBox.Save:
+            result = self.make_onsave_msg_box("Clear","new_icon.png")
+            if result == "iw_saveButton":
                 self.save_document()
 		self.reset_all_fields()
-            elif result == QMessageBox.Discard:
+            elif result == "iw_nosaveButton":
                 self.reset_all_fields()
-            else:
-                return
-        self.reset_all_fields()
+        else:
+            self.reset_all_fields()
 
 
     @pyqtSignature("")
@@ -159,12 +164,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSignature("")
     def on_actionOpen_triggered(self):
         if self.modified:
-            result = self.make_onsave_msg_box()
-            if result == QMessageBox.Save:
+            result = self.make_onsave_msg_box("Open","open_icon.png")
+            if result == "iw_saveButton":
                 self.save_document()
-	    elif result == QMessageBox.Cancel:
-		return
-        self.open_file()
+                self.open_file()
+	    elif result == "iw_nosaveButton":
+		self.open_file()
+        else:
+          self.open_file()
 
 
     @pyqtSignature("")
@@ -269,18 +276,18 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def closeEvent(self, event):
         if self.modified:
-            result = self.make_onsave_msg_box()
-            if result == QMessageBox.Save:
+            result = self.make_onsave_msg_box("Close", "exit_icon.png")
+            if result == "iw_saveButton":
                 self.save_document()
-                print 'closing ASMM Metadata Creator V{0} ...'.format(_version)
+                print 'closing ASMM Creator V{0} ...'.format(_version)
                 event.accept()
-            elif result == QMessageBox.Discard:
-                print 'closing ASMM Metadata Creator V{0} ...'.format(_version)
+            elif result == "iw_nosaveButton":
+                print 'closing ASMM Creator V{0} ...'.format(_version)
                 event.accept()
             else:
                 event.ignore()
         else:
-            print 'closing ASMM Metadata Creator V{0} ...'.format(_version)
+            print 'closing ASMM Creator V{0} ...'.format(_version)
             self.close()
 
 
@@ -356,20 +363,30 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.gridLayout_15.itemAt(i).widget().deleteLater()
         for i in reversed(range(self.gridLayout_25.count())):
             self.gridLayout_25.itemAt(i).widget().deleteLater()
+        self.operatorList.setCurrentIndex(0)
+        if hasattr(self, "tmpOperatorLine"):
+            if self.horizontalLayout_77.count() > 0:
+                self.tmpOperatorLine.deleteLater()
+                self.tmpAircraftLine.deleteLater()
+        self.aircraftList.clear()
+        self.aircraftList.setEnabled(False)    
+        self.countryList.setCurrentIndex(0)
         self.make_window_title()
 
 
-    def make_onsave_msg_box(self):
-        msgBox = QMessageBox()
-        msgBox.setText("The document has been modified.")
-        msgBox.setInformativeText("Do you want to save your changes?")
-        msgBox.setStandardButtons(QMessageBox.Save | QMessageBox.Discard | QMessageBox.Cancel)
-        msgBox.setDefaultButton(QMessageBox.Save)
-        msgBox.setIcon(QMessageBox.Warning)
-        screen_center = QtGui.QDesktopWidget().availableGeometry().center()
-        msgBox.move(screen_center)
-        result = msgBox.exec_()
-        return result
+    def make_onsave_msg_box(self, string, iconName):
+        self.presaveWindow = MyWarning(string, iconName)
+        x1, y1, w1, h1 = self.geometry().getRect()
+        x2, y2, w2, h2 = self.presaveWindow.geometry().getRect()
+        x2 = x1 + w1/2 - w2/2
+        y2 = y1 + h1/2 - h2/2
+        self.presaveWindow.setGeometry(x2, y2, w2, h2)
+        resolution = QtGui.QDesktopWidget().screenGeometry()
+        var = 1050 / resolution.height()
+        self.presaveWindow.setMinimumSize(QtCore.QSize(450, self.presaveWindow.sizeHint().height()))
+        self.presaveWindow.setMaximumSize(QtCore.QSize(452, self.presaveWindow.sizeHint().height()))
+        self.presaveWindow.exec_()
+        return self.presaveWindow.buttonName
 
 
     def open_file(self):
@@ -410,6 +427,46 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def addButton_clicked(self):
         if "addButton" in self.sender().objectName():
               add_clicked(self)
+
+
+    def operator_changed(self):
+        if self.operatorList.currentText() == "Do your choice...":
+            if hasattr(self, "tmpOperatorLine"):
+              if self.horizontalLayout_77.count() > 0:
+                    self.tmpOperatorLine.deleteLater()
+                    self.tmpAircraftLine.deleteLater()
+            self.aircraftList.clear()
+            self.aircraftList.setEnabled(False)
+        elif self.operatorList.currentText() == "Other":
+            self.aircraftList.clear()
+            self.aircraftList.addItem("Other")
+            self.aircraftList.setEnabled(True)
+            self.tmpOperatorLine = QtGui.QLineEdit(self.flight_information_page)
+            self.tmpOperatorLine.setMinimumSize(QtCore.QSize(300, 27))
+            self.tmpOperatorLine.setMaximumSize(QtCore.QSize(300, 27))
+            self.tmpOperatorLine.setFrame(False)
+            self.tmpOperatorLine.setObjectName("tmpOperatorLine")
+            self.horizontalLayout_77.addWidget(self.tmpOperatorLine)
+            self.tmpAircraftLine = QtGui.QLineEdit(self.flight_information_page)
+            self.tmpAircraftLine.setMinimumSize(QtCore.QSize(300, 27))
+            self.tmpAircraftLine.setMaximumSize(QtCore.QSize(300, 27))
+            self.tmpAircraftLine.setFrame(False)
+            self.tmpAircraftLine.setObjectName("tmpAircraftLine")
+            self.horizontalLayout_78.addWidget(self.tmpAircraftLine)
+        else:
+            if hasattr(self, "tmpOperatorLine"):
+                if self.horizontalLayout_77.count() > 0:
+                    self.tmpOperatorLine.deleteLater()
+                    self.tmpAircraftLine.deleteLater()
+            self.aircraftList.clear()
+            self.aircraftList.addItem("Do your choice...")
+            self.aircraftList.setEnabled(True)
+            for i in range(len(self.operators_aircraft)):
+                if self.operatorList.currentText() == self.operators_aircraft[i][0]:
+                    self.aircraftList.addItem(self.operators_aircraft[i][1])
+            if self.aircraftList.count() < 3:
+                self.aircraftList.removeItem(0)
+            self.aircraftList.setCurrentIndex(0)
 
 
 class MyAbout(QtGui.QDialog, Ui_aboutWindow):
@@ -456,5 +513,25 @@ class MyStandard(QtGui.QDialog, Ui_aboutStandard):
     def closeWindow(self):
         self.close() 
  
+ 
+class MyWarning(QtGui.QDialog, Ui_presaveWindow):
+    def __init__(self, string, iconName):
+        QWidget.__init__(self)
+        if getattr(sys, 'frozen', False):
+            self.progPath = sys._MEIPASS
+        else:
+            self.progPath = os.path.abspath(".")
+        self.setupUi(self)
+        self.iw_cancelButton.setFocus(True)
+        all_buttons = self.findChildren(QPushButton)
+        for widget in all_buttons:
+            QObject.connect(widget, SIGNAL("clicked()"), self.closeWindow) 
+        self.iw_nosaveButton.setText(string + " without saving")
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap(_fromUtf8(self.progPath + "/icons/" + iconName)), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.iw_nosaveButton.setIcon(icon)
 
+    def closeWindow(self):
+        self.buttonName = self.sender().objectName()
+        self.close()
         

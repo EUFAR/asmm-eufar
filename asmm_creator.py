@@ -18,5 +18,5 @@ def launch_asmm_creator():
     sys.exit(app.exec_())
 
 if __name__ == '__main__':
-    print 'launching ASMM Metadata Creator V{0} ...'.format(_version)
+    print 'launching ASMM Creator V{0} ...'.format(_version)
     launch_asmm_creator()

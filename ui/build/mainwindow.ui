@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>850</width>
-    <height>1100</height>
+    <height>950</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -25,9 +25,9 @@
         <property name="font">
          <font>
           <family>Droid Sans</family>
-          <pointsize>9</pointsize>
-          <weight>50</weight>
-          <bold>false</bold>
+          <pointsize>10</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
           <stylestrategy>PreferAntialias</stylestrategy>
          </font>
         </property>
@@ -41,9 +41,9 @@
         <property name="font">
          <font>
           <family>Droid Sans</family>
-          <pointsize>9</pointsize>
-          <weight>50</weight>
-          <bold>false</bold>
+          <pointsize>10</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
           <stylestrategy>PreferAntialias</stylestrategy>
          </font>
         </property>
@@ -65,7 +65,7 @@
          <x>0</x>
          <y>0</y>
          <width>828</width>
-         <height>1005</height>
+         <height>853</height>
         </rect>
        </property>
        <layout class="QGridLayout" name="gridLayout_4">
@@ -98,7 +98,7 @@
              <x>0</x>
              <y>0</y>
              <width>810</width>
-             <height>584</height>
+             <height>432</height>
             </rect>
            </property>
            <attribute name="label">
@@ -461,8 +461,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>406</width>
-             <height>121</height>
+             <width>810</width>
+             <height>582</height>
             </rect>
            </property>
            <attribute name="label">
@@ -713,8 +713,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>801</width>
-             <height>445</height>
+             <width>810</width>
+             <height>582</height>
             </rect>
            </property>
            <attribute name="label">
@@ -1687,8 +1687,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>801</width>
-             <height>406</height>
+             <width>810</width>
+             <height>582</height>
             </rect>
            </property>
            <attribute name="label">
@@ -2679,8 +2679,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>801</width>
-             <height>337</height>
+             <width>810</width>
+             <height>582</height>
             </rect>
            </property>
            <attribute name="label">
@@ -3339,8 +3339,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>801</width>
-             <height>304</height>
+             <width>810</width>
+             <height>582</height>
             </rect>
            </property>
            <attribute name="label">
@@ -3857,8 +3857,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>801</width>
-             <height>277</height>
+             <width>810</width>
+             <height>582</height>
             </rect>
            </property>
            <attribute name="label">
@@ -4354,8 +4354,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>801</width>
-             <height>277</height>
+             <width>810</width>
+             <height>582</height>
             </rect>
            </property>
            <attribute name="label">
@@ -4851,8 +4851,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>801</width>
-             <height>313</height>
+             <width>810</width>
+             <height>582</height>
             </rect>
            </property>
            <attribute name="label">
@@ -5346,8 +5346,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>801</width>
-             <height>341</height>
+             <width>810</width>
+             <height>582</height>
             </rect>
            </property>
            <attribute name="label">
@@ -5834,8 +5834,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>801</width>
-             <height>348</height>
+             <width>810</width>
+             <height>582</height>
             </rect>
            </property>
            <attribute name="label">
@@ -6523,8 +6523,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>778</width>
-             <height>293</height>
+             <width>810</width>
+             <height>582</height>
             </rect>
            </property>
            <attribute name="label">
@@ -7264,8 +7264,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>96</width>
-             <height>81</height>
+             <width>810</width>
+             <height>582</height>
             </rect>
            </property>
            <attribute name="label">
@@ -7375,7 +7375,7 @@
      <normaloff>icons/save_icon.png</normaloff>icons/save_icon.png</iconset>
    </property>
    <property name="text">
-    <string>Save</string>
+    <string>Save...</string>
    </property>
    <property name="font">
     <font>
@@ -7465,7 +7465,7 @@
      <normaloff>icons/eufar_icon.png</normaloff>icons/eufar_icon.png</iconset>
    </property>
    <property name="text">
-    <string>EUFAR N7SP (link)</string>
+    <string>EUFAR N7SP...</string>
    </property>
    <property name="font">
     <font>

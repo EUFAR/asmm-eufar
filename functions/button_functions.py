@@ -301,10 +301,7 @@ def add_read(self, parent, text):
         self.sc_ckL += 1 
     else:
         return
-
-
-
-            
+         
 
 def button_clicked(self):
     x = QCursor.pos().x()
