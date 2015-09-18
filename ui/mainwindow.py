@@ -1,40 +1,48 @@
 # -*- coding: utf-8 -*-
 
 import webbrowser
-import datetime
-import os, sys
-from PyQt4 import QtGui, QtCore
+import os
+import sys
+from PyQt4 import QtCore
+from PyQt4 import QtGui
+from PyQt4.QtCore import pyqtSignature
 from PyQt4.QtCore import QObject
 from PyQt4.QtCore import SIGNAL
-from PyQt4.QtCore import QString
-from PyQt4.QtCore import pyqtSignature
 from PyQt4.QtGui import QCheckBox
-from PyQt4.QtGui import QMainWindow
+from PyQt4.QtGui import QComboBox
+from PyQt4.QtGui import QCursor
 from PyQt4.QtGui import QFileDialog
 from PyQt4.QtGui import QInputDialog
 from PyQt4.QtGui import QLineEdit
 from PyQt4.QtGui import QListWidget
+from PyQt4.QtGui import QMainWindow
 from PyQt4.QtGui import QMessageBox
-from PyQt4.QtGui import QTextEdit
-from PyQt4.QtGui import QWidget
-from PyQt4.QtGui import QToolButton
 from PyQt4.QtGui import QPushButton
-from PyQt4.QtGui import QCursor
-from PyQt4.QtGui import QComboBox
+from PyQt4.QtGui import QTextEdit
+from PyQt4.QtGui import QToolButton
+from PyQt4.QtGui import QWidget
 from Ui_mainwindow import Ui_MainWindow
 from Ui_aboutwindow import Ui_aboutWindow
 from Ui_aboutstandard import Ui_aboutStandard
 from Ui_logwindow import Ui_Changelog
 from Ui_presavewindow import Ui_presaveWindow
-from _version import _version
+from Ui_addsite import Ui_Addsite
+from Ui_addUrl import Ui_AddURL
+from _version import _asmm_version
 from _version import _xml_version
+from _version import _py_version
+from _version import _report_version
+from _version import _qt_version
+from _version import _eclipse_version
 from functions.asmm_xml import create_asmm_xml
 from functions.asmm_xml import read_asmm_xml
 from functions.asmm_pdf import create_asmm_pdf
 from functions.netcdf_lite import NetCdf
-from functions import button_functions
 from functions.button_functions import add_clicked
 from functions.button_functions import button_clicked
+from functions.button_functions import add_image
+from functions.button_functions import delete_image
+from functions.button_functions import display_image
 from functions.sql_functions import objectsInit
 
 
@@ -49,10 +57,16 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self, parent=None):
         QMainWindow.__init__(self, parent)
         if getattr(sys, 'frozen', False):
-            self.progPath = sys._MEIPASS
+            self.progPath = sys._MEIPASS  # @UndefinedVariable
         else:
             self.progPath = os.path.abspath(".")
-        self.setupUi(self)
+        resolution = QtGui.QDesktopWidget().screenGeometry()
+        self.tabLayout = 0
+        if resolution.height() < 1000:
+            self.tabLayout = 1
+            self.setupUi_tab(self)
+        else:
+            self.setupUi(self)
         objectsInit(self)
         all_check_boxes = self.findChildren(QCheckBox)
         for check_box in all_check_boxes:
@@ -74,53 +88,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         for widget in all_rolbox_edits:
             QObject.connect(widget, SIGNAL("activated(QString)"), self.set_modified)
         QObject.connect(self.operatorList, SIGNAL("activated(QString)"), self.operator_changed)
-        self.countryList.addItems(self.countries)
+        self.locationList.addItems(self.locations)
+        QObject.connect(self.locationList, SIGNAL("activated(QString)"), self.location_changed)
         self.make_window_title()
 
 
     @pyqtSignature("")
-    def on_groundAddButton_clicked(self):
-        self.addListItem("Add Ground Site", "Ground Site Name:", self.groundListWidget, self.ground_site_list)
-
-
-    @pyqtSignature("")
-    def on_groundRemoveButton_clicked(self):
-        self.removeListItem(self.groundListWidget, self.ground_site_list)
-
-
-    @pyqtSignature("")
-    def on_armAddButton_clicked(self):
-        self.addListItem("Add ARM Site", "ARM Site Name:", self.armListWidget, self.arm_site_list)
-
-
-    @pyqtSignature("")
-    def on_armRemoveButton_clicked(self):
-        self.removeListItem(self.armListWidget, self.arm_site_list)
-
-
-    @pyqtSignature("")
-    def on_armMobileAddButton_clicked(self):
-        self.addListItem("Add ARM Mobile Site", "ARM Mobile Site Name:", self.armMobileListWidget, self.arm_mobile_list)
-
-
-    @pyqtSignature("")
-    def on_armMobileRemoveButton_clicked(self):
-        self.removeListItem(self.armMobileListWidget, self.arm_mobile_list)
-
-
-    @pyqtSignature("")
-    def on_vesselAddButton_clicked(self):
-        self.addListItem("Add Research Vessel", "Research Vessel Name:", self.vesselListWidget, self.research_vessel_list)
-
-
-    @pyqtSignature("")
-    def on_vesselRemoveButton_clicked(self):
-        self.removeListItem(self.vesselListWidget, self.research_vessel_list)
-
-
-    @pyqtSignature("")
     def on_generateXMLButton_clicked(self):
-        self.save_document()
+        #self.save_document()
+        self.toolBox = QtGui.QTabWidget(self.scrollAreaWidgetContents)
 
 
     @pyqtSignature("")
@@ -134,7 +110,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             result = self.make_onsave_msg_box("Clear","new_icon.png")
             if result == "iw_saveButton":
                 self.save_document()
-		self.reset_all_fields()
+                self.reset_all_fields()
             elif result == "iw_nosaveButton":
                 self.reset_all_fields()
         else:
@@ -148,17 +124,17 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     @pyqtSignature("")
     def on_actionSave_As_triggered(self):
-	self.save_document(save_as=True)
+        self.save_document(save_as=True)
 
 
     @pyqtSignature("")
     def on_actionPrint_triggered(self):
         self.out_file_name_pdf = self.get_file_name_pdf()
         if not self.out_file_name_pdf:
-	    return
-	if '.pdf' not in self.out_file_name_pdf:
-	    self.out_file_name_pdf = self.out_file_name_pdf + '.pdf'
-	create_asmm_pdf(self, self.out_file_name_pdf)
+            return
+        if '.pdf' not in self.out_file_name_pdf:
+            self.out_file_name_pdf = self.out_file_name_pdf + '.pdf'
+        create_asmm_pdf(self, self.out_file_name_pdf)
 
 
     @pyqtSignature("")
@@ -168,10 +144,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             if result == "iw_saveButton":
                 self.save_document()
                 self.open_file()
-	    elif result == "iw_nosaveButton":
-		self.open_file()
+            elif result == "iw_nosaveButton":
+                self.open_file()
         else:
-          self.open_file()
+            self.open_file()
 
 
     @pyqtSignature("")
@@ -186,14 +162,27 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     @pyqtSignature("")
     def on_actionASMM_CreatorAbout_triggered(self):
-        aboutText = "<html><head/><body><p align=justify>The ASMM Creator V%s was developed by EUFAR using Python and PyQT. XML files generated by this version conform to V%s of the ASMM XML standard. The opensource PDF plugin used for PDF report generation is provided and owned by Reportlab (<a href=http://www.reportlab.com/opensource>http://www.reportlab.com/opensource</a>).</p><p>For more information, or to submit a bug report, please contact <a href='mailto:xxxxxxxxxxxxxxxxx'>xxxxxxxxxxxxxxxxxxxxx</a></p><p>The latest version and source code of the ASMM creator can be found at <a href=https://github.com/eufarn7sp/asmm-eufar>https://github.com/ eufarn7sp/asmm-eufar</a></p></body></html>" % (_version, _xml_version)
+        aboutText = "The Airborne Science Mission Metadata (ASMM) Creator v%s offline version, was "
+        + "developed by EUFAR using Eclipse %s, Python %s and PyQt %s. XML files generated by this "
+        + "version conform to v%s of the ASMM XML standard. The opensource reporting library (v%s) "
+        + "used for PDF report generation is provided and owned by <a href=http://www.reportlab.com"
+        + "/opensource><span style=\" text-decoration: underline; color:#0000ff;\">Reportlab</a>.<b"
+        + "r><br>For more information, or to report a bug, please contact <a href='mailto:olivier.h"
+        + "enry.at.meteo.fr'><span style=\" text-decoration: underline; color:#0000ff;\">olivier.he"
+        + "nry.at.meteo.fr</a>.<br><br>The latest offline version and source code of the ASMM Creat"
+        + "or can be found at <a href=https://github.com/eufarn7sp/asmm-eufar><span style=\" text-d"
+        + "ecoration: underline; color:#0000ff;\">https://github.com/eufarn7sp/asmm-eufar</a>." % (_asmm_version, 
+                                                                                                   _eclipse_version, 
+                                                                                                   _py_version, 
+                                                                                                   _qt_version, 
+                                                                                                   _xml_version,
+                                                                                                    _report_version)
         self.aboutWindow = MyAbout(aboutText)
         x1, y1, w1, h1 = self.geometry().getRect()
-        x2, y2, w2, h2 = self.aboutWindow.geometry().getRect()
+        x2, y2, w2, h2 = self.aboutWindow.geometry().getRect()  # @UnusedVariable
         x2 = x1 + w1/2 - w2/2
         y2 = y1 + h1/2 - h2/2
         self.aboutWindow.setGeometry(x2, y2, w2, h2)
-        resolution = QtGui.QDesktopWidget().screenGeometry()
         self.aboutWindow.setMinimumSize(QtCore.QSize(450, self.aboutWindow.sizeHint().height()))
         self.aboutWindow.setMaximumSize(QtCore.QSize(452, self.aboutWindow.sizeHint().height()))
         self.aboutWindow.exec_()
@@ -201,14 +190,20 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     @pyqtSignature("")
     def on_actionASMM_XML_Standard_triggered(self):
-        aboutText = "<html><head/><body><p align=justify>The Airborne Science Mission Metadata (ASMM) standard is intended to unify descriptions of science research flights. This common description will allow users of the airborne science data to search past datasets for specific meteorological conditions, geographical regions, cloud-types encountered, particles sampled, and other parameters not evident from the data itself.<br> <br> For more information, please read the following document: <a href=https://github.com/eufarn7sp/asmm-eufar/blob/master/Documentation/ASMM%20-%20XML%20Implementation%20Rules.pdf   >ASMM - XML Implementation Rules.pdf</a></p></body></html>"
+        aboutText = "<html><head/><body><p align=justify>The Airborne Science Mission Metadata (ASM"
+        + "M) standard aims to harmonise descriptive information of science research flights. This "
+        + "common description will allow users of the airborne science data to search past datasets"
+        + " for specific meteorological conditions, geographical regions, cloud-types encountered, "
+        + "particles sampled, and other parameters not evident from the data itself.<br> <br> For m"
+        + "ore information, please read the following document: <a href=https://github.com/eufarn7s"
+        + "p/asmm-eufar/blob/master/Documentation/ASMM%20-%20XML%20Implementation%20Rules.pdf   >AS"
+        + "MM - XML Implementation Rules.pdf</a></p></body></html>"
         self.aboutWindow = MyStandard(aboutText)
         x1, y1, w1, h1 = self.geometry().getRect()
-        x2, y2, w2, h2 = self.aboutWindow.geometry().getRect()
+        x2, y2, w2, h2 = self.aboutWindow.geometry().getRect()  # @UnusedVariable
         x2 = x1 + w1/2 - w2/2
         y2 = y1 + h1/2 - h2/2
         self.aboutWindow.setGeometry(x2, y2, w2, h2)
-        resolution = QtGui.QDesktopWidget().screenGeometry()
         self.aboutWindow.setMinimumSize(QtCore.QSize(450, self.aboutWindow.sizeHint().height()))
         self.aboutWindow.setMaximumSize(QtCore.QSize(452, self.aboutWindow.sizeHint().height()))
         self.aboutWindow.exec_()
@@ -218,7 +213,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_actionChangelog_triggered(self):
         self.logWindow = MyLog()
         x1, y1, w1, h1 = self.geometry().getRect()
-        x2, y2, w2, h2 = self.logWindow.geometry().getRect()
+        x2, y2, w2, h2 = self.logWindow.geometry().getRect()  # @UnusedVariable
         x2 = x1 + w1/2 - w2/2
         y2 = y1 + h1/2 - h2/2
         self.logWindow.setGeometry(x2, y2, w2, h2)
@@ -233,9 +228,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         lon_max = None
         alt_min = None
         alt_max = None
-        filename = QFileDialog.getOpenFileName(self,'Open associated NetCDF','','NetCDF files (*.nc *.cdf);;All Files (*.*)')
-	if not filename:
-		return
+        filename = QFileDialog.getOpenFileName(self,'Open associated NetCDF','','NetCDF files (*.nc'
+                                               ' *.cdf);;All Files (*.*)')
+        if not filename:
+            return
         f = NetCdf(str(filename))
         var_list = f.get_variable_list()
         var_list.sort()
@@ -243,7 +239,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             lat_min = f.get_attribute_value("geospatial_lat_min")
             lat_max = f.get_attribute_value("geospatial_lat_max")
         except KeyError:
-            [var_name, ok] = QInputDialog.getItem(self, "Latitude Variable Name", "ERROR: Latitude values not found. Please enter latitude variable name.", var_list, current=0, editable=False)
+            [var_name, ok] = QInputDialog.getItem(self, "Latitude Variable Name", "ERROR: Latitude "
+                                                  "values not found. Please enter latitude variable"
+                                                  " name.", var_list, current=0, editable=False)
             if var_name and ok:
                 lat_values = f.read_variable(str(var_name))
                 lat_min = min(lat_values[lat_values != 0])
@@ -252,7 +250,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             lon_min = f.get_attribute_value("geospatial_lon_min")
             lon_max = f.get_attribute_value("geospatial_lon_max")
         except KeyError:
-            [var_name, ok] = QInputDialog.getItem(self, "Longitude Variable Name", "ERROR: Longitude values not found. Please select longitude variable name.", var_list, current=0, editable=False)
+            [var_name, ok] = QInputDialog.getItem(self, "Longitude Variable Name", "ERROR: Longitud"
+                                                  "e values not found. Please select longitude vari"
+                                                  "able name.", var_list, current=0, editable=False)
             if var_name and ok:
                 lon_values = f.read_variable(str(var_name))
                 lon_min = min(lon_values[lon_values != 0])
@@ -261,7 +261,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             alt_min = f.get_attribute_value("geospatial_vertical_min")
             alt_max = f.get_attribute_value("geospatial_vertical_max")
         except KeyError:
-            [var_name, ok] = QInputDialog.getItem(self, "Altitude Variable Name", "ERROR: Altitude values not found. Please enter altitude variable name.", var_list, current=0, editable=False)
+            [var_name, ok] = QInputDialog.getItem(self, "Altitude Variable Name", "ERROR: Altitude "
+                                                  "values not found. Please enter altitude variable"
+                                                  " name.", var_list, current=0, editable=False)
             if var_name and ok:
                 alt_values = f.read_variable(str(var_name))
                 alt_min = min(alt_values[alt_values != 0])
@@ -274,28 +276,76 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.maxAltitudeLine.setText(str(alt_max))
 
 
+    @pyqtSignature("")
+    def on_imageAddButton_clicked(self):
+        if self.verticalLayout_52.count() < 10:
+            filename = QFileDialog.getOpenFileName(self,'Open an image','','All Files (*.*);;Images'
+                                                   ' (*.jpg *.jpeg *.bmp *.png *.gif *.tiff)')
+            filename = unicode(filename)
+            if filename:
+                add_image(self, filename)
+                for widget in self.im_del:
+                    QObject.disconnect(widget, SIGNAL("clicked()"), self.del_image)
+                for widget in self.im_del:
+                    QObject.connect(widget, SIGNAL("clicked()"), self.del_image)
+                for widget in self.im_label:
+                    QObject.disconnect(widget, SIGNAL("clicked()"), self.show_image)
+                for widget in self.im_label:
+                    QObject.connect(widget, SIGNAL("clicked()"), self.show_image)
+        else:    
+            alertBox = QMessageBox()
+            alertBox.about(self, "Warning", "You can't add more than 10 images.")
+
+    
+    @pyqtSignature("")
+    def on_urlAddButton_clicked(self):
+        if self.verticalLayout_52.count() < 10:
+            x = QCursor.pos().x()
+            y = QCursor.pos().y()
+            x = x - 150
+            y = y + 50
+            self.urlWindow = MyURL()
+            self.urlWindow.setMinimumSize(QtCore.QSize(300, self.urlWindow.sizeHint().height()))
+            self.urlWindow.setMaximumSize(QtCore.QSize(300, self.urlWindow.sizeHint().height()))
+            self.urlWindow.setGeometry(x, y, 300, self.urlWindow.sizeHint().height())
+            if self.urlWindow.exec_():
+                add_image(self, self.urlWindow.ck_inputLine.text())
+                for widget in self.im_del:
+                    QObject.disconnect(widget, SIGNAL("clicked()"), self.del_image)
+                for widget in self.im_del:
+                    QObject.connect(widget, SIGNAL("clicked()"), self.del_image)
+        else:    
+            alertBox = QMessageBox()
+            alertBox.about(self, "Warning", "You can't add more than 10 images.")
+    
+    
+    def del_image(self):
+        delete_image(self)
+        
+    
+    def show_image(self):
+        display_image(self)
+
+
     def closeEvent(self, event):
         if self.modified:
             result = self.make_onsave_msg_box("Close", "exit_icon.png")
             if result == "iw_saveButton":
                 self.save_document()
-                print 'closing ASMM Creator V{0} ...'.format(_version)
                 event.accept()
             elif result == "iw_nosaveButton":
-                print 'closing ASMM Creator V{0} ...'.format(_version)
                 event.accept()
             else:
                 event.ignore()
         else:
-            print 'closing ASMM Creator V{0} ...'.format(_version)
             self.close()
 
 
     def make_window_title(self):
         if self.saved:
-            title_string = "ASMM Creator V{0} - ".format(_version) + self.out_file_name
+            title_string = "ASMM Creator v{0} - ".format(_asmm_version) + self.out_file_name
         else:
-            title_string = "ASMM Creator V{0} - unsaved".format(_version)
+            title_string = "ASMM Creator v{0} - unsaved".format(_asmm_version)
         if self.modified:
             title_string += ' - modified'
         self.setWindowTitle(title_string)
@@ -320,14 +370,16 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def get_file_name(self):
         file_dialog = QFileDialog()
         file_dialog.setDefaultSuffix('xml')
-        out_file_name = unicode(file_dialog.getSaveFileName(self, "Save XML File", filter='XML Files (*.xml);;Text Files (*.txt)'))
+        out_file_name = unicode(file_dialog.getSaveFileName(self, "Save XML File", filter='XML Files'
+                                                            ' (*.xml);;Text Files (*.txt)'))
         return out_file_name
 
 
     def get_file_name_pdf(self):
         file_dialog = QFileDialog()
         file_dialog.setDefaultSuffix('pdf')
-        out_file_name_pdf = unicode(file_dialog.getSaveFileName(self, "Save PDF File", filter='PDF Files (*.pdf)'))
+        out_file_name_pdf = unicode(file_dialog.getSaveFileName(self, "Save PDF File", filter='PDF '
+                                                                'Files (*.pdf)'))
         return out_file_name_pdf
 
 
@@ -344,7 +396,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         all_list_widgets = self.findChildren(QListWidget)
         for widget in all_list_widgets:
             widget.clear()
-        objectsInit(self)
+        
         for i in reversed(range(self.gridLayout_5.count())):
             self.gridLayout_5.itemAt(i).widget().deleteLater()
         for i in reversed(range(self.gridLayout_8.count())):
@@ -366,23 +418,30 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.operatorList.setCurrentIndex(0)
         if hasattr(self, "tmpOperatorLine"):
             if self.horizontalLayout_77.count() > 0:
+                self.label_38.setPixmap(QtGui.QPixmap(_fromUtf8(self.progPath + "/icons/fwd_arrow_e"
+                                                                "mpty.png")))
+                self.label_39.setPixmap(QtGui.QPixmap(_fromUtf8(self.progPath + "/icons/fwd_arrow_e"
+                                                                "mpty.png")))
                 self.tmpOperatorLine.deleteLater()
                 self.tmpAircraftLine.deleteLater()
         self.aircraftList.clear()
         self.aircraftList.setEnabled(False)    
-        self.countryList.setCurrentIndex(0)
+        self.locationList.setCurrentIndex(0)
+        self.detailList.clear()
+        self.detailList.setEnabled(False)
+        for i in reversed(range(0, len(self.images_pdf_path))):
+            delete_image(self, i)
+        objectsInit(self)
         self.make_window_title()
 
 
     def make_onsave_msg_box(self, string, iconName):
         self.presaveWindow = MyWarning(string, iconName)
         x1, y1, w1, h1 = self.geometry().getRect()
-        x2, y2, w2, h2 = self.presaveWindow.geometry().getRect()
+        x2, y2, w2, h2 = self.presaveWindow.geometry().getRect()  # @UnusedVariable
         x2 = x1 + w1/2 - w2/2
         y2 = y1 + h1/2 - h2/2
         self.presaveWindow.setGeometry(x2, y2, w2, h2)
-        resolution = QtGui.QDesktopWidget().screenGeometry()
-        var = 1050 / resolution.height()
         self.presaveWindow.setMinimumSize(QtCore.QSize(450, self.presaveWindow.sizeHint().height()))
         self.presaveWindow.setMaximumSize(QtCore.QSize(452, self.presaveWindow.sizeHint().height()))
         self.presaveWindow.exec_()
@@ -390,7 +449,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
 
     def open_file(self):
-        (out_file_name, filter) = QFileDialog.getOpenFileNameAndFilter(self, "Open XML File", filter="XML Files (*.xml)")
+        (out_file_name, filter) = QFileDialog.getOpenFileNameAndFilter(self, "Open XML File", filter  # @ReservedAssignment
+                                                                       ="XML Files (*.xml)")
         out_file_name = unicode(out_file_name)
         if out_file_name:
             read_asmm_xml(self, out_file_name)
@@ -401,12 +461,21 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
 
     def addListItem(self, title, label, listWidget, item_list):
-        (new_item, response) = QInputDialog.getText(self, title, label, text=QString(),)
-        if new_item and response:
+        x = QCursor.pos().x()
+        y = QCursor.pos().y()
+        x = x - 150
+        y = y + 50
+        self.siteWindow = MySite()
+        self.siteWindow.setMinimumSize(QtCore.QSize(300, self.siteWindow.sizeHint().height()))
+        self.siteWindow.setMaximumSize(QtCore.QSize(300, self.siteWindow.sizeHint().height()))
+        self.siteWindow.setGeometry(x, y, 300, self.siteWindow.sizeHint().height())
+        self.siteWindow.label.setText(label)
+        self.siteWindow.setWindowTitle(title)
+        if self.siteWindow.exec_():
             self.modified = True
-            item_list.append(new_item)
-            listWidget.addItem(new_item)
             self.make_window_title()
+            item_list.append(self.siteWindow.ck_inputLine.text())
+            listWidget.addItem(self.siteWindow.ck_inputLine.text())
 
 
     def removeListItem(self, listWidget, item_list):
@@ -422,25 +491,78 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def infoButton_clicked(self):
         if "infoButton" in self.sender().objectName():
             button_clicked(self)
-            
-            
+        elif "groundAddButton" in self.sender().objectName():
+            self.addListItem("Add a Ground Site", "Please, enter a name for the new Ground Site.", 
+                             self.groundListWidget, self.ground_site_list)
+        elif "armAddButton" in self.sender().objectName():
+            self.addListItem("Add an ARM Site", "Please, enter a name for the new ARM Site.", 
+                             self.armListWidget, self.arm_site_list)
+        elif "armMobileAddButton" in self.sender().objectName():
+            self.addListItem("Add an ARM Mobile Site", "Please, enter a name for the new ARM Mobile Site.", 
+                             self.armMobileListWidget, self.arm_mobile_list)
+        elif "vesselAddButton" in self.sender().objectName():
+            self.addListItem("Add a Research Vessel", "Please, enter a name for the new Research Vessel.", 
+                             self.vesselListWidget, self.research_vessel_list)
+        elif "groundRemoveButton" in self.sender().objectName():
+            self.removeListItem(self.groundListWidget, self.ground_site_list)
+        elif "armRemoveButton" in self.sender().objectName():
+            self.removeListItem(self.armListWidget, self.arm_site_list)
+        elif "armMobileRemoveButton" in self.sender().objectName():
+            self.removeListItem(self.armMobileListWidget, self.arm_mobile_list)
+        elif "vesselRemoveButton" in self.sender().objectName():
+            self.removeListItem(self.vesselListWidget, self.research_vessel_list)
+        
+        
     def addButton_clicked(self):
         if "addButton" in self.sender().objectName():
-              add_clicked(self)
+            if len(self.ck_list_dict.get(str(self.sender().objectName()[:2]))) < 12:
+                add_clicked(self)
+            else:
+                alertBox = QMessageBox()
+                alertBox.about(self, "Warning", "You can't add more than 12 checkboxes.")
+                return
+
+
+    def location_changed(self):
+        if self.locationList.currentText() == "Make a choice...":
+            self.detailList.clear()
+            self.detailList.setEnabled(False)
+        elif self.locationList.currentText() == "Continents":
+            self.detailList.clear()
+            self.detailList.setEnabled(True)
+            self.detailList.addItems(self.continents) 
+        elif self.locationList.currentText() == "Countries":
+            self.detailList.clear()
+            self.detailList.setEnabled(True)
+            self.detailList.addItems(self.countries)
+        elif self.locationList.currentText() == "Oceans":
+            self.detailList.clear()
+            self.detailList.setEnabled(True)
+            self.detailList.addItems(self.oceans)
+        elif self.locationList.currentText() == "Regions":
+            self.detailList.clear()
+            self.detailList.setEnabled(True)
+            self.detailList.addItems(self.regions)
 
 
     def operator_changed(self):
-        if self.operatorList.currentText() == "Do your choice...":
+        if self.operatorList.currentText() == "Make a choice...":
             if hasattr(self, "tmpOperatorLine"):
-              if self.horizontalLayout_77.count() > 0:
+                if self.horizontalLayout_77.count() > 0:
+                    self.label_38.setPixmap(QtGui.QPixmap(_fromUtf8(self.progPath + "/icons/fwd_arr"
+                                                                    "ow_empty.png")))
+                    self.label_39.setPixmap(QtGui.QPixmap(_fromUtf8(self.progPath + "/icons/fwd_arr"
+                                                                    "ow_empty.png")))
                     self.tmpOperatorLine.deleteLater()
                     self.tmpAircraftLine.deleteLater()
             self.aircraftList.clear()
             self.aircraftList.setEnabled(False)
-        elif self.operatorList.currentText() == "Other":
+        elif self.operatorList.currentText() == "Other...":
             self.aircraftList.clear()
             self.aircraftList.addItem("Other")
             self.aircraftList.setEnabled(True)
+            self.label_38.setPixmap(QtGui.QPixmap(_fromUtf8(self.progPath + "/icons/fwd_arrow.png")))
+            self.label_39.setPixmap(QtGui.QPixmap(_fromUtf8(self.progPath + "/icons/fwd_arrow.png")))
             self.tmpOperatorLine = QtGui.QLineEdit(self.flight_information_page)
             self.tmpOperatorLine.setMinimumSize(QtCore.QSize(300, 27))
             self.tmpOperatorLine.setMaximumSize(QtCore.QSize(300, 27))
@@ -456,6 +578,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         else:
             if hasattr(self, "tmpOperatorLine"):
                 if self.horizontalLayout_77.count() > 0:
+                    self.label_38.setPixmap(QtGui.QPixmap(_fromUtf8(self.progPath + "/icons/fwd_arr"
+                                                                    "ow_empty.png")))
+                    self.label_39.setPixmap(QtGui.QPixmap(_fromUtf8(self.progPath + "/icons/fwd_arr"
+                                                                    "ow_empty.png")))
                     self.tmpOperatorLine.deleteLater()
                     self.tmpAircraftLine.deleteLater()
             self.aircraftList.clear()
@@ -473,7 +599,7 @@ class MyAbout(QtGui.QDialog, Ui_aboutWindow):
     def __init__(self, aboutText):
         QWidget.__init__(self)
         if getattr(sys, 'frozen', False):
-            self.progPath = sys._MEIPASS
+            self.progPath = sys._MEIPASS  # @UndefinedVariable
         else:
             self.progPath = os.path.abspath(".")
         self.setupUi(self)
@@ -488,7 +614,7 @@ class MyLog(QtGui.QDialog, Ui_Changelog):
     def __init__(self):
         QWidget.__init__(self)
         if getattr(sys, 'frozen', False):
-            self.progPath = sys._MEIPASS
+            self.progPath = sys._MEIPASS  # @UndefinedVariable
         else:
             self.progPath = os.path.abspath(".")
         self.setupUi(self)
@@ -503,7 +629,7 @@ class MyStandard(QtGui.QDialog, Ui_aboutStandard):
     def __init__(self, aboutText):
         QWidget.__init__(self)
         if getattr(sys, 'frozen', False):
-            self.progPath = sys._MEIPASS
+            self.progPath = sys._MEIPASS  # @UndefinedVariable
         else:
             self.progPath = os.path.abspath(".")
         self.setupUi(self)
@@ -518,7 +644,7 @@ class MyWarning(QtGui.QDialog, Ui_presaveWindow):
     def __init__(self, string, iconName):
         QWidget.__init__(self)
         if getattr(sys, 'frozen', False):
-            self.progPath = sys._MEIPASS
+            self.progPath = sys._MEIPASS  # @UndefinedVariable
         else:
             self.progPath = os.path.abspath(".")
         self.setupUi(self)
@@ -528,10 +654,46 @@ class MyWarning(QtGui.QDialog, Ui_presaveWindow):
             QObject.connect(widget, SIGNAL("clicked()"), self.closeWindow) 
         self.iw_nosaveButton.setText(string + " without saving")
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(_fromUtf8(self.progPath + "/icons/" + iconName)), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap(_fromUtf8(self.progPath + "/icons/" + iconName)), QtGui.QIcon.
+                       Normal, QtGui.QIcon.Off)
         self.iw_nosaveButton.setIcon(icon)
 
     def closeWindow(self):
         self.buttonName = self.sender().objectName()
         self.close()
+ 
+     
+class MySite(QtGui.QDialog, Ui_Addsite):
+    def __init__(self, parent = None):
+        QWidget.__init__(self, parent)
+        if getattr(sys, 'frozen', False):
+            self.progPath = sys._MEIPASS  # @UndefinedVariable
+        else:
+            self.progPath = os.path.abspath(".")
+        self.setupUi(self)
+        self.ck_cancelButton.clicked.connect(self.closeWindow)
+        self.ck_submitButton.clicked.connect(self.submitBox)
         
+    def closeWindow(self):
+        self.close()
+
+    def submitBox(self):
+        self.accept()
+        
+
+class MyURL(QtGui.QDialog, Ui_AddURL):
+    def __init__(self, parent = None):
+        QWidget.__init__(self, parent)
+        if getattr(sys, 'frozen', False):
+            self.progPath = sys._MEIPASS  # @UndefinedVariable
+        else:
+            self.progPath = os.path.abspath(".")
+        self.setupUi(self)
+        self.ck_cancelButton.clicked.connect(self.closeWindow)
+        self.ck_submitButton.clicked.connect(self.submitBox)
+        
+    def closeWindow(self):
+        self.close()
+
+    def submitBox(self):
+        self.accept()   

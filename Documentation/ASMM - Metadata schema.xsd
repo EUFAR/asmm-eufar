@@ -30,10 +30,10 @@
         <xs:element ref="asmm:Date"/>
         <xs:element ref="asmm:Campaign"/>
         <xs:element ref="asmm:MissionScientist"/>
-        <xs:element ref="asmm:FlightManager" minOccurs="0"/>
+        <xs:element ref="asmm:FlightManager"/>
         <xs:element ref="asmm:Platform"/>
         <xs:element ref="asmm:Operator"/>
-        <xs:element ref="asmm:Country"/>
+        <xs:element ref="asmm:Localisation"/>
         <xs:element ref="asmm:GeographicBoundingBox"/>
       </xs:sequence>
     </xs:complexType>
@@ -45,25 +45,7 @@
   <xs:element name="FlightManager" type="xs:string"/>
   <xs:element name="Platform" type="xs:string"/>
   <xs:element name="Operator" type="xs:string"/>
-  <xs:element name="Country" type="xs:string"/>
-  <xs:element name="GeographicBoundingBox">
-    <xs:complexType>
-      <xs:all>
-        <xs:element ref="asmm:westBoundLongitude"/>
-        <xs:element ref="asmm:eastBoundLongitude"/>
-        <xs:element ref="asmm:northBoundLatitude"/>
-        <xs:element ref="asmm:southBoundLatitude"/>
-        <xs:element ref="asmm:minAltitude"/>
-        <xs:element ref="asmm:maxAltitude"/>
-      </xs:all>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="westBoundLongitude" type="xs:decimal"/>
-  <xs:element name="eastBoundLongitude" type="xs:decimal"/>
-  <xs:element name="northBoundLatitude" type="xs:decimal"/>
-  <xs:element name="southBoundLatitude" type="xs:decimal"/>
-  <xs:element name="minAltitude" type="xs:decimal"/>
-  <xs:element name="maxAltitude" type="xs:decimal"/>
+  <xs:element name="Localisation" type="xs:string"/>
   <xs:element name="ContactInfo">
     <xs:complexType>
       <xs:sequence>
@@ -79,7 +61,8 @@
   <xs:element name="ScientificAims">
     <xs:complexType>
       <xs:sequence>
-        <xs:element ref="asmm:SA_Code" maxOccurs="unbounded"/>
+        <xs:element ref="asmm:SA_Code" maxOccurs="unbounded" minOccurs="0"/>
+        <xs:element ref="asmm:SA_User" maxOccurs="unbounded" minOccurs="0"/>
         <xs:element ref="asmm:SA_Other" minOccurs="0"/>
       </xs:sequence>
     </xs:complexType>
@@ -110,15 +93,41 @@
       </xs:restriction>
     </xs:simpleType>
   </xs:element>
+  <xs:element name="SA_User">
+    <xs:simpleType>
+      <xs:restriction base="xs:string">
+        <xs:any processContents="lax"/>
+      </xs:restriction>
+    </xs:simpleType>
+  </xs:element>
   <xs:element name="SA_Other" type="xs:string"/>
   <xs:element name="GeographicalRegion">
     <xs:complexType>
       <xs:sequence>
-        <xs:element ref="asmm:GR_Code" maxOccurs="unbounded"/>
+        <xs:element name="GeographicBoundingBox">
+          <xs:complexType>
+            <xs:all>
+              <xs:element ref="asmm:westBoundLongitude"/>
+              <xs:element ref="asmm:eastBoundLongitude"/>
+              <xs:element ref="asmm:northBoundLatitude"/>
+              <xs:element ref="asmm:southBoundLatitude"/>
+              <xs:element ref="asmm:minAltitude"/>
+              <xs:element ref="asmm:maxAltitude"/>
+            </xs:all>
+          </xs:complexType>
+        </xs:element>
+        <xs:element ref="asmm:GR_Code" maxOccurs="unbounded" minOccurs="0"/>
+        <xs:element ref="asmm:GR_User" maxOccurs="unbounded" minOccurs="0"/>
         <xs:element ref="asmm:GR_Other" minOccurs="0"/>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
+  <xs:element name="westBoundLongitude" type="xs:decimal"/>
+  <xs:element name="eastBoundLongitude" type="xs:decimal"/>
+  <xs:element name="northBoundLatitude" type="xs:decimal"/>
+  <xs:element name="southBoundLatitude" type="xs:decimal"/>
+  <xs:element name="minAltitude" type="xs:decimal"/>
+  <xs:element name="maxAltitude" type="xs:decimal"/>
   <xs:element name="GR_Code">
     <xs:simpleType>
       <xs:restriction base="xs:NCName">
@@ -133,11 +142,19 @@
      </xs:restriction>
     </xs:simpleType>
   </xs:element>
+  <xs:element name="GR_User">
+    <xs:simpleType>
+      <xs:restriction base="xs:string">
+        <xs:any processContents="lax"/>
+      </xs:restriction>
+    </xs:simpleType>
+  </xs:element>
   <xs:element name="GR_Other" type="xs:string"/>
   <xs:element name="AtmosFeatures">
     <xs:complexType>
       <xs:sequence>
         <xs:element ref="asmm:AF_Code" maxOccurs="unbounded" minOccurs="0"/>
+        <xs:element ref="asmm:AF_User" maxOccurs="unbounded" minOccurs="0"/>
         <xs:element ref="asmm:AF_Other" minOccurs="0"/>
       </xs:sequence>
     </xs:complexType>
@@ -166,11 +183,19 @@
       </xs:restriction>
     </xs:simpleType>
   </xs:element>
+  <xs:element name="AF_User">
+    <xs:simpleType>
+      <xs:restriction base="xs:string">
+        <xs:any processContents="lax"/>
+      </xs:restriction>
+    </xs:simpleType>
+  </xs:element>
   <xs:element name="AF_Other"/>
   <xs:element name="CloudTypes">
     <xs:complexType>
       <xs:sequence>
-        <xs:element ref="asmm:CT_Code" maxOccurs="unbounded"/>
+        <xs:element ref="asmm:CT_Code" maxOccurs="unbounded" minOccurs="0"/>
+        <xs:element ref="asmm:CT_User" maxOccurs="unbounded" minOccurs="0"/>
         <xs:element ref="asmm:CT_Other" minOccurs="0"/>
       </xs:sequence>
     </xs:complexType>
@@ -195,11 +220,19 @@
       </xs:restriction>
     </xs:simpleType>
   </xs:element>
+  <xs:element name="CT_User">
+    <xs:simpleType>
+      <xs:restriction base="xs:string">
+        <xs:any processContents="lax"/>
+      </xs:restriction>
+    </xs:simpleType>
+  </xs:element>
   <xs:element name="CT_Other" type="xs:string"/>
   <xs:element name="ParticlesSampled">
     <xs:complexType>
       <xs:sequence>
-        <xs:element ref="asmm:PS_Code" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element ref="asmm:PS_Code" maxOccurs="unbounded" minOccurs="0"/>
+        <xs:element ref="asmm:PS_User" maxOccurs="unbounded" minOccurs="0"/>
         <xs:element ref="asmm:PS_Other" minOccurs="0"/>
       </xs:sequence>
     </xs:complexType>
@@ -222,11 +255,19 @@
       </xs:restriction>
     </xs:simpleType>
   </xs:element>
+  <xs:element name="PS_User">
+    <xs:simpleType>
+      <xs:restriction base="xs:string">
+        <xs:any processContents="lax"/>
+      </xs:restriction>
+    </xs:simpleType>
+  </xs:element>
   <xs:element name="PS_Other" type="xs:string"/>
   <xs:element name="SurfacesOverflown">
     <xs:complexType>
       <xs:sequence>
-        <xs:element ref="asmm:SO_Code" maxOccurs="unbounded"/>
+        <xs:element ref="asmm:SO_Code" maxOccurs="unbounded" minOccurs="0"/>
+        <xs:element ref="asmm:SO_User" maxOccurs="unbounded" minOccurs="0"/>
         <xs:element ref="asmm:SO_Other" minOccurs="0"/>
       </xs:sequence>
     </xs:complexType>
@@ -249,11 +290,19 @@
       </xs:restriction>
     </xs:simpleType>
   </xs:element>
-  <xs:element name="SO_Other" type="xs:string"></xs:element>
+  <xs:element name="SO_User">
+    <xs:simpleType>
+      <xs:restriction base="xs:string">
+        <xs:any processContents="lax"/>
+      </xs:restriction>
+    </xs:simpleType>
+  </xs:element>
+  <xs:element name="SO_Other" type="xs:string"/>
   <xs:element name="AltitudeRanges">
     <xs:complexType>
       <xs:sequence>
-        <xs:element ref="asmm:AR_Code" maxOccurs="unbounded"/>
+        <xs:element ref="asmm:AR_Code" maxOccurs="unbounded" minOccurs="0"/>
+        <xs:element ref="asmm:AR_User" maxOccurs="unbounded" minOccurs="0"/>
         <xs:element ref="asmm:AR_Other"  minOccurs="0"/>
       </xs:sequence>
     </xs:complexType>
@@ -272,11 +321,19 @@
       </xs:restriction>
     </xs:simpleType>
   </xs:element>
+  <xs:element name="AR_User">
+    <xs:simpleType>
+      <xs:restriction base="xs:string">
+        <xs:any processContents="lax"/>
+      </xs:restriction>
+    </xs:simpleType>
+  </xs:element>
   <xs:element name="AR_Other" type="xs:string"/>
   <xs:element name="FlightTypes">
     <xs:complexType>
       <xs:sequence>
-        <xs:element ref="asmm:FT_Code" maxOccurs="unbounded"/>
+        <xs:element ref="asmm:FT_Code" maxOccurs="unbounded" minOccurs="0"/>
+        <xs:element ref="asmm:FT_User" maxOccurs="unbounded" minOccurs="0"/>
         <xs:element ref="asmm:FT_Other" minOccurs="0"/>
       </xs:sequence>
     </xs:complexType>
@@ -296,11 +353,19 @@
       </xs:restriction>
     </xs:simpleType>
   </xs:element>
+  <xs:element name="FT_User">
+    <xs:simpleType>
+      <xs:restriction base="xs:string">
+        <xs:any processContents="lax"/>
+      </xs:restriction>
+    </xs:simpleType>
+  </xs:element>
   <xs:element name="FT_Other" type="xs:string"/>
   <xs:element name="SatelliteCoordination">
     <xs:complexType>
       <xs:sequence>
-        <xs:element ref="asmm:SC_Code" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element ref="asmm:SC_Code" maxOccurs="unbounded" minOccurs="0"/>
+        <xs:element ref="asmm:SC_User" maxOccurs="unbounded" minOccurs="0"/>
         <xs:element ref="asmm:SC_Other" minOccurs="0"/>
       </xs:sequence>
     </xs:complexType>
@@ -321,6 +386,13 @@
         <xs:enumeration value="airs"/>
         <xs:enumeration value="cris"/>
         <xs:enumeration value="amsuMhs"/>
+      </xs:restriction>
+    </xs:simpleType>
+  </xs:element>
+  <xs:element name="SC_User">
+    <xs:simpleType>
+      <xs:restriction base="xs:string">
+        <xs:any processContents="lax"/>
       </xs:restriction>
     </xs:simpleType>
   </xs:element>

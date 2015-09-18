@@ -1,19 +1,14 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'addcheckbox.ui'
-#
-# Created: Wed Jun 10 09:30:54 2015
-#      by: PyQt4 UI code generator 4.11.3
-#
-# WARNING! All changes made in this file will be lost!
-
 from PyQt4 import QtCore, QtGui
+
 
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
 except AttributeError:
     def _fromUtf8(s):
         return s
+
 
 try:
     _encoding = QtGui.QApplication.UnicodeUTF8
@@ -23,38 +18,39 @@ except AttributeError:
     def _translate(context, text, disambig):
         return QtGui.QApplication.translate(context, text, disambig)
 
-class Ui_Addcheckbox(object):
-    def setupUi(self, Form):
-        Form.setObjectName(_fromUtf8("Form"))
-        Form.resize(296, 179)
+class Ui_AddURL(object):
+    def setupUi(self, Ui_AddURL):
+        Ui_AddURL.setObjectName(_fromUtf8("Ui_AddURL"))
+        Ui_AddURL.resize(296, 179)
         font = QtGui.QFont()
-        font.setFamily(_fromUtf8(self.progPath + "/font/DroidSansFallbackFull.ttf"))
+        font.setFamily(_fromUtf8("Droid Sans Fallback"))
         font.setPointSize(10)
         font.setStyleStrategy(QtGui.QFont.PreferAntialias)
-        Form.setFont(font)
-        self.gridLayout = QtGui.QGridLayout(Form)
+        Ui_AddURL.setFont(font)
+        self.gridLayout = QtGui.QGridLayout(Ui_AddURL)
         self.gridLayout.setObjectName(_fromUtf8("gridLayout"))
         self.verticalLayout = QtGui.QVBoxLayout()
         self.verticalLayout.setObjectName(_fromUtf8("verticalLayout"))
-        self.label = QtGui.QLabel(Form)
+        self.label = QtGui.QLabel(Ui_AddURL)
         font = QtGui.QFont()
-        font.setFamily(_fromUtf8(self.progPath + "/font/DroidSansFallbackFull.ttf"))
+        font.setFamily(_fromUtf8("Droid Sans Fallback"))
         font.setPointSize(10)
         font.setBold(False)
         font.setWeight(50)
         font.setStyleStrategy(QtGui.QFont.PreferAntialias)
         self.label.setFont(font)
+        self.label.setWordWrap(True)
         self.label.setObjectName(_fromUtf8("label"))
         self.verticalLayout.addWidget(self.label)
         spacerItem = QtGui.QSpacerItem(20, 40, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Fixed)
         self.verticalLayout.addItem(spacerItem)
-        self.ck_inputLine = QtGui.QLineEdit(Form)
+        self.ck_inputLine = QtGui.QLineEdit(Ui_AddURL)
         self.ck_inputLine.setMinimumSize(QtCore.QSize(275, 27))
         self.ck_inputLine.setMaximumSize(QtCore.QSize(275, 27))
         font = QtGui.QFont()
-        font.setFamily(_fromUtf8(self.progPath + "/font/FreeSans.ttf"))
+        font.setFamily(_fromUtf8("Droid Sans Fallback"))
         font.setPointSize(10)
-        font.setBold(True)
+        font.setBold(False)
         font.setWeight(50)
         font.setStyleStrategy(QtGui.QFont.PreferAntialias)
         self.ck_inputLine.setFont(font)
@@ -65,9 +61,9 @@ class Ui_Addcheckbox(object):
         self.verticalLayout.addItem(spacerItem1)
         self.horizontalLayout = QtGui.QHBoxLayout()
         self.horizontalLayout.setObjectName(_fromUtf8("horizontalLayout"))
-        self.ck_submitButton = QtGui.QPushButton(Form)
+        self.ck_submitButton = QtGui.QPushButton(Ui_AddURL)
         font = QtGui.QFont()
-        font.setFamily(_fromUtf8(self.progPath + "/font/DroidSansFallbackFull.ttf"))
+        font.setFamily(_fromUtf8("Droid Sans Fallback"))
         font.setPointSize(10)
         font.setBold(True)
         font.setWeight(75)
@@ -77,9 +73,9 @@ class Ui_Addcheckbox(object):
         self.horizontalLayout.addWidget(self.ck_submitButton)
         spacerItem2 = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Minimum)
         self.horizontalLayout.addItem(spacerItem2)
-        self.ck_cancelButton = QtGui.QPushButton(Form)
+        self.ck_cancelButton = QtGui.QPushButton(Ui_AddURL)
         font = QtGui.QFont()
-        font.setFamily(_fromUtf8(self.progPath + "/font/DroidSansFallbackFull.ttf"))
+        font.setFamily(_fromUtf8("Droid Sans Fallback"))
         font.setPointSize(10)
         font.setBold(True)
         font.setWeight(75)
@@ -90,12 +86,12 @@ class Ui_Addcheckbox(object):
         self.verticalLayout.addLayout(self.horizontalLayout)
         self.gridLayout.addLayout(self.verticalLayout, 0, 0, 1, 1)
 
-        self.retranslateUi(Form)
-        QtCore.QMetaObject.connectSlotsByName(Form)
+        self.retranslateUi(Ui_AddURL)
+        QtCore.QMetaObject.connectSlotsByName(Ui_AddURL)
 
-    def retranslateUi(self, Form):
-        Form.setWindowTitle(_translate("Form", "Add a new CheckBox", None))
-        self.label.setText(_translate("Form", "Please, enter a title for the new checkbox", None))
-        self.ck_submitButton.setText(_translate("Form", "Submit", None))
-        self.ck_cancelButton.setText(_translate("Form", "Cancel", None))
+    def retranslateUi(self, Ui_AddURL):
+        Ui_AddURL.setWindowTitle(_translate("Ui_AddURL", "Add an Image", None))
+        self.label.setText(_translate("Ui_AddURL", "Please, enter the URL of the image. Depending on the size of the image, the downloading may take some time.", None))
+        self.ck_submitButton.setText(_translate("Ui_AddURL", "Submit", None))
+        self.ck_cancelButton.setText(_translate("Ui_AddURL", "Cancel", None))
 

@@ -1,7 +1,7 @@
 # asmm-eufar
 
 A detailed changelog can be found in the Documentation directory.
-Current version: 0.9.7
+Current version: 1.0.0
 
 Overview
 
@@ -16,6 +16,8 @@ This project - Airborne Science Mission Metadata (ASMM) - was motivated by the n
 Libraries
 
 This software needs the following libraries to allow proper operation:
-  - PyQt4 4.11.2+ -> http://www.riverbankcomputing.co.uk/software/pyqt/download
-  - netCDF4 for python 1.1.7+ -> https://pypi.python.org/pypi/netCDF4
-  - Reportlab PDF Toolkit 3.1.31 -> https://bitbucket.org/rptlab/reportlab
+  - Python 2.7.10
+  - PyQt4 4.11.4+ -> http://www.riverbankcomputing.co.uk/software/pyqt/download
+  - netCDF4 for python 1.1.9+ -> https://pypi.python.org/pypi/netCDF4
+  - Reportlab PDF Toolkit 3.2.8+ -> https://bitbucket.org/rptlab/reportlab
+  - Pillow 2.9.0+ -> https://pypi.python.org/pypi/Pillow/2.9.0

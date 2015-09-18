@@ -92,7 +92,7 @@ class NetCdf(FileCore):
     def _open_file(self, filename, perms):
         self.close()
         try:
-            self.f = netCDF4.Dataset(filename, perms)
+            self.f = netCDF4.Dataset(filename, perms)  # @UndefinedVariable
             self.filename = filename
             self.perms = perms
         except RuntimeError:
