@@ -9,8 +9,6 @@ be used for dataset discovery after the data has been archived.
 
 This utility is maintained by EUFAR.
 """
-from ui._version import _version
-
 
 try:
     from setuptools import setup
@@ -35,7 +33,7 @@ doclines = __doc__.split('\n')
 
 
 setup(name='asmm',
-      version=_version,
+      version='1.0.0',
       description=doclines[0],
       long_description='\n'.join(doclines[2:]),
       author='EUFAR',
@@ -49,5 +47,5 @@ setup(name='asmm',
       packages=['ui','font','functions','icons'],
       classifiers=filter(None, classifiers.split("\n")),
       requires=['PyQt4 (>=4.11.2)','reportlab (>=3.1.31)','netCDF4-python (>=1.1.7)'],
-      install_requires=['PyQt4 (>=4.11.2)','reportlab (>=3.1.31)','netCDF4-python (>=1.1.7)']
+      install_requires=['PyQt4 (>=4.11.2)','reportlab (>=3.1.31)','netCDF4-python (>=1.1.7)'],
       )

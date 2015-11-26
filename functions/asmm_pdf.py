@@ -28,9 +28,9 @@ def create_asmm_pdf(self, out_file_name_pdf):
     deb_page = 0
     
     # polices
-    fontname1 = self.progPath + '/font/DroidSansFallbackFull.ttf'
-    fontname2 = self.progPath + '/font/FreeSans.ttf'
-    fontname3 = self.progPath + '/font/FreeSans.ttf'
+    fontname1 = 'font/DroidSansFallbackFull.ttf'
+    fontname2 = 'font/FreeSans.ttf'
+    fontname3 = 'font/FreeSans.ttf'
     pdfmetrics.registerFont(TTFont('Times', fontname1))
     pdfmetrics.registerFont(TTFont('Arial', fontname2))
     pdfmetrics.registerFont(TTFont('Ariali', fontname3))

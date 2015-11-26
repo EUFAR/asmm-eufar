@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
-import os, sys, urllib
+import os, urllib
+import tempfile
 from PyQt4 import QtCore, QtGui
 from PyQt4.QtGui import QWidget, QLabel
 from PyQt4.QtGui import QCursor
@@ -35,14 +36,14 @@ def add_clicked(self):
                                 sizeHint().height())
     if self.infoWindow.exec_():
         font1 = QtGui.QFont()
-        font1.setFamily(_fromUtf8(self.progPath + "/font/DroidSansFallbackFull.ttf"))
+        font1.setFamily(_fromUtf8("font/DroidSansFallbackFull.ttf"))
         font1.setPointSize(10)
         font1.setBold(True)
         font1.setUnderline(True)
         font1.setWeight(75)
         font1.setStyleStrategy(QtGui.QFont.PreferAntialias)
         font2 = QtGui.QFont()
-        font2.setFamily(_fromUtf8(self.progPath + "/font/DroidSansFallbackFull.ttf"))
+        font2.setFamily(_fromUtf8("font/DroidSansFallbackFull.ttf"))
         font2.setPointSize(10)
         font2.setBold(False)
         font2.setWeight(50)
@@ -78,14 +79,14 @@ def add_clicked(self):
 
 def add_read(self, parent, text):
     font1 = QtGui.QFont()
-    font1.setFamily(_fromUtf8(self.progPath + "/font/DroidSansFallbackFull.ttf"))
+    font1.setFamily(_fromUtf8("font/DroidSansFallbackFull.ttf"))
     font1.setPointSize(10)
     font1.setBold(True)
     font1.setUnderline(True)
     font1.setWeight(75)
     font1.setStyleStrategy(QtGui.QFont.PreferAntialias)
     font2 = QtGui.QFont()
-    font2.setFamily(_fromUtf8(self.progPath + "/font/DroidSansFallbackFull.ttf"))
+    font2.setFamily(_fromUtf8("font/DroidSansFallbackFull.ttf"))
     font2.setPointSize(10)
     font2.setBold(False)
     font2.setWeight(50)
@@ -117,11 +118,11 @@ def add_read(self, parent, text):
 def button_clicked(self):
     x = QCursor.pos().x()
     y = QCursor.pos().y()
-    textInfo = "<p align=justify>Use this button to add a new checkbox. Each activated checkbox is "
+    textInfo = ("<p align=justify>Use this button to add a new checkbox. Each activated checkbox is "
     + "then saved in the XML file with the code <b>xx_User</b>.</p><p align=center style='color:#C80"
     + "000'><b>All non-activated checkboxes will not be saved and will be lost.</b></p><p align=jus"
     + "tify>As the PDF report generator is limited to 12 checkboxes per section, you cannot create "
-    + "more than 12 checkboxes per section in ASMM Creator Online.</p>"
+    + "more than 12 checkboxes per section in ASMM Creator Online.</p>")
     x = x - 175
     y = y + 50
     self.infoWindow = MyInfo(textInfo)
@@ -133,7 +134,8 @@ def button_clicked(self):
 
 def add_image(self, filename):
     if "http://" in filename or "www." in filename:
-        imagename = self.progPath + "image.jpg"
+        temp_name = next(tempfile._get_candidate_names())
+        imagename = self.dirpath + "/" + temp_name + ".jpg"
         urllib.urlretrieve(str(filename), imagename)
         tmp0 = Image.open(imagename)
         filename = imagename
@@ -141,7 +143,7 @@ def add_image(self, filename):
         tmp0 = Image.open(filename)
     w1, h1 = tmp0.size
     tmp0 = tmp0.transpose(Image.FLIP_TOP_BOTTOM)
-    filename2 = self.progPath + "/flip_" + os.path.basename(filename)
+    filename2 = self.dirpath + "/flip_" + os.path.basename(filename)
     tmp0.save(filename2)
     ratio = float(w1) / float(h1)
     if ratio > 1:
@@ -151,7 +153,7 @@ def add_image(self, filename):
         h2 = 300
         w2 = float(h2) * float(ratio)
     font = QtGui.QFont()
-    font.setFamily(_fromUtf8(self.progPath + "/font/DroidSansFallbackFull.ttf"))
+    font.setFamily(_fromUtf8("font/DroidSansFallbackFull.ttf"))
     font.setPointSize(10)
     font.setBold(True)
     font.setUnderline(True)
@@ -196,7 +198,7 @@ def add_image(self, filename):
     spacerItem2 = QtGui.QSpacerItem(20, 20, QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Fixed)
     self.im_horlay[self.im_number].addItem(spacerItem2)
     icon1 = QtGui.QIcon()
-    icon1.addPixmap(QtGui.QPixmap(_fromUtf8(self.progPath + "/icons/del_icon.png")), QtGui.QIcon.
+    icon1.addPixmap(QtGui.QPixmap(_fromUtf8("icons/del_icon.png")), QtGui.QIcon.
                     Normal, QtGui.QIcon.Off)
     tmp7 = QtGui.QToolButton()
     self.im_del.append(tmp7)
@@ -271,10 +273,6 @@ def display_image(self):
 class MyAdd(QtGui.QDialog, Ui_Addcheckbox):
     def __init__(self, parent = None):
         QWidget.__init__(self, parent)
-        if getattr(sys, 'frozen', False):
-            self.progPath = sys._MEIPASS  # @UndefinedVariable
-        else:
-            self.progPath = os.path.abspath(".")
         self.setupUi(self)
         self.ck_cancelButton.clicked.connect(self.closeWindow)
         self.ck_submitButton.clicked.connect(self.submitBox)
@@ -285,15 +283,10 @@ class MyAdd(QtGui.QDialog, Ui_Addcheckbox):
     def submitBox(self):
         self.accept()
         
-        
 
 class MyInfo(QtGui.QDialog, Ui_infoWindow):
     def __init__(self, infoText):
         QWidget.__init__(self)
-        if getattr(sys, 'frozen', False):
-            self.progPath = sys._MEIPASS  # @UndefinedVariable
-        else:
-            self.progPath = os.path.abspath(".")
         self.setupUi(self)
         self.iw_label_1.setText(infoText)
         self.iw_okButton.clicked.connect(self.closeWindow)
@@ -305,10 +298,6 @@ class MyInfo(QtGui.QDialog, Ui_infoWindow):
 class MyImage(QtGui.QDialog, Ui_ImageWindow):
     def __init__(self, imagePath, w2, h2):
         QWidget.__init__(self)
-        if getattr(sys, 'frozen', False):
-            self.progPath = sys._MEIPASS  # @UndefinedVariable
-        else:
-            self.progPath = os.path.abspath(".")
         self.setupUi(self)
         self.label.setPixmap(QtGui.QPixmap(imagePath))
         self.label.setScaledContents(True)
@@ -321,7 +310,6 @@ class MyImage(QtGui.QDialog, Ui_ImageWindow):
 
 
 class ExtendedQLabel(QLabel):
- 
     def __init(self, parent):
         QLabel.__init__(self, parent)
  

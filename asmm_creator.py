@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import netCDF4  # @UnusedImport pyinstaller modification
+#import netCDF4  # @UnusedImport pyinstaller modification
 import numpy  # @UnusedImport pyinstaller modification
 import sys
 from PyQt4 import QtGui

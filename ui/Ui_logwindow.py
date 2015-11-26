@@ -28,7 +28,7 @@ class Ui_Changelog(object):
         Changelog.setObjectName(_fromUtf8("Changelog"))
         Changelog.resize(600, 450)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(_fromUtf8(self.progPath + "icons/changelog_icon.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap(_fromUtf8("icons/changelog_icon.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Changelog.setWindowIcon(icon)
         self.gridLayout = QtGui.QGridLayout(Changelog)
         self.gridLayout.setObjectName(_fromUtf8("gridLayout"))
