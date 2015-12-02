@@ -7,6 +7,7 @@
 #
 # WARNING! All changes made in this file will be lost!
 
+import os
 from PyQt4 import QtCore, QtGui
 
 try:
@@ -26,14 +27,11 @@ except AttributeError:
 class Ui_aboutStandard(object):
     def setupUi(self, aboutStandard):
         aboutStandard.setObjectName(_fromUtf8("aboutStandard"))
-        aboutStandard.resize(452, 220)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(aboutStandard.sizePolicy().hasHeightForWidth())
         aboutStandard.setSizePolicy(sizePolicy)
-        aboutStandard.setMinimumSize(QtCore.QSize(450, 220))
-        aboutStandard.setMaximumSize(QtCore.QSize(452, 270))
         font = QtGui.QFont()
         font.setFamily(_fromUtf8("font/DroidSansFallbackFull.ttf"))
         font.setPointSize(10)
@@ -89,6 +87,24 @@ class Ui_aboutStandard(object):
         self.aw_label_1.setAlignment(QtCore.Qt.AlignJustify|QtCore.Qt.AlignTop)
         self.aw_label_1.setWordWrap(True)
         self.aw_label_1.setObjectName(_fromUtf8("aw_label_1"))
+        if os.name == "posix":
+            aboutStandard.resize(452, 220)
+            aboutStandard.setMinimumSize(QtCore.QSize(450, 220))
+            aboutStandard.setMaximumSize(QtCore.QSize(452, 270))
+            self.aw_label_1.setMinimumSize(QtCore.QSize(341, 170))
+            self.aw_label_1.setMaximumSize(QtCore.QSize(341, 250))
+        elif os.name == "nt":
+            aboutStandard.resize(550, 350)
+            aboutStandard.setMinimumSize(QtCore.QSize(550, 350))
+            aboutStandard.setMaximumSize(QtCore.QSize(550, 350))
+            self.aw_label_1.setMinimumSize(QtCore.QSize(450, 220))
+            self.aw_label_1.setMaximumSize(QtCore.QSize(450, 220))
+        else:
+            aboutStandard.resize(452, 220)
+            aboutStandard.setMinimumSize(QtCore.QSize(450, 220))
+            aboutStandard.setMaximumSize(QtCore.QSize(452, 270))
+            self.aw_label_1.setMinimumSize(QtCore.QSize(341, 170))
+            self.aw_label_1.setMaximumSize(QtCore.QSize(341, 250))
         self.horizontalLayout.addWidget(self.aw_label_1)
         self.verticalLayout_2.addLayout(self.horizontalLayout)
         spacerItem2 = QtGui.QSpacerItem(20, 10, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Fixed)

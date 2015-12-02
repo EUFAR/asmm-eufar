@@ -42,6 +42,7 @@ def create_asmm_pdf(self, out_file_name_pdf):
     styles.add(ParagraphStyle(name='asmm_par_sl', fontName='Arial', alignment=TA_JUSTIFY, fontSize=10))
     styles.add(ParagraphStyle(name='asmm_par_tl', fontName='Times', alignment=TA_LEFT, fontSize=16))
     styles.add(ParagraphStyle(name='asmm_title2', fontName='Arial', alignment=TA_CENTER, fontSize=22, textColor='black', leading=24))
+    styles.add(ParagraphStyle(name='asmm_figure', fontName='Times', alignment=TA_CENTER, fontSize=12))
 
     # date
     template.setFont("Arial",10)
@@ -1106,8 +1107,9 @@ def create_asmm_pdf(self, out_file_name_pdf):
                 template.showPage()
                 deb_page = 1
             template.drawImage(img, pos_x, pos_y_tl14 + 20, width, height)
-            title = 'Figure %s: %s' % str(i + 1), self.im_textbox[i].text()
-            tl = Paragraph(title, styles["asmm_par_tl"])
+            #title = 'Figure %s: %s' % str(i + 1), self.im_textbox[i].text()
+            title = "Figure " + str(i + 1) + ": " + self.im_textbox[i].text()
+            tl = Paragraph(str(title), styles["asmm_figure"])
             w, h = tl.wrapOn(template, width + 50, 100)
             pos_y_tl14 = pos_y_tl14 + height + 40
             tl.drawOn(template, pos_x - 25, pos_y_tl14)

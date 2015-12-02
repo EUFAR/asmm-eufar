@@ -7,6 +7,7 @@
 #
 # WARNING! All changes made in this file will be lost!
 
+import os
 from PyQt4 import QtCore, QtGui
 
 try:
@@ -26,14 +27,11 @@ except AttributeError:
 class Ui_aboutWindow(object):
     def setupUi(self, aboutWindow):
         aboutWindow.setObjectName(_fromUtf8("aboutWindow"))
-        aboutWindow.resize(452, 220)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(aboutWindow.sizePolicy().hasHeightForWidth())
         aboutWindow.setSizePolicy(sizePolicy)
-        aboutWindow.setMinimumSize(QtCore.QSize(450, 220))
-        aboutWindow.setMaximumSize(QtCore.QSize(452, 270))
         font = QtGui.QFont()
         font.setFamily(_fromUtf8("font/DroidSansFallbackFull.ttf"))
         font.setPointSize(10)
@@ -71,8 +69,24 @@ class Ui_aboutWindow(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.aw_label_1.sizePolicy().hasHeightForWidth())
         self.aw_label_1.setSizePolicy(sizePolicy)
-        self.aw_label_1.setMinimumSize(QtCore.QSize(341, 170))
-        self.aw_label_1.setMaximumSize(QtCore.QSize(341, 250))
+        if os.name == "posix":
+            aboutWindow.resize(452, 240)
+            aboutWindow.setMinimumSize(QtCore.QSize(450, 240))
+            aboutWindow.setMaximumSize(QtCore.QSize(452, 260))
+            self.aw_label_1.setMinimumSize(QtCore.QSize(341, 190))
+            self.aw_label_1.setMaximumSize(QtCore.QSize(341, 270))
+        elif os.name == "nt":
+            aboutWindow.resize(550, 350)
+            aboutWindow.setMinimumSize(QtCore.QSize(550, 350))
+            aboutWindow.setMaximumSize(QtCore.QSize(550, 350))
+            self.aw_label_1.setMinimumSize(QtCore.QSize(450, 300))
+            self.aw_label_1.setMaximumSize(QtCore.QSize(450, 300))
+        else:
+            aboutWindow.resize(452, 240)
+            aboutWindow.setMinimumSize(QtCore.QSize(450, 240))
+            aboutWindow.setMaximumSize(QtCore.QSize(452, 260))
+            self.aw_label_1.setMinimumSize(QtCore.QSize(341, 190))
+            self.aw_label_1.setMaximumSize(QtCore.QSize(341, 270))
         font = QtGui.QFont()
         font.setFamily(_fromUtf8("font/DroidSansFallbackFull.ttf"))
         font.setPointSize(10)

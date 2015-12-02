@@ -2,8 +2,7 @@
 
 # Form implementation generated from reading ui file 'presavewindow.ui'
 #
-# Created: Tue Jun 16 09:07:02 2015
-#      by: PyQt4 UI code generator 4.11.3
+# Created by: PyQt4 UI code generator 4.11.4
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -85,8 +84,8 @@ class Ui_presaveWindow(object):
         self.horizontalLayout_2 = QtGui.QHBoxLayout()
         self.horizontalLayout_2.setObjectName(_fromUtf8("horizontalLayout_2"))
         self.iw_nosaveButton = QtGui.QPushButton(presaveWindow)
-        self.iw_nosaveButton.setMinimumSize(QtCore.QSize(170, 27))
-        self.iw_nosaveButton.setMaximumSize(QtCore.QSize(170, 27))
+        self.iw_nosaveButton.setMinimumSize(QtCore.QSize(200, 27))
+        self.iw_nosaveButton.setMaximumSize(QtCore.QSize(200, 27))
         font = QtGui.QFont()
         font.setFamily(_fromUtf8("font/DroidSansFallbackFull.ttf"))
         font.setPointSize(10)
@@ -95,7 +94,7 @@ class Ui_presaveWindow(object):
         font.setStyleStrategy(QtGui.QFont.PreferDefault)
         self.iw_nosaveButton.setFont(font)
         icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap(_fromUtf8("icons/exit_icon.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon1.addPixmap(QtGui.QPixmap(_fromUtf8("icons/cancel_icon.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.iw_nosaveButton.setIcon(icon1)
         self.iw_nosaveButton.setIconSize(QtCore.QSize(25, 25))
         self.iw_nosaveButton.setObjectName(_fromUtf8("iw_nosaveButton"))
@@ -103,8 +102,8 @@ class Ui_presaveWindow(object):
         spacerItem3 = QtGui.QSpacerItem(20, 20, QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Minimum)
         self.horizontalLayout_2.addItem(spacerItem3)
         self.iw_cancelButton = QtGui.QPushButton(presaveWindow)
-        self.iw_cancelButton.setMinimumSize(QtCore.QSize(93, 27))
-        self.iw_cancelButton.setMaximumSize(QtCore.QSize(93, 27))
+        self.iw_cancelButton.setMinimumSize(QtCore.QSize(100, 27))
+        self.iw_cancelButton.setMaximumSize(QtCore.QSize(100, 27))
         font = QtGui.QFont()
         font.setFamily(_fromUtf8("font/DroidSansFallbackFull.ttf"))
         font.setPointSize(10)
@@ -113,7 +112,7 @@ class Ui_presaveWindow(object):
         font.setStyleStrategy(QtGui.QFont.PreferDefault)
         self.iw_cancelButton.setFont(font)
         icon2 = QtGui.QIcon()
-        icon2.addPixmap(QtGui.QPixmap(_fromUtf8("icons/cancel_icon.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon2.addPixmap(QtGui.QPixmap(_fromUtf8("icons/del_icon.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.iw_cancelButton.setIcon(icon2)
         self.iw_cancelButton.setIconSize(QtCore.QSize(25, 25))
         self.iw_cancelButton.setObjectName(_fromUtf8("iw_cancelButton"))
@@ -145,7 +144,7 @@ class Ui_presaveWindow(object):
     def retranslateUi(self, presaveWindow):
         presaveWindow.setWindowTitle(_translate("presaveWindow", "EUFAR Metadata Creator", None))
         self.iw_label_1.setText(_translate("presaveWindow", "<html><head/><body><p align=\"justify\">The actual document has been modified. Changes will be lost if the document is not saved.<br/></p><p><span style=\" font-weight:600;\">Do you want to save your changes ?</span></p></body></html>", None))
-        self.iw_nosaveButton.setText(_translate("presaveWindow", "Create a new file", None))
+        self.iw_nosaveButton.setText(_translate("presaveWindow", "Close without saving", None))
         self.iw_cancelButton.setText(_translate("presaveWindow", "Cancel", None))
         self.iw_saveButton.setText(_translate("presaveWindow", "Save", None))
 

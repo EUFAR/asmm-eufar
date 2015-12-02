@@ -35,6 +35,9 @@ class Ui_ImageWindow(object):
         font.setStyleStrategy(QtGui.QFont.PreferAntialias)
         Ui_ImageWindow.setFont(font)
         Ui_ImageWindow.setWindowTitle(_fromUtf8(""))
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap(_fromUtf8("icons/info_icon.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        Ui_ImageWindow.setWindowIcon(icon)
         self.gridLayout = QtGui.QGridLayout(Ui_ImageWindow)
         self.gridLayout.setObjectName(_fromUtf8("gridLayout"))
         self.verticalLayout = QtGui.QVBoxLayout()
@@ -80,6 +83,7 @@ class Ui_ImageWindow(object):
         QtCore.QMetaObject.connectSlotsByName(Ui_ImageWindow)
 
     def retranslateUi(self, Ui_ImageWindow):
+        Ui_ImageWindow.setWindowTitle(_translate("Ui_ImageWindow", "Zoom", None))
         self.label.setText(_translate("Ui_ImageWindow", "image", None))
         self.pushButton.setText(_translate("Ui_ImageWindow", "Ok", None))
 

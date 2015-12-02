@@ -3,6 +3,7 @@
 import webbrowser
 import tempfile
 import shutil
+import os
 from PyQt4 import QtCore
 from PyQt4 import QtGui
 from PyQt4.QtCore import pyqtSignature
@@ -21,9 +22,15 @@ from PyQt4.QtGui import QPushButton
 from PyQt4.QtGui import QTextEdit
 from PyQt4.QtGui import QToolButton
 from PyQt4.QtGui import QWidget
-from Ui_mainwindow import Ui_MainWindow
+if os.name == "posix":
+    from Ui_mainwindow import Ui_MainWindow
+elif os.name == "nt":
+    from Ui_mainwindow_windows import Ui_MainWindow
+else:
+    from Ui_mainwindow import Ui_MainWindow
 from Ui_aboutwindow import Ui_aboutWindow
 from Ui_aboutstandard import Ui_aboutStandard
+from Ui_aboutresolution import Ui_aboutResolution
 from Ui_logwindow import Ui_Changelog
 from Ui_presavewindow import Ui_presaveWindow
 from Ui_addsite import Ui_Addsite
@@ -56,9 +63,9 @@ except AttributeError:
 class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self, parent=None):
         QMainWindow.__init__(self, parent)
-        resolution = QtGui.QDesktopWidget().screenGeometry()
+        self.resolution = QtGui.QDesktopWidget().screenGeometry()
         self.tabLayout = 0
-        if resolution.height() < 1000:
+        if self.resolution.height() < 1000:
             self.tabLayout = 1
             self.setupUi_tab(self)
         else:
@@ -88,7 +95,23 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.locationList.addItems(self.locations)
         QObject.connect(self.locationList, SIGNAL("activated(QString)"), self.location_changed)
         self.make_window_title()
-        
+        if (self.resolution.height() > 1080) & (self.resolution.width() > 1920):
+            aboutText = ("Your screen appears to have a resolution greater than 1920 x 1080. " 
+                         + "ASMM is currently not fully compatible with such high resolutions "
+                         + "and can show display issues. Until the release of a new version "
+                         + "supporting high resolutions, please use the online version of ASMM, "
+                         + "available at http://176.31.165.18:8080/asmm-eufar/, or at www.eufar."
+                         + "net/tools/.")
+            self.resolutionWindow = MyResolution(aboutText)
+            x1, y1, w1, h1 = self.geometry().getRect()
+            x2, y2, w2, h2 = self.resolutionWindow.geometry().getRect()  # @UnusedVariable
+            x2 = x1 + w1/2 - w2/2
+            y2 = y1 + h1/2 - h2/2
+            self.resolutionWindow.setGeometry(x2, y2, w2, h2)
+            self.resolutionWindow.setMinimumSize(QtCore.QSize(400, self.resolutionWindow.sizeHint().height()))
+            self.resolutionWindow.setMaximumSize(QtCore.QSize(400, self.resolutionWindow.sizeHint().height()))
+            self.resolutionWindow.exec_()
+
 
     @pyqtSignature("")
     def on_generateXMLButton_clicked(self):
@@ -153,7 +176,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     @pyqtSignature("")
     def on_actionEUFAR_N7SP_triggered(self):
-        webbrowser.open('http://www.eufar.net/')
+        webbrowser.open('http://www.eufar.net/cms/standards-and-protocols/')
 
 
     @pyqtSignature("")
@@ -179,8 +202,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         x2 = x1 + w1/2 - w2/2
         y2 = y1 + h1/2 - h2/2
         self.aboutWindow.setGeometry(x2, y2, w2, h2)
-        self.aboutWindow.setMinimumSize(QtCore.QSize(450, self.aboutWindow.sizeHint().height()))
-        self.aboutWindow.setMaximumSize(QtCore.QSize(452, self.aboutWindow.sizeHint().height()))
+        if os.name == "posix":
+            self.aboutWindow.setMinimumSize(QtCore.QSize(480, self.aboutWindow.sizeHint().height()))
+            self.aboutWindow.setMaximumSize(QtCore.QSize(480, self.aboutWindow.sizeHint().height()))
+        elif os.name == "nt":
+            self.aboutWindow.setMinimumSize(QtCore.QSize(560, self.aboutWindow.sizeHint().height()))
+            self.aboutWindow.setMaximumSize(QtCore.QSize(560, self.aboutWindow.sizeHint().height()))
+        else:
+            self.aboutWindow.setMinimumSize(QtCore.QSize(480, self.aboutWindow.sizeHint().height()))
+            self.aboutWindow.setMaximumSize(QtCore.QSize(480, self.aboutWindow.sizeHint().height()))
         self.aboutWindow.exec_()
 
     
@@ -200,8 +230,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         x2 = x1 + w1/2 - w2/2
         y2 = y1 + h1/2 - h2/2
         self.aboutWindow.setGeometry(x2, y2, w2, h2)
-        self.aboutWindow.setMinimumSize(QtCore.QSize(450, self.aboutWindow.sizeHint().height()))
-        self.aboutWindow.setMaximumSize(QtCore.QSize(452, self.aboutWindow.sizeHint().height()))
+        if os.name == "posix":
+            self.aboutWindow.setMinimumSize(QtCore.QSize(460, self.aboutWindow.sizeHint().height()))
+            self.aboutWindow.setMaximumSize(QtCore.QSize(460, self.aboutWindow.sizeHint().height()))
+        elif os.name == "nt":
+            self.aboutWindow.setMinimumSize(QtCore.QSize(560, self.aboutWindow.sizeHint().height()))
+            self.aboutWindow.setMaximumSize(QtCore.QSize(560, self.aboutWindow.sizeHint().height()))
+        else:
+            self.aboutWindow.setMinimumSize(QtCore.QSize(460, self.aboutWindow.sizeHint().height()))
+            self.aboutWindow.setMaximumSize(QtCore.QSize(460, self.aboutWindow.sizeHint().height()))
         self.aboutWindow.exec_()
  
 
@@ -559,6 +596,20 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.aircraftList.clear()
             self.aircraftList.setEnabled(False)
         elif self.operatorList.currentText() == "Other...":
+            font = QtGui.QFont()
+            font.setFamily(_fromUtf8("font/FreeSans.ttf"))
+            font.setPointSize(10)
+            font.setItalic(False)
+            if os.name == "posix":
+                font.setBold(True)
+                font.setWeight(75)
+            elif os.name == "nt":
+                font.setBold(False)
+                font.setWeight(50)
+            else:
+                font.setBold(True)
+                font.setWeight(75)
+            font.setStyleStrategy(QtGui.QFont.PreferAntialias)
             self.aircraftList.clear()
             self.aircraftList.addItem("Other")
             self.aircraftList.setEnabled(True)
@@ -568,12 +619,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.tmpOperatorLine.setMinimumSize(QtCore.QSize(300, 27))
             self.tmpOperatorLine.setMaximumSize(QtCore.QSize(300, 27))
             self.tmpOperatorLine.setFrame(False)
+            self.tmpOperatorLine.setFont(font)
             self.tmpOperatorLine.setObjectName("tmpOperatorLine")
             self.horizontalLayout_77.addWidget(self.tmpOperatorLine)
             self.tmpAircraftLine = QtGui.QLineEdit(self.flight_information_page)
             self.tmpAircraftLine.setMinimumSize(QtCore.QSize(300, 27))
             self.tmpAircraftLine.setMaximumSize(QtCore.QSize(300, 27))
             self.tmpAircraftLine.setFrame(False)
+            self.tmpAircraftLine.setFont(font)
             self.tmpAircraftLine.setObjectName("tmpAircraftLine")
             self.horizontalLayout_78.addWidget(self.tmpAircraftLine)
         else:
@@ -671,4 +724,15 @@ class MyURL(QtGui.QDialog, Ui_AddURL):
         self.close()
 
     def submitBox(self):
-        self.accept()   
+        self.accept()
+        
+        
+class MyResolution(QtGui.QDialog, Ui_aboutResolution):
+    def __init__(self, aboutText):
+        QWidget.__init__(self)
+        self.setupUi(self)
+        self.aw_label_1.setText(aboutText)
+        self.aw_okButton.clicked.connect(self.closeWindow)
+
+    def closeWindow(self):
+        self.close() 

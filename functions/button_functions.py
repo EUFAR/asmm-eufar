@@ -30,9 +30,20 @@ except AttributeError:
 
 def add_clicked(self):
     self.infoWindow = MyAdd()
-    self.infoWindow.setMinimumSize(QtCore.QSize(300, self.infoWindow.sizeHint().height()))
-    self.infoWindow.setMaximumSize(QtCore.QSize(300, self.infoWindow.sizeHint().height()))
-    self.infoWindow.setGeometry(QCursor.pos().x() - 150, QCursor.pos().y() + 50, 300, self.infoWindow.
+    if os.name == "posix":
+        self.infoWindow.setMinimumSize(QtCore.QSize(300, self.infoWindow.sizeHint().height()))
+        self.infoWindow.setMaximumSize(QtCore.QSize(300, self.infoWindow.sizeHint().height()))
+        self.infoWindow.setGeometry(QCursor.pos().x() - 150, QCursor.pos().y() + 50, 300, self.infoWindow.
+                                sizeHint().height())
+    elif os.name == "nt":
+        self.infoWindow.setMinimumSize(QtCore.QSize(340, self.infoWindow.sizeHint().height()))
+        self.infoWindow.setMaximumSize(QtCore.QSize(340, self.infoWindow.sizeHint().height()))
+        self.infoWindow.setGeometry(QCursor.pos().x() - 150, QCursor.pos().y() + 50, 340, self.infoWindow.
+                                sizeHint().height())
+    else:
+        self.infoWindow.setMinimumSize(QtCore.QSize(300, self.infoWindow.sizeHint().height()))
+        self.infoWindow.setMaximumSize(QtCore.QSize(300, self.infoWindow.sizeHint().height()))
+        self.infoWindow.setGeometry(QCursor.pos().x() - 150, QCursor.pos().y() + 50, 300, self.infoWindow.
                                 sizeHint().height())
     if self.infoWindow.exec_():
         font1 = QtGui.QFont()
@@ -159,6 +170,19 @@ def add_image(self, filename):
     font.setUnderline(True)
     font.setWeight(75)
     font.setStyleStrategy(QtGui.QFont.PreferAntialias)
+    
+    font2 = QtGui.QFont()
+    font2.setFamily(_fromUtf8("font/FreeSans.ttf"))
+    font2.setPointSize(10)
+    if os.name == "posix":
+        font2.setBold(True)
+        font2.setWeight(75)
+    elif os.name == "nt":
+        font2.setBold(False)
+        font2.setWeight(50)
+    else:
+        font2.setBold(True)
+        font2.setWeight(75)
     tmp2 = QtGui.QHBoxLayout()
     self.im_horlay.append(tmp2)
     self.im_horlay[self.im_number].setObjectName(_fromUtf8("im_horlay" + str(self.im_number)))
@@ -191,6 +215,7 @@ def add_image(self, filename):
     self.im_textbox[self.im_number].setMinimumSize(QtCore.QSize(300, 27))
     self.im_textbox[self.im_number].setMaximumSize(QtCore.QSize(300, 27))
     self.im_textbox[self.im_number].setFrame(False)
+    self.im_textbox[self.im_number].setFont(font2)
     self.im_textbox[self.im_number].setObjectName(_fromUtf8("im_textbox" + str(self.im_number)))
     self.im_verlay[self.im_number].addWidget(self.im_textbox[self.im_number])
     spacerItem5 = QtGui.QSpacerItem(20, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Expanding)

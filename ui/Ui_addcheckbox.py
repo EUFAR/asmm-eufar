@@ -7,6 +7,7 @@
 #
 # WARNING! All changes made in this file will be lost!
 
+import os
 from PyQt4 import QtCore, QtGui
 
 try:
@@ -49,8 +50,15 @@ class Ui_Addcheckbox(object):
         spacerItem = QtGui.QSpacerItem(20, 40, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Fixed)
         self.verticalLayout.addItem(spacerItem)
         self.ck_inputLine = QtGui.QLineEdit(Form)
-        self.ck_inputLine.setMinimumSize(QtCore.QSize(275, 27))
-        self.ck_inputLine.setMaximumSize(QtCore.QSize(275, 27))
+        if os.name == "posix":
+            self.ck_inputLine.setMinimumSize(QtCore.QSize(275, 27))
+            self.ck_inputLine.setMaximumSize(QtCore.QSize(275, 27))
+        elif os.name == "nt":
+            self.ck_inputLine.setMinimumSize(QtCore.QSize(310, 27))
+            self.ck_inputLine.setMaximumSize(QtCore.QSize(310, 27))
+        else:
+            self.ck_inputLine.setMinimumSize(QtCore.QSize(275, 27))
+            self.ck_inputLine.setMaximumSize(QtCore.QSize(275, 27))
         font = QtGui.QFont()
         font.setFamily(_fromUtf8("font/FreeSans.ttf"))
         font.setPointSize(10)
