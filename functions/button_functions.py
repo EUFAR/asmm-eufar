@@ -1,74 +1,46 @@
 # -*- coding: utf-8 -*-
 
-import os, urllib
+import os, urllib.request
 import tempfile
-from PyQt4 import QtCore, QtGui
-from PyQt4.QtGui import QWidget, QLabel
-from PyQt4.QtGui import QCursor
+from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import QWidget, QLabel
+from PyQt5.QtGui import QCursor
 from ui.Ui_infowindow import Ui_infoWindow
 from ui.Ui_imagewindow import Ui_ImageWindow
 from ui.Ui_addcheckbox import Ui_Addcheckbox
 from PIL import Image
-from PyQt4.QtCore import SIGNAL
-
-
-try:
-    _fromUtf8 = QtCore.QString.fromUtf8
-except AttributeError:
-    def _fromUtf8(s):
-        return s
-
-
-try:
-    _encoding = QtGui.QApplication.UnicodeUTF8
-    def _translate(context, text, disambig):
-        return QtGui.QApplication.translate(context, text, disambig, _encoding)
-except AttributeError:
-    def _translate(context, text, disambig):
-        return QtGui.QApplication.translate(context, text, disambig)
+from PyQt5.QtCore import pyqtSignal
 
 
 def add_clicked(self):
     self.infoWindow = MyAdd()
-    if os.name == "posix":
-        self.infoWindow.setMinimumSize(QtCore.QSize(300, self.infoWindow.sizeHint().height()))
-        self.infoWindow.setMaximumSize(QtCore.QSize(300, self.infoWindow.sizeHint().height()))
-        self.infoWindow.setGeometry(QCursor.pos().x() - 150, QCursor.pos().y() + 50, 300, self.infoWindow.
-                                sizeHint().height())
-    elif os.name == "nt":
-        self.infoWindow.setMinimumSize(QtCore.QSize(340, self.infoWindow.sizeHint().height()))
-        self.infoWindow.setMaximumSize(QtCore.QSize(340, self.infoWindow.sizeHint().height()))
-        self.infoWindow.setGeometry(QCursor.pos().x() - 150, QCursor.pos().y() + 50, 340, self.infoWindow.
-                                sizeHint().height())
-    else:
-        self.infoWindow.setMinimumSize(QtCore.QSize(300, self.infoWindow.sizeHint().height()))
-        self.infoWindow.setMaximumSize(QtCore.QSize(300, self.infoWindow.sizeHint().height()))
-        self.infoWindow.setGeometry(QCursor.pos().x() - 150, QCursor.pos().y() + 50, 300, self.infoWindow.
+    self.infoWindow.setMinimumSize(QtCore.QSize(320, self.infoWindow.sizeHint().height()))
+    self.infoWindow.setMaximumSize(QtCore.QSize(320, self.infoWindow.sizeHint().height()))
+    self.infoWindow.setGeometry(QCursor.pos().x() - 150, QCursor.pos().y() + 50, 320, self.infoWindow.
                                 sizeHint().height())
     if self.infoWindow.exec_():
         font1 = QtGui.QFont()
-        font1.setFamily(_fromUtf8("font/DroidSansFallbackFull.ttf"))
+        font1.setFamily("font/SourceSansPro-Regular.ttf")
         font1.setPointSize(10)
         font1.setBold(True)
         font1.setUnderline(True)
         font1.setWeight(75)
         font1.setStyleStrategy(QtGui.QFont.PreferAntialias)
         font2 = QtGui.QFont()
-        font2.setFamily(_fromUtf8("font/DroidSansFallbackFull.ttf"))
+        font2.setFamily("font/SourceSansPro-Regular.ttf")
         font2.setPointSize(10)
         font2.setBold(False)
         font2.setWeight(50)
         font2.setStyleStrategy(QtGui.QFont.PreferAntialias)
-        tmp = QtGui.QCheckBox()
+        tmp = QtWidgets.QCheckBox()
         tmp.setFont(font2)
-        tmp.setObjectName(_fromUtf8(self.infoWindow.ck_inputLine.text()))
+        tmp.setObjectName(self.infoWindow.ck_inputLine.text())
         tmp.setText(self.infoWindow.ck_inputLine.text())
         tmp.setStyleSheet(""".QCheckBox {margin-left: 10px;}""")
-        labelTitle = QtGui.QLabel()
+        labelTitle = QtWidgets.QLabel()
         labelTitle.setFont(font1)
-        labelTitle.setObjectName(_fromUtf8("labelTitle"))
+        labelTitle.setObjectName("labelTitle")
         labelTitle.setText("User-defined:")    
-        
         if self.ck_xy_dict.get(str(self.sender().objectName()[:2]))[0] == 0 and self.ck_xy_dict.get(
                 str(self.sender().objectName()[:2]))[1] == 0:
             self.ck_lay_dict.get(str(self.sender().objectName()[:2])).addWidget(labelTitle, self.
@@ -90,27 +62,27 @@ def add_clicked(self):
 
 def add_read(self, parent, text):
     font1 = QtGui.QFont()
-    font1.setFamily(_fromUtf8("font/DroidSansFallbackFull.ttf"))
+    font1.setFamily("font/SourceSansPro-Regular.ttf")
     font1.setPointSize(10)
     font1.setBold(True)
     font1.setUnderline(True)
     font1.setWeight(75)
     font1.setStyleStrategy(QtGui.QFont.PreferAntialias)
     font2 = QtGui.QFont()
-    font2.setFamily(_fromUtf8("font/DroidSansFallbackFull.ttf"))
+    font2.setFamily("font/SourceSansPro-Regular.ttf")
     font2.setPointSize(10)
     font2.setBold(False)
     font2.setWeight(50)
     font2.setStyleStrategy(QtGui.QFont.PreferAntialias)
-    tmp = QtGui.QCheckBox()
+    tmp = QtWidgets.QCheckBox()
     tmp.setFont(font2)
-    tmp.setObjectName(_fromUtf8(text))
+    tmp.setObjectName(text)
     tmp.setText(text)
     tmp.setStyleSheet(""".QCheckBox {margin-left: 10px;}""")
     tmp.setChecked(True)
-    labelTitle = QtGui.QLabel()
+    labelTitle = QtWidgets.QLabel()
     labelTitle.setFont(font1)
-    labelTitle.setObjectName(_fromUtf8("labelTitle"))
+    labelTitle.setObjectName("labelTitle")
     labelTitle.setText("User-defined:")    
     
     if self.ck_xy_dict.get(str(parent).lower())[0] == 0 and self.ck_xy_dict.get(str(parent).lower())[1] == 0:
@@ -127,19 +99,19 @@ def add_read(self, parent, text):
 
 
 def button_clicked(self):
+    if "_infoButton" in self.sender().objectName():
+        infoText = self.buttonInformation[0]
+    elif "infoButton_" in self.sender().objectName():
+        infoNumber = int(self.sender().objectName()[11:])
+        infoText = self.buttonInformation[infoNumber]
     x = QCursor.pos().x()
-    y = QCursor.pos().y()
-    textInfo = ("<p align=justify>Use this button to add a new checkbox. Each activated checkbox is "
-    + "then saved in the XML file with the code <b>xx_User</b>.</p><p align=center style='color:#C80"
-    + "000'><b>All non-activated checkboxes will not be saved and will be lost.</b></p><p align=jus"
-    + "tify>As the PDF report generator is limited to 12 checkboxes per section, you cannot create "
-    + "more than 12 checkboxes per section in ASMM Creator Online.</p>")
+    y = QCursor.pos().y()    
     x = x - 175
     y = y + 50
-    self.infoWindow = MyInfo(textInfo)
-    self.infoWindow.setMinimumSize(QtCore.QSize(350, self.infoWindow.sizeHint().height()))
-    self.infoWindow.setMaximumSize(QtCore.QSize(350, self.infoWindow.sizeHint().height()))
-    self.infoWindow.setGeometry(x, y, 350, self.infoWindow.sizeHint().height())
+    self.infoWindow = MyInfo(infoText)
+    self.infoWindow.setMinimumSize(QtCore.QSize(450, self.infoWindow.sizeHint().height()))
+    self.infoWindow.setMaximumSize(QtCore.QSize(450, self.infoWindow.sizeHint().height()))
+    self.infoWindow.setGeometry(x, y, 450, self.infoWindow.sizeHint().height())
     self.infoWindow.exec_()
  
 
@@ -147,7 +119,7 @@ def add_image(self, filename):
     if "http://" in filename or "www." in filename:
         temp_name = next(tempfile._get_candidate_names())
         imagename = self.dirpath + "/" + temp_name + ".jpg"
-        urllib.urlretrieve(str(filename), imagename)
+        urllib.request.urlretrieve(str(filename), imagename)
         tmp0 = Image.open(imagename)
         filename = imagename
     else:
@@ -164,79 +136,81 @@ def add_image(self, filename):
         h2 = 300
         w2 = float(h2) * float(ratio)
     font = QtGui.QFont()
-    font.setFamily(_fromUtf8("font/DroidSansFallbackFull.ttf"))
+    font.setFamily("font/SourceSansPro-Regular.ttf")
     font.setPointSize(10)
     font.setBold(True)
     font.setUnderline(True)
     font.setWeight(75)
     font.setStyleStrategy(QtGui.QFont.PreferAntialias)
-    
     font2 = QtGui.QFont()
-    font2.setFamily(_fromUtf8("font/FreeSans.ttf"))
+    font2.setFamily("font/SourceSansPro-Regular.ttf")
     font2.setPointSize(10)
-    if os.name == "posix":
-        font2.setBold(True)
-        font2.setWeight(75)
-    elif os.name == "nt":
-        font2.setBold(False)
-        font2.setWeight(50)
-    else:
-        font2.setBold(True)
-        font2.setWeight(75)
-    tmp2 = QtGui.QHBoxLayout()
+    font2.setBold(False)
+    font2.setWeight(50)
+    tmp2 = QtWidgets.QHBoxLayout()
     self.im_horlay.append(tmp2)
-    self.im_horlay[self.im_number].setObjectName(_fromUtf8("im_horlay" + str(self.im_number)))
+    self.im_horlay[self.im_number].setObjectName("im_horlay" + str(self.im_number))
     tmp3 = ExtendedQLabel()
     self.im_label.append(tmp3)
-    self.im_label[self.im_number].setObjectName(_fromUtf8("im_label" + str(self.im_number)))
+    self.im_label[self.im_number].setObjectName("im_label" + str(self.im_number))
     self.im_label[self.im_number].setMinimumSize(QtCore.QSize(w2, h2))
     self.im_label[self.im_number].setMaximumSize(QtCore.QSize(w2, h2))
     self.im_label[self.im_number].setPixmap(QtGui.QPixmap(filename))
     self.im_label[self.im_number].setScaledContents(True)
     self.im_horlay[self.im_number].addWidget(self.im_label[self.im_number])
-    spacerItem1 = QtGui.QSpacerItem(20, 20, QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Fixed)
+    spacerItem1 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
     self.im_horlay[self.im_number].addItem(spacerItem1)
-    tmp4 = QtGui.QVBoxLayout()
+    tmp4 = QtWidgets.QVBoxLayout()
     self.im_verlay.append(tmp4)
-    self.im_verlay[self.im_number].setObjectName(_fromUtf8("im_verlay" + str(self.im_number)))
+    self.im_verlay[self.im_number].setObjectName("im_verlay" + str(self.im_number))
     self.im_horlay[self.im_number].addLayout(self.im_verlay[self.im_number])
-    spacerItem4 = QtGui.QSpacerItem(20, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Expanding)
+    spacerItem4 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
     self.im_verlay[self.im_number].addItem(spacerItem4)
-    tmp5 = QtGui.QLabel()
+    tmp5 = QtWidgets.QLabel()
     self.im_caption.append(tmp5)
-    self.im_caption[self.im_number].setObjectName(_fromUtf8("im_caption" + str(self.im_number)))
+    self.im_caption[self.im_number].setObjectName("im_caption" + str(self.im_number))
     self.im_caption[self.im_number].setMinimumSize(QtCore.QSize(100, 27))
     self.im_caption[self.im_number].setMaximumSize(QtCore.QSize(100, 27))
     self.im_caption[self.im_number].setFont(font)
     self.im_caption[self.im_number].setText("Caption:")
     self.im_verlay[self.im_number].addWidget(self.im_caption[self.im_number])
-    tmp6 = QtGui.QLineEdit()
+    tmp6 = QtWidgets.QLineEdit()
     self.im_textbox.append(tmp6)
     self.im_textbox[self.im_number].setMinimumSize(QtCore.QSize(300, 27))
     self.im_textbox[self.im_number].setMaximumSize(QtCore.QSize(300, 27))
     self.im_textbox[self.im_number].setFrame(False)
     self.im_textbox[self.im_number].setFont(font2)
-    self.im_textbox[self.im_number].setObjectName(_fromUtf8("im_textbox" + str(self.im_number)))
+    self.im_textbox[self.im_number].setStyleSheet("QLineEdit {\n"
+    "    border-radius: 3px;\n"
+    "    padding: 1px 4px 1px 4px;\n"
+    "    background-color:  rgb(240, 240, 240);\n"
+    "}")
+    self.im_textbox[self.im_number].setObjectName("im_textbox" + str(self.im_number))
     self.im_verlay[self.im_number].addWidget(self.im_textbox[self.im_number])
-    spacerItem5 = QtGui.QSpacerItem(20, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Expanding)
+    spacerItem5 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
     self.im_verlay[self.im_number].addItem(spacerItem5)
-    spacerItem2 = QtGui.QSpacerItem(20, 20, QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Fixed)
+    spacerItem2 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
     self.im_horlay[self.im_number].addItem(spacerItem2)
     icon1 = QtGui.QIcon()
-    icon1.addPixmap(QtGui.QPixmap(_fromUtf8("icons/del_icon.png")), QtGui.QIcon.
+    icon1.addPixmap(QtGui.QPixmap("icons/del_icon.png"), QtGui.QIcon.
                     Normal, QtGui.QIcon.Off)
-    tmp7 = QtGui.QToolButton()
+    tmp7 = QtWidgets.QToolButton()
     self.im_del.append(tmp7)
     self.im_del[self.im_number].setMinimumSize(QtCore.QSize(27, 27))
     self.im_del[self.im_number].setMaximumSize(QtCore.QSize(27, 27))
-    self.im_del[self.im_number].setText(_fromUtf8(""))
+    self.im_del[self.im_number].setText("")
     self.im_del[self.im_number].setIcon(icon1)
     self.im_del[self.im_number].setIconSize(QtCore.QSize(27, 27))
     self.im_del[self.im_number].setToolButtonStyle(QtCore.Qt.ToolButtonIconOnly)
+    self.im_del[self.im_number].setStyleSheet("QToolButton:hover {border: 1px solid gray; border-radius: 4px; background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #f6f7fa, stop: 1 #dadbde); width: 27px; height: 27px;}\n"
+    "\n"
+    "QToolButton:pressed {background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #dadbde, stop: 1 #f6f7fa);}\n"
+    "\n"
+    "QToolButton:flat {border: none;}")
     self.im_del[self.im_number].setAutoRaise(True)
-    self.im_del[self.im_number].setObjectName(_fromUtf8("im_del" + str(self.im_number)))
+    self.im_del[self.im_number].setObjectName("im_del" + str(self.im_number))
     self.im_horlay[self.im_number].addWidget(self.im_del[self.im_number])
-    spacerItem3 = QtGui.QSpacerItem(20, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Expanding)
+    spacerItem3 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
     self.im_horlay[self.im_number].addItem(spacerItem3)
     self.verticalLayout_52.addLayout(self.im_horlay[self.im_number])
     self.im_number += 1
@@ -265,12 +239,12 @@ def delete_image(self, index=None):
     if len(self.im_horlay) > 0:
         i = 0
         for i in range(0, len(self.im_horlay)):
-            self.im_horlay[i].setObjectName(_fromUtf8("im_horlay" + str(i)))
-            self.im_verlay[i].setObjectName(_fromUtf8("im_verlay" + str(i)))
-            self.im_label[i].setObjectName(_fromUtf8("im_label" + str(i)))
-            self.im_caption[i].setObjectName(_fromUtf8("im_caption" + str(i)))
-            self.im_textbox[i].setObjectName(_fromUtf8("im_textbox" + str(i)))
-            self.im_del[i].setObjectName(_fromUtf8("im_del" + str(i)))
+            self.im_horlay[i].setObjectName("im_horlay" + str(i))
+            self.im_verlay[i].setObjectName("im_verlay" + str(i))
+            self.im_label[i].setObjectName("im_label" + str(i))
+            self.im_caption[i].setObjectName("im_caption" + str(i))
+            self.im_textbox[i].setObjectName("im_textbox" + str(i))
+            self.im_del[i].setObjectName("im_del" + str(i))
 
 
 def display_image(self):
@@ -286,8 +260,8 @@ def display_image(self):
     else:
         h2 = 600
         w2 = float(h2) * float(ratio)
-    pos_x = float(QtGui.QDesktopWidget().screenGeometry().width()) / 2 - (float(w2) + 30) / 2
-    pos_y = float(QtGui.QDesktopWidget().screenGeometry().height()) / 2 - (float(h2) + 75) / 2
+    pos_x = float(QtWidgets.QDesktopWidget().screenGeometry().width()) / 2 - (float(w2) + 30) / 2
+    pos_y = float(QtWidgets.QDesktopWidget().screenGeometry().height()) / 2 - (float(h2) + 75) / 2
     self.imageWindow = MyImage(filename, w2, h2)
     self.imageWindow.setMinimumSize(QtCore.QSize(w2 + 30, h2 + 75))
     self.imageWindow.setMaximumSize(QtCore.QSize(w2 + 30, h2 + 75))
@@ -295,7 +269,7 @@ def display_image(self):
     self.imageWindow.exec_()
 
 
-class MyAdd(QtGui.QDialog, Ui_Addcheckbox):
+class MyAdd(QtWidgets.QDialog, Ui_Addcheckbox):
     def __init__(self, parent = None):
         QWidget.__init__(self, parent)
         self.setupUi(self)
@@ -309,7 +283,7 @@ class MyAdd(QtGui.QDialog, Ui_Addcheckbox):
         self.accept()
         
 
-class MyInfo(QtGui.QDialog, Ui_infoWindow):
+class MyInfo(QtWidgets.QDialog, Ui_infoWindow):
     def __init__(self, infoText):
         QWidget.__init__(self)
         self.setupUi(self)
@@ -320,7 +294,7 @@ class MyInfo(QtGui.QDialog, Ui_infoWindow):
         self.close()
 
 
-class MyImage(QtGui.QDialog, Ui_ImageWindow):
+class MyImage(QtWidgets.QDialog, Ui_ImageWindow):
     def __init__(self, imagePath, w2, h2):
         QWidget.__init__(self)
         self.setupUi(self)
@@ -329,6 +303,7 @@ class MyImage(QtGui.QDialog, Ui_ImageWindow):
         self.label.setMinimumSize(QtCore.QSize(w2, h2))
         self.label.setMaximumSize(QtCore.QSize(w2, h2))
         self.pushButton.clicked.connect(self.closeWindow)
+        self.setWindowTitle(os.path.basename(imagePath))
         
     def closeWindow(self):
         self.close()
@@ -336,7 +311,9 @@ class MyImage(QtGui.QDialog, Ui_ImageWindow):
 
 class ExtendedQLabel(QLabel):
     def __init(self, parent):
-        QLabel.__init__(self, parent)
+        super().__init__(parent)
+        
+    clicked = pyqtSignal()
  
-    def mouseReleaseEvent(self, ev):
-        self.emit(SIGNAL('clicked()'))
+    def mousePressEvent(self, ev):
+        self.clicked.emit()

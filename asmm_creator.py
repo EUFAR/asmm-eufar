@@ -1,14 +1,12 @@
 # -*- coding: utf-8 -*-
 
-#import netCDF4  # @UnusedImport pyinstaller modification
-import numpy  # @UnusedImport pyinstaller modification
-import sys
-from PyQt4 import QtGui
+from PyQt5.QtWidgets import QApplication
 from ui.mainwindow import MainWindow
 
 
 def launch_asmm_creator():
-    app = QtGui.QApplication(sys.argv)
+    import sys
+    app = QApplication(sys.argv)
     ui = MainWindow()
     ui.show()
     sys.exit(app.exec_())

@@ -33,7 +33,7 @@ doclines = __doc__.split('\n')
 
 
 setup(name='asmm',
-      version='1.0.0',
+      version='1.0.3',
       description=doclines[0],
       long_description='\n'.join(doclines[2:]),
       author='EUFAR',
@@ -41,11 +41,11 @@ setup(name='asmm',
       maintainer='Olivier Henry',
       maintainer_email='olivier.henry@meteo.fr',
       url='http://www.eufar.net',
-      download_url='http://code.google.com/p/asmm-creator',
+      download_url='https://github.com/eufarn7sp/asmm-eufar',
       license='New BSD License',
       keywords=['airbornescience', 'xml', 'eufar', 'science', 'metadata'],
       packages=['ui','font','functions','icons'],
       classifiers=filter(None, classifiers.split("\n")),
-      requires=['PyQt4 (>=4.11.2)','reportlab (>=3.1.31)','netCDF4-python (>=1.1.7)'],
-      install_requires=['PyQt4 (>=4.11.2)','reportlab (>=3.1.31)','netCDF4-python (>=1.1.7)'],
+      requires=['PyQt5 (>=5.6)','reportlab (>=3.3.9)','netCDF4-python (>=1.2.4)'],
+      install_requires=['PyQt5 (>=5.6)','reportlab (>=3.3.9)','netCDF4-python (>=1.2.4)'],
       )

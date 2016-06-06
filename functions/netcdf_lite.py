@@ -9,7 +9,7 @@ class FileCore(object):
         self.filename = filename
         self.perms = perms
 
-        for key, val in kwargs.iteritems():
+        for key, val in iter(kwargs.items()):
             setattr(self, key, val)
         if filename is not None:
             self._open_file(filename, perms)
@@ -78,13 +78,13 @@ class NetCdf(FileCore):
         except KeyError:
             raise KeyError("ERROR: Variable %s does not exist in %s" % (varname, self.filename))
         except Exception:
-            print "Error: Unexpected error"
+            print("Error: Unexpected error")
             raise
         if input_range is None:
             value = varin[:]
         else:
             obj = 'slice(input_range[0], input_range[1])'
-            for i in xrange(2, len(input_range), 2):
+            for i in range(2, len(input_range), 2):
                 obj = obj + ', slice(input_range[%i], input_range[%i])' % (i, i + 1)
             value = varin[eval(obj)]
         return value
@@ -98,7 +98,7 @@ class NetCdf(FileCore):
         except RuntimeError:
             raise RuntimeError("ERROR: File %s doesn't exist" % (filename))
         except Exception:
-            print "ERROR: Unexpected error"
+            print("ERROR: Unexpected error")
             raise
 
     def _get_attribute_list(self, var=None):

@@ -3,44 +3,34 @@
 import webbrowser
 import tempfile
 import shutil
-import os
-from PyQt4 import QtCore
-from PyQt4 import QtGui
-from PyQt4.QtCore import pyqtSignature
-from PyQt4.QtCore import QObject
-from PyQt4.QtCore import SIGNAL
-from PyQt4.QtGui import QCheckBox
-from PyQt4.QtGui import QComboBox
-from PyQt4.QtGui import QCursor
-from PyQt4.QtGui import QFileDialog
-from PyQt4.QtGui import QInputDialog
-from PyQt4.QtGui import QLineEdit
-from PyQt4.QtGui import QListWidget
-from PyQt4.QtGui import QMainWindow
-from PyQt4.QtGui import QMessageBox
-from PyQt4.QtGui import QPushButton
-from PyQt4.QtGui import QTextEdit
-from PyQt4.QtGui import QToolButton
-from PyQt4.QtGui import QWidget
-if os.name == "posix":
-    from Ui_mainwindow import Ui_MainWindow
-elif os.name == "nt":
-    from Ui_mainwindow_windows import Ui_MainWindow
-else:
-    from Ui_mainwindow import Ui_MainWindow
-from Ui_aboutwindow import Ui_aboutWindow
-from Ui_aboutstandard import Ui_aboutStandard
-from Ui_aboutresolution import Ui_aboutResolution
-from Ui_logwindow import Ui_Changelog
-from Ui_presavewindow import Ui_presaveWindow
-from Ui_addsite import Ui_Addsite
-from Ui_addUrl import Ui_AddURL
-from _version import _asmm_version
-from _version import _xml_version
-from _version import _py_version
-from _version import _report_version
-from _version import _qt_version
-from _version import _eclipse_version
+from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtCore import pyqtSlot
+from PyQt5.QtWidgets import QCheckBox
+from PyQt5.QtWidgets import QComboBox
+from PyQt5.QtGui import QCursor
+from PyQt5.QtWidgets import QFileDialog
+from PyQt5.QtWidgets import QInputDialog
+from PyQt5.QtWidgets import QLineEdit
+from PyQt5.QtWidgets import QListWidget
+from PyQt5.QtWidgets import QMainWindow
+from PyQt5.QtWidgets import QMessageBox
+from PyQt5.QtWidgets import QPushButton
+from PyQt5.QtWidgets import QTextEdit
+from PyQt5.QtWidgets import QToolButton
+from PyQt5.QtWidgets import QWidget
+from ui.Ui_mainwindow import Ui_MainWindow
+from ui.Ui_aboutwindow import Ui_aboutWindow
+from ui.Ui_aboutstandard import Ui_aboutStandard
+from ui.Ui_logwindow import Ui_Changelog
+from ui.Ui_presavewindow import Ui_presaveWindow
+from ui.Ui_addsite import Ui_Addsite
+from ui.Ui_addUrl import Ui_AddURL
+from ui._version import _asmm_version
+from ui._version import _xml_version
+from ui._version import _py_version
+from ui._version import _report_version
+from ui._version import _qt_version
+from ui._version import _eclipse_version
 from functions.asmm_xml import create_asmm_xml
 from functions.asmm_xml import read_asmm_xml
 from functions.asmm_pdf import create_asmm_pdf
@@ -53,77 +43,38 @@ from functions.button_functions import display_image
 from functions.sql_functions import objectsInit
 
 
-try:
-    _fromUtf8 = QtCore.QString.fromUtf8
-except AttributeError:
-    def _fromUtf8(s):
-        return s
-
-
 class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self, parent=None):
         QMainWindow.__init__(self, parent)
-        self.resolution = QtGui.QDesktopWidget().screenGeometry()
-        self.tabLayout = 0
-        if self.resolution.height() < 1000:
-            self.tabLayout = 1
-            self.setupUi_tab(self)
-        else:
-            self.setupUi(self)
+        self.setupUi(self)
         objectsInit(self)
         self.dirpath = tempfile.mkdtemp()
         all_check_boxes = self.findChildren(QCheckBox)
         for check_box in all_check_boxes:
-            QObject.connect(check_box, SIGNAL("stateChanged(int)"), self.set_modified)
+            check_box.stateChanged.connect(lambda: self.set_modified())
         all_text_edits = self.findChildren(QTextEdit)
         for widget in all_text_edits:
-            QObject.connect(widget, SIGNAL("textChanged()"), self.set_modified) 
+            widget.textChanged.connect(lambda: self.set_modified())
         all_line_edits = self.findChildren(QLineEdit)
         for widget in all_line_edits:
-            QObject.connect(widget, SIGNAL("textChanged(QString)"), self.set_modified)   
-        QObject.connect(self.dateLine, SIGNAL("dateChanged(QDate)"), self.set_modified)
+            widget.textChanged.connect(lambda: self.set_modified())
+        self.dateLine.dateChanged.connect(lambda: self.set_modified()) 
         all_info_boxes = self.findChildren(QToolButton)
         for widget in all_info_boxes:
-            QObject.connect(widget, SIGNAL("clicked()"), self.infoButton_clicked)
+            widget.clicked.connect(lambda: self.infoButton_clicked())
         all_add_boxes = self.findChildren(QPushButton)
         for widget in all_add_boxes:
-            QObject.connect(widget, SIGNAL("clicked()"), self.addButton_clicked)
+            widget.clicked.connect(lambda: self.addButton_clicked())
         all_rolbox_edits = self.findChildren(QComboBox)
         for widget in all_rolbox_edits:
-            QObject.connect(widget, SIGNAL("activated(QString)"), self.set_modified)
-        QObject.connect(self.operatorList, SIGNAL("activated(QString)"), self.operator_changed)
+            widget.activated.connect(lambda: self.set_modified())
+        self.operatorList.activated.connect(lambda: self.operator_changed())
         self.locationList.addItems(self.locations)
-        QObject.connect(self.locationList, SIGNAL("activated(QString)"), self.location_changed)
+        self.locationList.activated.connect(lambda: self.location_changed())
         self.make_window_title()
-        if (self.resolution.height() > 1080) & (self.resolution.width() > 1920):
-            aboutText = ("Your screen appears to have a resolution greater than 1920 x 1080. " 
-                         + "ASMM is currently not fully compatible with such high resolutions "
-                         + "and can show display issues. Until the release of a new version "
-                         + "supporting high resolutions, please use the online version of ASMM, "
-                         + "available at http://176.31.165.18:8080/asmm-eufar/, or at www.eufar."
-                         + "net/tools/.")
-            self.resolutionWindow = MyResolution(aboutText)
-            x1, y1, w1, h1 = self.geometry().getRect()
-            x2, y2, w2, h2 = self.resolutionWindow.geometry().getRect()  # @UnusedVariable
-            x2 = x1 + w1/2 - w2/2
-            y2 = y1 + h1/2 - h2/2
-            self.resolutionWindow.setGeometry(x2, y2, w2, h2)
-            self.resolutionWindow.setMinimumSize(QtCore.QSize(400, self.resolutionWindow.sizeHint().height()))
-            self.resolutionWindow.setMaximumSize(QtCore.QSize(400, self.resolutionWindow.sizeHint().height()))
-            self.resolutionWindow.exec_()
 
 
-    @pyqtSignature("")
-    def on_generateXMLButton_clicked(self):
-        self.save_document()
-    
-    
-    @pyqtSignature("")
-    def on_exitButton_clicked(self):
-        self.close()
-
-
-    @pyqtSignature("")
+    @pyqtSlot()
     def on_actionNew_triggered(self):
         if self.modified:
             result = self.make_onsave_msg_box("Clear","new_icon.png")
@@ -136,18 +87,20 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.reset_all_fields()
 
 
-    @pyqtSignature("")
+    @pyqtSlot()
     def on_actionSave_triggered(self):
         self.save_document()
 
 
-    @pyqtSignature("")
+    @pyqtSlot()
     def on_actionSave_As_triggered(self):
+        pass
         self.save_document(save_as=True)
 
 
-    @pyqtSignature("")
+    @pyqtSlot()
     def on_actionPrint_triggered(self):
+        pass
         self.out_file_name_pdf = self.get_file_name_pdf()
         if not self.out_file_name_pdf:
             return
@@ -156,7 +109,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         create_asmm_pdf(self, self.out_file_name_pdf)
 
 
-    @pyqtSignature("")
+    @pyqtSlot()
     def on_actionOpen_triggered(self):
         if self.modified:
             result = self.make_onsave_msg_box("Open","open_icon.png")
@@ -169,17 +122,17 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.open_file()
 
 
-    @pyqtSignature("")
+    @pyqtSlot()
     def on_actionExit_triggered(self):
         self.close()
 
 
-    @pyqtSignature("")
+    @pyqtSlot()
     def on_actionEUFAR_N7SP_triggered(self):
         webbrowser.open('http://www.eufar.net/cms/standards-and-protocols/')
 
 
-    @pyqtSignature("")
+    @pyqtSlot()
     def on_actionASMM_CreatorAbout_triggered(self):
         aboutText = ("The Airborne Science Mission Metadata (ASMM) Creator v%s offline version, was "
         + "developed by EUFAR using Eclipse %s, Python %s and PyQt %s. XML files generated by this "
@@ -202,19 +155,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         x2 = x1 + w1/2 - w2/2
         y2 = y1 + h1/2 - h2/2
         self.aboutWindow.setGeometry(x2, y2, w2, h2)
-        if os.name == "posix":
-            self.aboutWindow.setMinimumSize(QtCore.QSize(480, self.aboutWindow.sizeHint().height()))
-            self.aboutWindow.setMaximumSize(QtCore.QSize(480, self.aboutWindow.sizeHint().height()))
-        elif os.name == "nt":
-            self.aboutWindow.setMinimumSize(QtCore.QSize(560, self.aboutWindow.sizeHint().height()))
-            self.aboutWindow.setMaximumSize(QtCore.QSize(560, self.aboutWindow.sizeHint().height()))
-        else:
-            self.aboutWindow.setMinimumSize(QtCore.QSize(480, self.aboutWindow.sizeHint().height()))
-            self.aboutWindow.setMaximumSize(QtCore.QSize(480, self.aboutWindow.sizeHint().height()))
+        self.aboutWindow.setMinimumSize(QtCore.QSize(480, self.aboutWindow.sizeHint().height()))
+        self.aboutWindow.setMaximumSize(QtCore.QSize(480, self.aboutWindow.sizeHint().height()))
         self.aboutWindow.exec_()
 
     
-    @pyqtSignature("")
+    @pyqtSlot()
     def on_actionASMM_XML_Standard_triggered(self):
         aboutText = ("<html><head/><body><p align=justify>The Airborne Science Mission Metadata (ASM"
         + "M) standard aims to harmonise descriptive information of science research flights. This "
@@ -230,19 +176,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         x2 = x1 + w1/2 - w2/2
         y2 = y1 + h1/2 - h2/2
         self.aboutWindow.setGeometry(x2, y2, w2, h2)
-        if os.name == "posix":
-            self.aboutWindow.setMinimumSize(QtCore.QSize(460, self.aboutWindow.sizeHint().height()))
-            self.aboutWindow.setMaximumSize(QtCore.QSize(460, self.aboutWindow.sizeHint().height()))
-        elif os.name == "nt":
-            self.aboutWindow.setMinimumSize(QtCore.QSize(560, self.aboutWindow.sizeHint().height()))
-            self.aboutWindow.setMaximumSize(QtCore.QSize(560, self.aboutWindow.sizeHint().height()))
-        else:
-            self.aboutWindow.setMinimumSize(QtCore.QSize(460, self.aboutWindow.sizeHint().height()))
-            self.aboutWindow.setMaximumSize(QtCore.QSize(460, self.aboutWindow.sizeHint().height()))
+        self.aboutWindow.setMinimumSize(QtCore.QSize(460, self.aboutWindow.sizeHint().height()))
+        self.aboutWindow.setMaximumSize(QtCore.QSize(460, self.aboutWindow.sizeHint().height()))
         self.aboutWindow.exec_()
  
 
-    @pyqtSignature("")
+    @pyqtSlot()
     def on_actionChangelog_triggered(self):
         self.logWindow = MyLog()
         x1, y1, w1, h1 = self.geometry().getRect()
@@ -253,7 +192,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.logWindow.exec_()
 
 
-    @pyqtSignature("")
+    @pyqtSlot()
     def on_readBoundingBoxButton_clicked(self):
         lat_min = None
         lat_max = None
@@ -261,13 +200,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         lon_max = None
         alt_min = None
         alt_max = None
-        filename = QFileDialog.getOpenFileName(self,'Open associated NetCDF','','NetCDF files (*.nc'
+        filename, fileext = QFileDialog.getOpenFileName(self,'Open associated NetCDF','','NetCDF files (*.nc'  # @UnusedVariable
                                                ' *.cdf);;All Files (*.*)')
         if not filename:
             return
         f = NetCdf(str(filename))
         var_list = f.get_variable_list()
-        var_list.sort()
+
         try:
             lat_min = f.get_attribute_value("geospatial_lat_min")
             lat_max = f.get_attribute_value("geospatial_lat_max")
@@ -307,30 +246,29 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.southBoundLatitudeLine.setText(str(lat_min))
         self.minAltitudeLine.setText(str(alt_min))
         self.maxAltitudeLine.setText(str(alt_max))
+        self.westBoundLongitudeLine.setCursorPosition(0)
+        self.eastBoundLongitudeLine.setCursorPosition(0)
+        self.northBoundLatitudeLine.setCursorPosition(0)
+        self.southBoundLatitudeLine.setCursorPosition(0)
+        self.minAltitudeLine.setCursorPosition(0)
+        self.maxAltitudeLine.setCursorPosition(0)
 
 
-    @pyqtSignature("")
+    @pyqtSlot()
     def on_imageAddButton_clicked(self):
         if self.verticalLayout_52.count() < 10:
-            filename = QFileDialog.getOpenFileName(self,'Open an image','','All Files (*.*);;Images'
+            filename, fileext = QFileDialog.getOpenFileName(self,'Open an image','','All Files (*.*);;Images'  # @UnusedVariable
                                                    ' (*.jpg *.jpeg *.bmp *.png *.gif *.tiff)')
-            filename = unicode(filename)
             if filename:
                 add_image(self, filename)
-                for widget in self.im_del:
-                    QObject.disconnect(widget, SIGNAL("clicked()"), self.del_image)
-                for widget in self.im_del:
-                    QObject.connect(widget, SIGNAL("clicked()"), self.del_image)
-                for widget in self.im_label:
-                    QObject.disconnect(widget, SIGNAL("clicked()"), self.show_image)
-                for widget in self.im_label:
-                    QObject.connect(widget, SIGNAL("clicked()"), self.show_image)
+                self.im_del[-1].clicked.connect(lambda: self.del_image())
+                self.im_label[-1].clicked.connect(lambda: self.show_image())
         else:    
             alertBox = QMessageBox()
             alertBox.about(self, "Warning", "You can't add more than 10 images.")
 
     
-    @pyqtSignature("")
+    @pyqtSlot()
     def on_urlAddButton_clicked(self):
         if self.verticalLayout_52.count() < 10:
             x = QCursor.pos().x()
@@ -343,14 +281,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.urlWindow.setGeometry(x, y, 300, self.urlWindow.sizeHint().height())
             if self.urlWindow.exec_():
                 add_image(self, self.urlWindow.ck_inputLine.text())
-                for widget in self.im_del:
-                    QObject.disconnect(widget, SIGNAL("clicked()"), self.del_image)
-                for widget in self.im_del:
-                    QObject.connect(widget, SIGNAL("clicked()"), self.del_image)
-                for widget in self.im_label:
-                    QObject.disconnect(widget, SIGNAL("clicked()"), self.show_image)
-                for widget in self.im_label:
-                    QObject.connect(widget, SIGNAL("clicked()"), self.show_image)
+                self.im_del[-1].clicked.connect(lambda: self.del_image())
+                self.im_label[-1].clicked.connect(lambda: self.show_image())
         else:    
             alertBox = QMessageBox()
             alertBox.about(self, "Warning", "You can't add more than 10 images.")
@@ -390,6 +322,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             title_string += ' - modified'
         self.setWindowTitle(title_string)
 
+
     def set_modified(self):
         if not self.modified:
             self.modified = True
@@ -410,16 +343,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def get_file_name(self):
         file_dialog = QFileDialog()
         file_dialog.setDefaultSuffix('xml')
-        out_file_name = unicode(file_dialog.getSaveFileName(self, "Save XML File", filter='XML Files'
-                                                            ' (*.xml);;Text Files (*.txt)'))
+        out_file_name, out_file_ext = file_dialog.getSaveFileName(self, "Save XML File", filter='XML Files (*.xml)')  # @UnusedVariable
         return out_file_name
 
 
     def get_file_name_pdf(self):
         file_dialog = QFileDialog()
         file_dialog.setDefaultSuffix('pdf')
-        out_file_name_pdf = unicode(file_dialog.getSaveFileName(self, "Save PDF File", filter='PDF '
-                                                                'Files (*.pdf)'))
+        out_file_name_pdf, out_file_ext = file_dialog.getSaveFileName(self, "Save PDF File", filter='PDF Files (*.pdf)')  # @UnusedVariable
         return out_file_name_pdf
 
 
@@ -436,7 +367,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         all_list_widgets = self.findChildren(QListWidget)
         for widget in all_list_widgets:
             widget.clear()
-        
         for i in reversed(range(self.gridLayout_5.count())):
             self.gridLayout_5.itemAt(i).widget().deleteLater()
         for i in reversed(range(self.gridLayout_8.count())):
@@ -458,10 +388,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.operatorList.setCurrentIndex(0)
         if hasattr(self, "tmpOperatorLine"):
             if self.horizontalLayout_77.count() > 0:
-                self.label_38.setPixmap(QtGui.QPixmap(_fromUtf8(self.progPath + "/icons/fwd_arrow_e"
-                                                                "mpty.png")))
-                self.label_39.setPixmap(QtGui.QPixmap(_fromUtf8(self.progPath + "/icons/fwd_arrow_e"
-                                                                "mpty.png")))
+                self.label_38.setPixmap(QtGui.QPixmap(self.progPath + "/icons/fwd_arrow_e"
+                                                                "mpty.png"))
+                self.label_39.setPixmap(QtGui.QPixmap(self.progPath + "/icons/fwd_arrow_e"
+                                                                "mpty.png"))
                 self.tmpOperatorLine.deleteLater()
                 self.tmpAircraftLine.deleteLater()
         self.aircraftList.clear()
@@ -489,9 +419,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
 
     def open_file(self):
-        (out_file_name, filter) = QFileDialog.getOpenFileNameAndFilter(self, "Open XML File", filter  # @ReservedAssignment
-                                                                       ="XML Files (*.xml)")
-        out_file_name = unicode(out_file_name)
+        out_file_name, out_file_ext = QFileDialog.getOpenFileName(self,'Open XML File','','XML Files (*.xml)')  # @UnusedVariable
         if out_file_name:
             read_asmm_xml(self, out_file_name)
             self.saved = True
@@ -522,7 +450,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         selected_line = listWidget.currentRow()
         if selected_line >= 0:
             selected_item = listWidget.currentItem()
-            item_list.remove(unicode(selected_item.text()))
+            item_list.remove(selected_item.text())
             listWidget.takeItem(selected_line)
             self.modified = True
             self.make_window_title()
@@ -589,51 +517,54 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if self.operatorList.currentText() == "Make a choice...":
             if hasattr(self, "tmpOperatorLine"):
                 if self.horizontalLayout_77.count() > 0:
-                    self.label_38.setPixmap(QtGui.QPixmap(_fromUtf8("icons/fwd_arrow_empty.png")))
-                    self.label_39.setPixmap(QtGui.QPixmap(_fromUtf8("icons/fwd_arrow_empty.png")))
+                    self.label_38.setPixmap(QtGui.QPixmap("icons/fwd_arrow_empty.png"))
+                    self.label_39.setPixmap(QtGui.QPixmap("icons/fwd_arrow_empty.png"))
                     self.tmpOperatorLine.deleteLater()
                     self.tmpAircraftLine.deleteLater()
             self.aircraftList.clear()
             self.aircraftList.setEnabled(False)
         elif self.operatorList.currentText() == "Other...":
             font = QtGui.QFont()
-            font.setFamily(_fromUtf8("font/FreeSans.ttf"))
+            font.setFamily("font/FreeSans.ttf")
             font.setPointSize(10)
             font.setItalic(False)
-            if os.name == "posix":
-                font.setBold(True)
-                font.setWeight(75)
-            elif os.name == "nt":
-                font.setBold(False)
-                font.setWeight(50)
-            else:
-                font.setBold(True)
-                font.setWeight(75)
+            font.setBold(False)
+            font.setWeight(50)
             font.setStyleStrategy(QtGui.QFont.PreferAntialias)
             self.aircraftList.clear()
             self.aircraftList.addItem("Other")
             self.aircraftList.setEnabled(True)
-            self.label_38.setPixmap(QtGui.QPixmap(_fromUtf8("icons/fwd_arrow.png")))
-            self.label_39.setPixmap(QtGui.QPixmap(_fromUtf8("icons/fwd_arrow.png")))
-            self.tmpOperatorLine = QtGui.QLineEdit(self.flight_information_page)
+            self.label_38.setPixmap(QtGui.QPixmap("icons/fwd_arrow.png"))
+            self.label_39.setPixmap(QtGui.QPixmap("icons/fwd_arrow.png"))
+            self.tmpOperatorLine = QtWidgets.QLineEdit()
             self.tmpOperatorLine.setMinimumSize(QtCore.QSize(300, 27))
             self.tmpOperatorLine.setMaximumSize(QtCore.QSize(300, 27))
             self.tmpOperatorLine.setFrame(False)
             self.tmpOperatorLine.setFont(font)
+            self.tmpOperatorLine.setStyleSheet("QLineEdit {\n"
+            "    border-radius: 3px;\n"
+            "    padding: 1px 4px 1px 4px;\n"
+            "    background-color:  rgb(240, 240, 240);\n"
+            "}")
             self.tmpOperatorLine.setObjectName("tmpOperatorLine")
             self.horizontalLayout_77.addWidget(self.tmpOperatorLine)
-            self.tmpAircraftLine = QtGui.QLineEdit(self.flight_information_page)
+            self.tmpAircraftLine = QtWidgets.QLineEdit()
             self.tmpAircraftLine.setMinimumSize(QtCore.QSize(300, 27))
             self.tmpAircraftLine.setMaximumSize(QtCore.QSize(300, 27))
             self.tmpAircraftLine.setFrame(False)
             self.tmpAircraftLine.setFont(font)
+            self.tmpAircraftLine.setStyleSheet("QLineEdit {\n"
+            "    border-radius: 3px;\n"
+            "    padding: 1px 4px 1px 4px;\n"
+            "    background-color:  rgb(240, 240, 240);\n"
+            "}")
             self.tmpAircraftLine.setObjectName("tmpAircraftLine")
             self.horizontalLayout_78.addWidget(self.tmpAircraftLine)
         else:
             if hasattr(self, "tmpOperatorLine"):
                 if self.horizontalLayout_77.count() > 0:
-                    self.label_38.setPixmap(QtGui.QPixmap(_fromUtf8("icons/fwd_arrow_empty.png")))
-                    self.label_39.setPixmap(QtGui.QPixmap(_fromUtf8("icons/fwd_arrow_empty.png")))
+                    self.label_38.setPixmap(QtGui.QPixmap("icons/fwd_arrow_empty.png"))
+                    self.label_39.setPixmap(QtGui.QPixmap("icons/fwd_arrow_empty.png"))
                     self.tmpOperatorLine.deleteLater()
                     self.tmpAircraftLine.deleteLater()
             self.aircraftList.clear()
@@ -647,7 +578,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.aircraftList.setCurrentIndex(0)
 
 
-class MyAbout(QtGui.QDialog, Ui_aboutWindow):
+class MyAbout(QtWidgets.QDialog, Ui_aboutWindow):
     def __init__(self, aboutText):
         QWidget.__init__(self)
         self.setupUi(self)
@@ -658,7 +589,7 @@ class MyAbout(QtGui.QDialog, Ui_aboutWindow):
         self.close()
         
         
-class MyLog(QtGui.QDialog, Ui_Changelog):
+class MyLog(QtWidgets.QDialog, Ui_Changelog):
     def __init__(self):
         QWidget.__init__(self)
         self.setupUi(self)
@@ -669,7 +600,7 @@ class MyLog(QtGui.QDialog, Ui_Changelog):
         self.close()
  
  
-class MyStandard(QtGui.QDialog, Ui_aboutStandard):
+class MyStandard(QtWidgets.QDialog, Ui_aboutStandard):
     def __init__(self, aboutText):
         QWidget.__init__(self)
         self.setupUi(self)
@@ -680,18 +611,17 @@ class MyStandard(QtGui.QDialog, Ui_aboutStandard):
         self.close() 
  
  
-class MyWarning(QtGui.QDialog, Ui_presaveWindow):
+class MyWarning(QtWidgets.QDialog, Ui_presaveWindow):
     def __init__(self, string, iconName):
         QWidget.__init__(self)
         self.setupUi(self)
         self.iw_cancelButton.setFocus(True)
         all_buttons = self.findChildren(QPushButton)
         for widget in all_buttons:
-            QObject.connect(widget, SIGNAL("clicked()"), self.closeWindow) 
+            widget.clicked.connect(self.closeWindow)
         self.iw_nosaveButton.setText(string + " without saving")
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(_fromUtf8("icons/" + iconName)), QtGui.QIcon.
-                       Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("icons/" + iconName), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.iw_nosaveButton.setIcon(icon)
 
     def closeWindow(self):
@@ -699,7 +629,7 @@ class MyWarning(QtGui.QDialog, Ui_presaveWindow):
         self.close()
  
      
-class MySite(QtGui.QDialog, Ui_Addsite):
+class MySite(QtWidgets.QDialog, Ui_Addsite):
     def __init__(self, parent = None):
         QWidget.__init__(self, parent)
         self.setupUi(self)
@@ -713,7 +643,7 @@ class MySite(QtGui.QDialog, Ui_Addsite):
         self.accept()
         
 
-class MyURL(QtGui.QDialog, Ui_AddURL):
+class MyURL(QtWidgets.QDialog, Ui_AddURL):
     def __init__(self, parent = None):
         QWidget.__init__(self, parent)
         self.setupUi(self)
@@ -726,13 +656,3 @@ class MyURL(QtGui.QDialog, Ui_AddURL):
     def submitBox(self):
         self.accept()
         
-        
-class MyResolution(QtGui.QDialog, Ui_aboutResolution):
-    def __init__(self, aboutText):
-        QWidget.__init__(self)
-        self.setupUi(self)
-        self.aw_label_1.setText(aboutText)
-        self.aw_okButton.clicked.connect(self.closeWindow)
-
-    def closeWindow(self):
-        self.close() 

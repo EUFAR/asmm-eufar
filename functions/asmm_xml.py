@@ -2,10 +2,10 @@
 
 import datetime
 import xml.dom.minidom
-from PyQt4 import QtGui, QtCore
-from PyQt4.QtCore import Qt
-from PyQt4.QtCore import QDate
-from PyQt4.QtGui import QCheckBox
+from PyQt5 import QtCore, QtWidgets
+from PyQt5.QtCore import Qt
+from PyQt5.QtCore import QDate
+from PyQt5.QtWidgets import QCheckBox
 from functions.button_functions import add_read
 
 
@@ -229,7 +229,7 @@ def create_asmm_xml(self, out_file_name):
     # File Creation
     ############################
     f = open(out_file_name, 'w')
-    f.write(doc.toprettyxml(encoding='UTF-8'))
+    f.write(doc.toprettyxml())
     f.close()
     self.saved = True
     self.modified = False
@@ -506,7 +506,7 @@ def set_text_value(text_widget, parent, element_name):
 def add_element(doc, element_name, parent, value=None):
     new_element = doc.createElementNS(NAMESPACE_URI, "asmm:" + element_name)
     if value:
-        new_text = doc.createTextNode(unicode(value))
+        new_text = doc.createTextNode(value)
         new_element.appendChild(new_text)
     parent.appendChild(new_element)
     return new_element
@@ -518,26 +518,26 @@ def add_comment_element(doc, element_name, parent, value):
 
 
 def add_check_elements(doc, check_dict, code_name, parent):
-    for key, val in check_dict.iteritems():
+    for key, val in iter(check_dict.items()):
         if key.isChecked():
             add_element(doc, code_name, parent, val)
 
 
 def find_key(dic, val):
-    return [k for k, v in dic.iteritems() if v == val][0]
+    return [k for k, v in iter(dic.items()) if v == val][0]
 
 
 def operator_read(self):
     self.aircraftList.clear()
     self.aircraftList.addItem("Other")
     self.aircraftList.setEnabled(True)
-    self.tmpOperatorLine = QtGui.QLineEdit(self.flight_information_page)
+    self.tmpOperatorLine = QtWidgets.QLineEdit(self.flight_information_page)
     self.tmpOperatorLine.setMinimumSize(QtCore.QSize(300, 27))
     self.tmpOperatorLine.setMaximumSize(QtCore.QSize(300, 27))
     self.tmpOperatorLine.setFrame(False)
     self.tmpOperatorLine.setObjectName("tmpOperatorLine")
     self.horizontalLayout_77.addWidget(self.tmpOperatorLine)
-    self.tmpAircraftLine = QtGui.QLineEdit(self.flight_information_page)
+    self.tmpAircraftLine = QtWidgets.QLineEdit(self.flight_information_page)
     self.tmpAircraftLine.setMinimumSize(QtCore.QSize(300, 27))
     self.tmpAircraftLine.setMaximumSize(QtCore.QSize(300, 27))
     self.tmpAircraftLine.setFrame(False)

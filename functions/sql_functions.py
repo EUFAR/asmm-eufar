@@ -1,23 +1,5 @@
-# -*- coding: utf-8 -*-
 
-from PyQt4 import QtCore, QtGui
-from PyQt4.QtCore import QDate
-
-
-try:
-    _fromUtf8 = QtCore.QString.fromUtf8
-except AttributeError:
-    def _fromUtf8(s):
-        return s
-
-
-try:
-    _encoding = QtGui.QApplication.UnicodeUTF8
-    def _translate(context, text, disambig):
-        return QtGui.QApplication.translate(context, text, disambig, _encoding)
-except AttributeError:
-    def _translate(context, text, disambig):
-        return QtGui.QApplication.translate(context, text, disambig)
+from PyQt5.QtCore import QDate
 
 
 def objectsInit(self):
@@ -653,5 +635,28 @@ def objectsInit(self):
                     "Western Asia",
                     "Western Europe"
                     ]
-
     
+    self.buttonInformation = [
+                              "<p align=justify>Use this button to add a new checkbox. Each activate"
+                              + "d checkbox is then saved in the XML file with the code <b>xx_User</"
+                              + "b>.</p><p align=center style='color:#C80000'><b>All non-activated c"
+                              + "heckboxes will not be saved and will be lost.</b></p><p align=justi"
+                              + "fy>As the PDF report generator is limited to 12 checkboxes per sect"
+                              + "ion, you cannot create more than 12 checkboxes per section in ASMM "
+                              + "Creator Online.</p>",
+                              "<p align=justify>This is the extent of the resource in the geographic"
+                              + " space, given as a bounding box. The southbound and northbound long"
+                              + "itudes of the bounding box shall be expressed in decimal degree (-9"
+                              + "0.00 for South to 90.00 for North) with a precision of two decimals"
+                              + ".</p>",
+                              "<p align=justify>This is the extent of the resource in the geographic"
+                              + " space, given as a bounding box. The westbound and eastbound longit"
+                              + "udes of the bounding box shall be expressed in decimal degree (-180"
+                              + ".00 for West to 180.00 for East) with a precision of two decimals.<"
+                              + "/p>",
+                              "<p align=justify>This is the extent of the resource in the geographic"
+                              + " space, given as a bounding box. The minimum and maximum altitudes "
+                              + "of the bounding box shall be expressed in meters (0.00 for the grou"
+                              + "nd to xxxx.xx for the maximum altitude) with, if possible, a precis"
+                              + "ion of two decimals.</p>"
+                              ]

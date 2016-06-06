@@ -1,14 +1,6 @@
 =========
 CHANGELOG
 =========
-
-ONLINE VERSION TESTED ON:
-========================
-    - Firefox 31.5.3, 38.0.1, 39, 40 (succeeded)
-    - Chrome 44 (succeeded)
-    - Internet Explorer 11 (failed on one computer and succeeded on others)
-    - Safari 5.1.7, 8.0.5 (succeeded)
-    - Opera 30 (succeeded)
     
 OFFLINE VERSION TESTED ON:
 =========================
@@ -18,12 +10,16 @@ OFFLINE VERSION TESTED ON:
     - Windows 8.1 (32 and 64 bits)
 
 
-KNOWN ISSUES:
-=============
-    - !!! IMPORTANT !!! in the [ONLINE] version, a line need to be activated or commented to allow a proper operation of the downloading, uploading and printing servlets, based on the platform of development or production: see in the "Asmm_eufar.java" file, find those lines at the beginning:
-      
-        String asmmPath = new String(GWT.getHostPageBaseURL()); // for Tomcat Server
-        String asmmPath = new String(""); // for Eclipse Dev Mode
+June 1 2016, Release version 1.0.3 [OFFLINE]
+==================================
+  The EUFAR Metadata Creator has been converted to Python 3.5 and PyQt 5.6. Style has been reworked for harmonisation with other EUFAR software. Only the tab version has been kept
+  
+  FIXED:
+    - no title for few windows.
+    - if a netcdf dataset is used to set the bounding box, the cursor is set to 0 for all textbox of the same panel.
+    
+  ADDED:
+    - 3 info buttons have been added to the "Geographical Region" section to give guidelines to the user.
 
 
 December 1 2015, Release version 1.0.2 [OFFLINE]

@@ -1,17 +1,17 @@
 # -*- coding: utf-8 -*-
 
 import time
-from PyQt4.QtCore import Qt
-from reportlab.lib.enums import TA_JUSTIFY, TA_CENTER, TA_LEFT  # @UnresolvedImport
-from reportlab.lib.pagesizes import A4  # @UnresolvedImport
-from reportlab.platypus import Paragraph# @UnresolvedImport
-from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle  # @UnresolvedImport
-from reportlab.pdfbase import pdfmetrics  # @UnresolvedImport
-from reportlab.pdfbase.ttfonts import TTFont  # @UnresolvedImport
-from reportlab.pdfgen import canvas  # @UnresolvedImport
-from reportlab.lib import utils  # @UnresolvedImport
+from PyQt5.QtCore import Qt
+from reportlab.lib.enums import TA_JUSTIFY, TA_CENTER, TA_LEFT
+from reportlab.lib.pagesizes import A4
+from reportlab.platypus import Paragraph
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from reportlab.pdfbase import pdfmetrics
+from reportlab.pdfbase.ttfonts import TTFont
+from reportlab.pdfgen import canvas
+from reportlab.lib import utils
 from functions.signs_and_figures import tick, line, square, semi_square
-from PyQt4.QtGui import QCheckBox
+from PyQt5.QtWidgets import QCheckBox
 
 
 def create_asmm_pdf(self, out_file_name_pdf):
@@ -21,19 +21,16 @@ def create_asmm_pdf(self, out_file_name_pdf):
     ############################
     
     # création du document
-    formatted_time = time.ctime()  # @UnusedVariable
     template = canvas.Canvas(out_file_name_pdf, pagesize=A4, bottomup=0)
     template.setFillColor('black')
     page_w, page_h = A4  # @UnusedVariable
     deb_page = 0
     
     # polices
-    fontname1 = 'font/DroidSansFallbackFull.ttf'
-    fontname2 = 'font/FreeSans.ttf'
-    fontname3 = 'font/FreeSans.ttf'
+    fontname1 = 'font/SourceSansPro-Regular.ttf'
     pdfmetrics.registerFont(TTFont('Times', fontname1))
-    pdfmetrics.registerFont(TTFont('Arial', fontname2))
-    pdfmetrics.registerFont(TTFont('Ariali', fontname3))
+    pdfmetrics.registerFont(TTFont('Arial', fontname1))
+    pdfmetrics.registerFont(TTFont('Ariali', fontname1))
 
     # styles
     styles = getSampleStyleSheet()
@@ -208,7 +205,7 @@ def create_asmm_pdf(self, out_file_name_pdf):
                         off_pos_y = 0
         pos_y += 20
     if self.SAOtherTextBox.toPlainText():
-        p = Paragraph(unicode(self.SAOtherTextBox.toPlainText()), styles["asmm_par_sl"])
+        p = Paragraph(self.SAOtherTextBox.toPlainText(), styles["asmm_par_sl"])
         c, h1 = p.wrapOn(template, 500, 500)  # @UnusedVariable
     else:
         ptext = 'No comment'
@@ -315,7 +312,7 @@ def create_asmm_pdf(self, out_file_name_pdf):
                         off_pos_y = 0
         pos_y += 20
     if self.GROtherTextBox.toPlainText():
-        p = Paragraph(unicode(self.GROtherTextBox.toPlainText()), styles["asmm_par_sl"])
+        p = Paragraph(self.GROtherTextBox.toPlainText(), styles["asmm_par_sl"])
         c, h2 = p.wrapOn(template, 500, 500)  # @UnusedVariable
     else:
         ptext = 'No comment'
@@ -405,7 +402,7 @@ def create_asmm_pdf(self, out_file_name_pdf):
                         off_pos_y = 0
         pos_y += 20
     if self.AFOtherTextBox.toPlainText():
-        p = Paragraph(unicode(self.AFOtherTextBox.toPlainText()), styles["asmm_par_sl"])
+        p = Paragraph(self.AFOtherTextBox.toPlainText(), styles["asmm_par_sl"])
         c, h3 = p.wrapOn(template, 500, 500)  # @UnusedVariable
     else:
         ptext = 'No comment'
@@ -493,7 +490,7 @@ def create_asmm_pdf(self, out_file_name_pdf):
                         off_pos_y = 0
         pos_y += 20
     if self.CTOtherTextBox.toPlainText():
-        p = Paragraph(unicode(self.CTOtherTextBox.toPlainText()), styles["asmm_par_sl"])
+        p = Paragraph(self.CTOtherTextBox.toPlainText(), styles["asmm_par_sl"])
         c, h4 = p.wrapOn(template, 500, 500)  # @UnusedVariable
     else:
         ptext = 'No comment'
@@ -579,7 +576,7 @@ def create_asmm_pdf(self, out_file_name_pdf):
                         off_pos_y = 0
         pos_y += 20
     if self.PSOtherTextBox.toPlainText():
-        p = Paragraph(unicode(self.PSOtherTextBox.toPlainText()), styles["asmm_par_sl"])
+        p = Paragraph(self.PSOtherTextBox.toPlainText(), styles["asmm_par_sl"])
         c, h5 = p.wrapOn(template, 500, 500)  # @UnusedVariable
     else:
         ptext = 'No comment'
@@ -662,7 +659,7 @@ def create_asmm_pdf(self, out_file_name_pdf):
                         off_pos_y = 0
         pos_y += 20
     if self.SOOtherTextBox.toPlainText():
-        p = Paragraph(unicode(self.SOOtherTextBox.toPlainText()), styles["asmm_par_sl"])
+        p = Paragraph(self.SOOtherTextBox.toPlainText(), styles["asmm_par_sl"])
         c, h6 = p.wrapOn(template, 500, 500)  # @UnusedVariable
     else:
         ptext = 'No comment'
@@ -746,7 +743,7 @@ def create_asmm_pdf(self, out_file_name_pdf):
                         off_pos_y = 0
         pos_y += 20
     if self.AROtherTextBox.toPlainText():
-        p = Paragraph(unicode(self.AROtherTextBox.toPlainText()), styles["asmm_par_sl"])
+        p = Paragraph(self.AROtherTextBox.toPlainText(), styles["asmm_par_sl"])
         c, h7 = p.wrapOn(template, 500, 500)  # @UnusedVariable
     else:
         ptext = 'No comment'
@@ -833,7 +830,7 @@ def create_asmm_pdf(self, out_file_name_pdf):
                         off_pos_y = 0
         pos_y += 20
     if self.FTOtherTextBox.toPlainText():
-        p = Paragraph(unicode(self.FTOtherTextBox.toPlainText()), styles["asmm_par_sl"])
+        p = Paragraph(self.FTOtherTextBox.toPlainText(), styles["asmm_par_sl"])
         c, h8 = p.wrapOn(template, 500, 500)  # @UnusedVariable
     else:
         ptext = 'No comment'
@@ -921,7 +918,7 @@ def create_asmm_pdf(self, out_file_name_pdf):
                         off_pos_y = 0
         pos_y += 20
     if self.SCOtherTextBox.toPlainText():
-        p = Paragraph(unicode(self.SCOtherTextBox.toPlainText()), styles["asmm_par_sl"])
+        p = Paragraph(self.SCOtherTextBox.toPlainText(), styles["asmm_par_sl"])
         c, h9 = p.wrapOn(template, 500, 500)  # @UnusedVariable
     else:
         ptext = 'No comment'
@@ -968,7 +965,7 @@ def create_asmm_pdf(self, out_file_name_pdf):
     offset_tmp1 = pos_y_tl12 + 40
     i1 = 0
     for item in self.ground_site_list:
-        template.drawString(80, offset_tmp1, unicode(item))
+        template.drawString(80, offset_tmp1, item)
         offset_tmp1 = offset_tmp1 + 20
         i1 = i1 + 1
     if not self.ground_site_list:
@@ -985,7 +982,7 @@ def create_asmm_pdf(self, out_file_name_pdf):
     offset_tmp2 = pos_y_tl12 + 40
     i2 = 0
     for item in self.arm_site_list:
-        template.drawString(340, offset_tmp2, unicode(item))
+        template.drawString(340, offset_tmp2, item)
         offset_tmp2 = offset_tmp2 + 20
         i2 = i2 + 1
     if not self.arm_site_list:
@@ -1011,7 +1008,7 @@ def create_asmm_pdf(self, out_file_name_pdf):
     template.setFont("Times",10)
     i3 = 0
     for item in self.research_vessel_list:
-        template.drawString(80, offset_tmp3, unicode(item))
+        template.drawString(80, offset_tmp3, item)
         offset_tmp3 = offset_tmp3 + 20
         i3 = i3 + 1
     if not self.research_vessel_list:
@@ -1027,7 +1024,7 @@ def create_asmm_pdf(self, out_file_name_pdf):
     template.setFont("Times",10)
     i4 = 0
     for item in self.arm_mobile_list:
-        template.drawString(340, offset_tmp4, unicode(item))
+        template.drawString(340, offset_tmp4, item)
         offset_tmp4 = offset_tmp4 + 20
         i4 = i4 + 1
     if not self.arm_mobile_list:
@@ -1050,7 +1047,7 @@ def create_asmm_pdf(self, out_file_name_pdf):
     pos_y_tl13 = offset_tmp3 + 70
     pos_x_tl13 = 25
     if self.OtherCommentsTextBox.toPlainText():
-        p = Paragraph(unicode(self.OtherCommentsTextBox.toPlainText()), styles["asmm_par_sl"])
+        p = Paragraph(self.OtherCommentsTextBox.toPlainText(), styles["asmm_par_sl"])
         c, h10 = p.wrapOn(template, 500, 500)  # @UnusedVariable
     else:
         ptext = 'No comment'
@@ -1125,7 +1122,7 @@ def create_asmm_pdf(self, out_file_name_pdf):
     
 def check_boxes_loop(xc,yc,ofc,bc,nc,itemc,tc):
     tc.setFont("Times",10)
-    for key, value in itemc.iteritems():
+    for key, value in iter(itemc.items()):
         idx = bc.index(value)
         tc.drawString(int(xc[idx]), (int(yc[idx])+ofc), nc[idx])
         if key.isChecked():
