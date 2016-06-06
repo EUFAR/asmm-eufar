@@ -1,19 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>presaveWindow</class>
- <widget class="QWidget" name="presaveWindow">
+ <class>aboutStandard</class>
+ <widget class="QWidget" name="aboutStandard">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>450</width>
-    <height>180</height>
+    <width>452</width>
+    <height>220</height>
    </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
   </property>
   <property name="minimumSize">
    <size>
     <width>450</width>
-    <height>180</height>
+    <height>0</height>
    </size>
   </property>
   <property name="maximumSize">
@@ -33,11 +39,11 @@
    </font>
   </property>
   <property name="windowTitle">
-   <string>EUFAR Metadata Creator</string>
+   <string>About ASMM XML Standard</string>
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>icons/warning_icon.png</normaloff>icons/warning_icon.png</iconset>
+    <normaloff>icons/about_icon.png</normaloff>icons/about_icon.png</iconset>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">
@@ -47,7 +53,7 @@
        <item>
         <layout class="QVBoxLayout" name="verticalLayout">
          <item>
-          <widget class="QLabel" name="iw_label_2">
+          <widget class="QLabel" name="aw_label_2">
            <property name="minimumSize">
             <size>
              <width>55</width>
@@ -64,7 +70,7 @@
             <string/>
            </property>
            <property name="pixmap">
-            <pixmap>icons/warning_icon.png</pixmap>
+            <pixmap>icons/about_icon.png</pixmap>
            </property>
            <property name="scaledContents">
             <bool>true</bool>
@@ -103,11 +109,17 @@
         </spacer>
        </item>
        <item>
-        <widget class="QLabel" name="iw_label_1">
+        <widget class="QLabel" name="aw_label_1">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
          <property name="minimumSize">
           <size>
            <width>341</width>
-           <height>120</height>
+           <height>170</height>
           </size>
          </property>
          <property name="maximumSize">
@@ -133,16 +145,19 @@
           <enum>QFrame::Plain</enum>
          </property>
          <property name="lineWidth">
-          <number>0</number>
+          <number>1</number>
          </property>
          <property name="midLineWidth">
           <number>0</number>
          </property>
          <property name="text">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;The actual document has been modified. Changes will be lost if the document is not saved.&lt;br/&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Do you want to save your changes ?&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
          <property name="textFormat">
           <enum>Qt::AutoText</enum>
+         </property>
+         <property name="scaledContents">
+          <bool>false</bool>
          </property>
          <property name="alignment">
           <set>Qt::AlignJustify|Qt::AlignTop</set>
@@ -159,10 +174,13 @@
        <property name="orientation">
         <enum>Qt::Vertical</enum>
        </property>
+       <property name="sizeType">
+        <enum>QSizePolicy::Fixed</enum>
+       </property>
        <property name="sizeHint" stdset="0">
         <size>
          <width>20</width>
-         <height>13</height>
+         <height>10</height>
         </size>
        </property>
       </spacer>
@@ -170,126 +188,29 @@
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_2">
        <item>
-        <widget class="QPushButton" name="iw_nosaveButton">
-         <property name="minimumSize">
-          <size>
-           <width>180</width>
-           <height>27</height>
-          </size>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>220</width>
-           <height>27</height>
-          </size>
-         </property>
-         <property name="font">
-          <font>
-           <family>FreeSans</family>
-           <pointsize>10</pointsize>
-           <weight>50</weight>
-           <bold>false</bold>
-           <stylestrategy>PreferDefault</stylestrategy>
-           <kerning>true</kerning>
-          </font>
-         </property>
-         <property name="text">
-          <string>Close without saving</string>
-         </property>
-         <property name="icon">
-          <iconset>
-           <normaloff>icons/cancel_icon.png</normaloff>icons/cancel_icon.png</iconset>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>25</width>
-           <height>25</height>
-          </size>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <spacer name="horizontalSpacer_2">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeType">
-          <enum>QSizePolicy::Expanding</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item>
-        <widget class="QPushButton" name="iw_cancelButton">
-         <property name="minimumSize">
-          <size>
-           <width>93</width>
-           <height>27</height>
-          </size>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>93</width>
-           <height>27</height>
-          </size>
-         </property>
-         <property name="font">
-          <font>
-           <family>FreeSans</family>
-           <pointsize>10</pointsize>
-           <weight>50</weight>
-           <bold>false</bold>
-           <stylestrategy>PreferDefault</stylestrategy>
-           <kerning>true</kerning>
-          </font>
-         </property>
-         <property name="text">
-          <string>Cancel</string>
-         </property>
-         <property name="icon">
-          <iconset>
-           <normaloff>icons/del_icon.png</normaloff>icons/del_icon.png</iconset>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>25</width>
-           <height>25</height>
-          </size>
-         </property>
-        </widget>
-       </item>
-       <item>
         <spacer name="horizontalSpacer_3">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
-         <property name="sizeType">
-          <enum>QSizePolicy::Expanding</enum>
-         </property>
          <property name="sizeHint" stdset="0">
           <size>
-           <width>20</width>
+           <width>40</width>
            <height>20</height>
           </size>
          </property>
         </spacer>
        </item>
        <item>
-        <widget class="QPushButton" name="iw_saveButton">
+        <widget class="QPushButton" name="aw_okButton">
          <property name="minimumSize">
           <size>
-           <width>93</width>
+           <width>50</width>
            <height>27</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>93</width>
+           <width>50</width>
            <height>27</height>
           </size>
          </property>
@@ -304,19 +225,22 @@
           </font>
          </property>
          <property name="text">
-          <string>Save</string>
-         </property>
-         <property name="icon">
-          <iconset>
-           <normaloff>icons/save_icon.png</normaloff>icons/save_icon.png</iconset>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>25</width>
-           <height>25</height>
-          </size>
+          <string>OK</string>
          </property>
         </widget>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer_4">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
        </item>
       </layout>
      </item>

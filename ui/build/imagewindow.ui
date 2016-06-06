@@ -12,11 +12,12 @@
   </property>
   <property name="font">
    <font>
-    <family>Droid Sans Fallback</family>
+    <family>FreeSans</family>
     <pointsize>10</pointsize>
-    <weight>75</weight>
-    <bold>true</bold>
+    <weight>50</weight>
+    <bold>false</bold>
     <stylestrategy>PreferAntialias</stylestrategy>
+    <kerning>true</kerning>
    </font>
   </property>
   <property name="windowTitle">
@@ -131,11 +132,12 @@
          </property>
          <property name="font">
           <font>
-           <family>Droid Sans Fallback</family>
+           <family>FreeSans</family>
            <pointsize>10</pointsize>
-           <weight>75</weight>
-           <bold>true</bold>
+           <weight>50</weight>
+           <bold>false</bold>
            <stylestrategy>PreferAntialias</stylestrategy>
+           <kerning>true</kerning>
           </font>
          </property>
          <property name="text">

@@ -25,20 +25,21 @@
   <property name="maximumSize">
    <size>
     <width>452</width>
-    <height>270</height>
+    <height>16777215</height>
    </size>
   </property>
   <property name="font">
    <font>
-    <family>Droid Sans Fallback</family>
+    <family>FreeSans</family>
     <pointsize>10</pointsize>
     <weight>50</weight>
     <bold>false</bold>
     <stylestrategy>PreferAntialias</stylestrategy>
+    <kerning>true</kerning>
    </font>
   </property>
   <property name="windowTitle">
-   <string>About EUFAR Metadata Creator</string>
+   <string>About Airborne Science Mission Metadata</string>
   </property>
   <property name="windowIcon">
    <iconset>
@@ -124,16 +125,17 @@
          <property name="maximumSize">
           <size>
            <width>341</width>
-           <height>250</height>
+           <height>16777215</height>
           </size>
          </property>
          <property name="font">
           <font>
-           <family>Droid Sans Fallback</family>
+           <family>FreeSans</family>
            <pointsize>10</pointsize>
            <weight>50</weight>
            <bold>false</bold>
            <stylestrategy>PreferAntialias</stylestrategy>
+           <kerning>true</kerning>
           </font>
          </property>
          <property name="frameShape">
@@ -202,23 +204,24 @@
         <widget class="QPushButton" name="aw_okButton">
          <property name="minimumSize">
           <size>
-           <width>93</width>
+           <width>50</width>
            <height>27</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>93</width>
+           <width>50</width>
            <height>27</height>
           </size>
          </property>
          <property name="font">
           <font>
-           <family>Droid Sans Fallback</family>
+           <family>FreeSans</family>
            <pointsize>10</pointsize>
            <weight>50</weight>
            <bold>false</bold>
            <stylestrategy>PreferDefault</stylestrategy>
+           <kerning>true</kerning>
           </font>
          </property>
          <property name="text">
