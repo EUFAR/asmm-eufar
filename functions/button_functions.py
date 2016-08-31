@@ -103,7 +103,10 @@ def button_clicked(self):
         infoText = self.buttonInformation[0]
     elif "infoButton_" in self.sender().objectName():
         infoNumber = int(self.sender().objectName()[11:])
-        infoText = self.buttonInformation[infoNumber]
+        if infoNumber > 14:
+            infoText = self.buttonInformation[16]
+        else:
+            infoText = self.buttonInformation[infoNumber]
     x = QCursor.pos().x()
     y = QCursor.pos().y()    
     x = x - 175
@@ -202,11 +205,26 @@ def add_image(self, filename):
     self.im_del[self.im_number].setIcon(icon1)
     self.im_del[self.im_number].setIconSize(QtCore.QSize(27, 27))
     self.im_del[self.im_number].setToolButtonStyle(QtCore.Qt.ToolButtonIconOnly)
-    self.im_del[self.im_number].setStyleSheet("QToolButton:hover {border: 1px solid gray; border-radius: 4px; background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #f6f7fa, stop: 1 #dadbde); width: 27px; height: 27px;}\n"
-    "\n"
-    "QToolButton:pressed {background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #dadbde, stop: 1 #f6f7fa);}\n"
-    "\n"
-    "QToolButton:flat {border: none;}")
+    self.im_del[self.im_number].setStyleSheet("QToolButton {\n"
+"    border: 1px solid transparent;\n"
+"    background-color: transparent;\n"
+"    width: 27px;\n"
+"    height: 27px;\n"
+"}\n"
+"\n"
+"QToolButton:hover {\n"
+"    border: 1px solid gray;\n"
+"    border-radius: 3px;\n"
+"    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #f6f7fa, stop: 1 #dadbde);\n"
+"}\n"
+"\n"
+"QToolButton:pressed {\n"
+"    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #dadbde, stop: 1 #f6f7fa);\n"
+"}\n"
+"\n"
+"QToolButton:flat {\n"
+"    border: none;\n"
+"}")
     self.im_del[self.im_number].setAutoRaise(True)
     self.im_del[self.im_number].setObjectName("im_del" + str(self.im_number))
     self.im_horlay[self.im_number].addWidget(self.im_del[self.im_number])
@@ -302,7 +320,7 @@ class MyImage(QtWidgets.QDialog, Ui_ImageWindow):
         self.label.setScaledContents(True)
         self.label.setMinimumSize(QtCore.QSize(w2, h2))
         self.label.setMaximumSize(QtCore.QSize(w2, h2))
-        self.pushButton.clicked.connect(self.closeWindow)
+        self.toolButton.clicked.connect(self.closeWindow)
         self.setWindowTitle(os.path.basename(imagePath))
         
     def closeWindow(self):

@@ -20,7 +20,7 @@ class Ui_aboutWindow(object):
         aboutWindow.setMinimumSize(QtCore.QSize(450, 220))
         aboutWindow.setMaximumSize(QtCore.QSize(452, 16777215))
         font = QtGui.QFont()
-        font.setFamily("font/SourceSansPro-Regular.ttf")
+        font.setFamily("fonts/SourceSansPro-Regular.ttf")
         font.setPointSize(10)
         font.setBold(False)
         font.setWeight(50)
@@ -30,6 +30,9 @@ class Ui_aboutWindow(object):
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap("icons/about_icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         aboutWindow.setWindowIcon(icon)
+        aboutWindow.setStyleSheet("QWidget {\n"
+"    background-color: rgb(230,230,230);\n"
+"}")
         self.gridLayout = QtWidgets.QGridLayout(aboutWindow)
         self.gridLayout.setObjectName("gridLayout")
         self.verticalLayout_2 = QtWidgets.QVBoxLayout()
@@ -60,7 +63,7 @@ class Ui_aboutWindow(object):
         self.aw_label_1.setMinimumSize(QtCore.QSize(341, 170))
         self.aw_label_1.setMaximumSize(QtCore.QSize(341, 16777215))
         font = QtGui.QFont()
-        font.setFamily("font/SourceSansPro-Regular.ttf")
+        font.setFamily("fonts/SourceSansPro-Regular.ttf")
         font.setPointSize(10)
         font.setBold(False)
         font.setWeight(50)
@@ -82,19 +85,39 @@ class Ui_aboutWindow(object):
         self.verticalLayout_2.addItem(spacerItem2)
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
-        spacerItem3 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem3 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_2.addItem(spacerItem3)
-        self.aw_okButton = QtWidgets.QPushButton(aboutWindow)
-        self.aw_okButton.setMinimumSize(QtCore.QSize(50, 27))
-        self.aw_okButton.setMaximumSize(QtCore.QSize(50, 27))
+        self.aw_okButton = QtWidgets.QToolButton(aboutWindow)
+        self.aw_okButton.setMinimumSize(QtCore.QSize(93, 27))
+        self.aw_okButton.setMaximumSize(QtCore.QSize(93, 27))
         font = QtGui.QFont()
-        font.setFamily("font/SourceSansPro-Regular.ttf")
+        font.setFamily("fonts/SourceSansPro-Regular.ttf")
         font.setPointSize(10)
         font.setBold(False)
         font.setWeight(50)
         font.setKerning(True)
         font.setStyleStrategy(QtGui.QFont.PreferDefault)
         self.aw_okButton.setFont(font)
+        self.aw_okButton.setStyleSheet("QToolButton {\n"
+"    border: 1px solid #acacac;\n"
+"    border-radius: 1px;\n"
+"    background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1,\n"
+"                                    stop:0 #f0f0f0, stop:1 #e5e5e5);\n"
+"}\n"
+"\n"
+"QToolButton:hover {\n"
+"    border: 1px solid #7eb4ea;\n"
+"    border-radius: 1px;\n"
+"    background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1,\n"
+"                                    stop:0 #ecf4fc, stop:1 #dcecfc);\n"
+"}\n"
+"\n"
+"QToolButton:pressed {\n"
+"    border: 1px solid #579de5;\n"
+"    border-radius: 1px;\n"
+"    background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1,\n"
+"                                    stop:0 #daecfc, stop:1 #c4e0fc);\n"
+"}")
         self.aw_okButton.setObjectName("aw_okButton")
         self.horizontalLayout_2.addWidget(self.aw_okButton)
         spacerItem4 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
@@ -109,5 +132,5 @@ class Ui_aboutWindow(object):
         _translate = QtCore.QCoreApplication.translate
         aboutWindow.setWindowTitle(_translate("aboutWindow", "About Airborne Science Mission Metadata"))
         self.aw_label_1.setText(_translate("aboutWindow", "<html><head/><body><p><br/></p></body></html>"))
-        self.aw_okButton.setText(_translate("aboutWindow", "OK"))
+        self.aw_okButton.setText(_translate("aboutWindow", "Ok"))
 

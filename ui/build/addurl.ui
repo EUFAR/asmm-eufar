@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Addcheckbox</class>
- <widget class="QWidget" name="Addcheckbox">
+ <class>AddURL</class>
+ <widget class="QWidget" name="AddURL">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>340</width>
+    <width>420</width>
     <height>180</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>340</width>
+    <width>420</width>
     <height>180</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>340</width>
+    <width>420</width>
     <height>16777215</height>
    </size>
   </property>
@@ -65,14 +65,14 @@
       <widget class="QLabel" name="label">
        <property name="minimumSize">
         <size>
-         <width>280</width>
+         <width>360</width>
          <height>27</height>
         </size>
        </property>
        <property name="maximumSize">
         <size>
-         <width>280</width>
-         <height>50</height>
+         <width>360</width>
+         <height>100</height>
         </size>
        </property>
        <property name="font">
@@ -86,7 +86,7 @@
         </font>
        </property>
        <property name="text">
-        <string>Please, enter a title for the new checkbox</string>
+        <string>Please, enter the URL of the image. Depending on the size of the image, the downloading may take some time.</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignJustify|Qt::AlignTop</set>
@@ -149,13 +149,13 @@
       <widget class="QLineEdit" name="ck_inputLine">
        <property name="minimumSize">
         <size>
-         <width>250</width>
+         <width>360</width>
          <height>27</height>
         </size>
        </property>
        <property name="maximumSize">
         <size>
-         <width>250</width>
+         <width>360</width>
          <height>27</height>
         </size>
        </property>

@@ -5,9 +5,23 @@ CHANGELOG
 OFFLINE VERSION TESTED ON:
 =========================
     - Mageia 4
-    - Xubuntu 15.04, 15.10 (32 and 64 bits)
+    - Xubuntu 15.04, 15.10 (32 and 64 bits), 16.04
     - Windows 7 (64 bits)
     - Windows 8.1 (32 and 64 bits)
+
+
+
+August 30 2016, Release version 1.1.0 [OFFLINE]
+=====================================
+  Style has been reworked for harmonisation with other EUFAR software. Recommendations from the EUFAR N7SP/N8DB meeting have been introduced.
+  
+  MODIFIED:
+    - the function to change the Operator/Aircraft has been simplified.
+    - the code for checkboxes has been harmonized with ASMM online.
+
+  FIXED:
+    - the xml reading function crashes if a checkbox code is mispelled. It has been fixed.
+    - few spelling errors have been corrected in the code of checkboxes.
 
 
 June 1 2016, Release version 1.0.3 [OFFLINE]

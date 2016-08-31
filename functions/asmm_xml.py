@@ -2,7 +2,6 @@
 
 import datetime
 import xml.dom.minidom
-from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtCore import Qt
 from PyQt5.QtCore import QDate
 from PyQt5.QtWidgets import QCheckBox
@@ -32,26 +31,22 @@ def create_asmm_xml(self, out_file_name):
     add_element(doc, "ProjectAcronym", flightInformation, self.campaignLine.text())
     add_element(doc, "MissionScientist", flightInformation, self.missionSciLine.text())
     add_element(doc, "FlightManager", flightInformation, self.flightManagerLine.text())
-    if self.horizontalLayout_77.count() > 0:
-        add_element(doc, "Platform", flightInformation, self.tmpAircraftLine.text())
-        add_element(doc, "Operator", flightInformation, self.tmpOperatorLine.text())
-    else:
-        if self.operatorList.currentText() == "Make a choice...":
-            add_element(doc, "Platform", flightInformation, "")
-            add_element(doc, "Operator", flightInformation, "")
-        else:
-            operator = ""
-            aircraft = ""
-            for i in range(len(self.operators_aircraft)):
-                if self.operatorList.currentText() == self.operators_aircraft[i][0]:
-                    operator = self.operators_aircraft[i][2]
-                    break
-            for i in range(len(self.operators_aircraft)):
-                if self.aircraftList.currentText() == self.operators_aircraft[i][1]:
-                    aircraft = self.operators_aircraft[i][3]
-                    break
-            add_element(doc, "Platform", flightInformation, aircraft)
-            add_element(doc, "Operator", flightInformation, operator)
+    operator = ""
+    aircraft = ""
+    if self.operatorList.currentText() == "Other...":
+        operator = self.tmpAircraftLine.text()
+        aircraft = self.tmpOperatorLine.text()
+    elif self.operatorList.currentText() != "Make a choice...":
+        for i in range(len(self.operators_aircraft)):
+            if self.operatorList.currentText() == self.operators_aircraft[i][0]:
+                operator = self.operators_aircraft[i][2]
+                break
+        for i in range(len(self.operators_aircraft)):
+            if self.aircraftList.currentText() == self.operators_aircraft[i][1]:
+                aircraft = self.operators_aircraft[i][3]
+                break
+    add_element(doc, "Platform", flightInformation, aircraft)
+    add_element(doc, "Operator", flightInformation, operator)
     if self.locationList.currentText() == "Make a choice...":
         add_element(doc, "Localisation", flightInformation, "")
     elif self.detailList.currentText() == "Make a choice...":
@@ -253,54 +248,43 @@ def read_asmm_xml(self, in_file_name):
     set_text_value(self.campaignLine, flightInformation, "ProjectAcronym")
     set_text_value(self.missionSciLine, flightInformation, "MissionScientist")
     set_text_value(self.flightManagerLine, flightInformation, "FlightManager")
-    combo_text2 = get_element_value(flightInformation, "Platform")
-    combo_text1 = get_element_value(flightInformation, "Operator")
-    combo_text11 = ""
-    combo_text22 = ""
+    operator = get_element_value(flightInformation, "Operator")
+    aircraft = get_element_value(flightInformation, "Platform")
+    operator_combo = None
+    aircraft_combo = None
     for i in range(len(self.operators_aircraft)):
-        if combo_text1 == self.operators_aircraft[i][2]:
-            combo_text11 = self.operators_aircraft[i][0]
-            break
+        if operator == self.operators_aircraft[i][2]:
+            operator_combo = self.operators_aircraft[i][0]
     for i in range(len(self.operators_aircraft)):
-        if combo_text2 == self.operators_aircraft[i][3]:
-            combo_text22 = self.operators_aircraft[i][1]
+        if aircraft == self.operators_aircraft[i][3]:
+            aircraft_combo = self.operators_aircraft[i][1]
             break
-    if combo_text1 == None and combo_text2 == None:
-        self.operatorList.setCurrentIndex(self.operatorList.findText("Make a choice..."))
-    elif combo_text1 == None and combo_text2 != None:
+    if operator_combo == None:
         self.operatorList.setCurrentIndex(self.operatorList.findText("Other..."))
         operator_read(self)
-        self.tmpAircraftLine.setText(combo_text2)
-    elif combo_text1 != None:
-        self.aircraftList.clear()
-        self.aircraftList.addItem("Make a choice...")
-        self.aircraftList.setEnabled(True)
-        if combo_text11 != "" and combo_text22 != "":
-            self.operatorList.setCurrentIndex(self.operatorList.findText(combo_text11))
-            for i in range(len(self.operators_aircraft)):
-                if combo_text11 == self.operators_aircraft[i][0]:
-                    self.aircraftList.addItem(self.operators_aircraft[i][1])
-        elif combo_text11 != "" and combo_text22 == "":
-            if combo_text2 == None:
-                self.operatorList.setCurrentIndex(self.operatorList.findText(combo_text11))
-                for i in range(len(self.operators_aircraft)):
-                    if combo_text11 == self.operators_aircraft[i][0]:
-                        self.aircraftList.addItem(self.operators_aircraft[i][1])
-            else:
-                self.operatorList.setCurrentIndex(self.operatorList.findText("Other..."))
-                operator_read(self)
-                self.tmpOperatorLine.setText(combo_text11)
-                self.tmpAircraftLine.setText(combo_text2)
-        else :
+        self.tmpOperatorLine.setText(operator)
+        self.tmpAircraftLine.setText(aircraft)
+    else:
+        if aircraft_combo == None and aircraft != None:
             self.operatorList.setCurrentIndex(self.operatorList.findText("Other..."))
             operator_read(self)
-            self.tmpOperatorLine.setText(combo_text1)
-            self.tmpAircraftLine.setText(combo_text2)
-        if self.aircraftList.count() == 2:
+            self.tmpOperatorLine.setText(operator)
+            self.tmpAircraftLine.setText(aircraft)
+        else:
+            self.operatorList.setCurrentIndex(self.operatorList.findText(operator_combo))
+            self.aircraftList.clear()
+            self.aircraftList.addItem("Make a choice...")
+            self.aircraftList.setEnabled(True)
+            for i in range(len(self.operators_aircraft)):
+                if self.operatorList.currentText() == self.operators_aircraft[i][0]:
+                    self.aircraftList.addItem(self.operators_aircraft[i][1])
+            if self.aircraftList.count() < 3:
                 self.aircraftList.removeItem(0)
+            if aircraft == None:
                 self.aircraftList.setCurrentIndex(0)
-        elif self.aircraftList.count() > 2:
-                self.aircraftList.setCurrentIndex(self.aircraftList.findText(combo_text22))
+            else:
+                self.aircraftList.setCurrentIndex(self.aircraftList.findText(aircraft_combo))
+
     combo_text = get_element_value(flightInformation, "Localisation")
     if combo_text != None:
         if combo_text in self.countries:
@@ -494,7 +478,8 @@ def set_check_values(check_dict, parent, element_name):
     elements = parent.getElementsByTagNameNS(NAMESPACE_URI, element_name)
     for element in elements:
         check_widget = find_key(check_dict, element.childNodes[0].data.strip())
-        check_widget.setChecked(True)
+        if check_widget is not None:
+            check_widget.setChecked(True)
 
 
 def set_text_value(text_widget, parent, element_name):
@@ -531,15 +516,7 @@ def operator_read(self):
     self.aircraftList.clear()
     self.aircraftList.addItem("Other")
     self.aircraftList.setEnabled(True)
-    self.tmpOperatorLine = QtWidgets.QLineEdit(self.flight_information_page)
-    self.tmpOperatorLine.setMinimumSize(QtCore.QSize(300, 27))
-    self.tmpOperatorLine.setMaximumSize(QtCore.QSize(300, 27))
-    self.tmpOperatorLine.setFrame(False)
-    self.tmpOperatorLine.setObjectName("tmpOperatorLine")
-    self.horizontalLayout_77.addWidget(self.tmpOperatorLine)
-    self.tmpAircraftLine = QtWidgets.QLineEdit(self.flight_information_page)
-    self.tmpAircraftLine.setMinimumSize(QtCore.QSize(300, 27))
-    self.tmpAircraftLine.setMaximumSize(QtCore.QSize(300, 27))
-    self.tmpAircraftLine.setFrame(False)
-    self.tmpAircraftLine.setObjectName("tmpAircraftLine")
-    self.horizontalLayout_78.addWidget(self.tmpAircraftLine)
+    self.tmpOperatorLine.show()
+    self.tmpAircraftLine.show()
+    self.label_38.show()
+    self.label_39.show()

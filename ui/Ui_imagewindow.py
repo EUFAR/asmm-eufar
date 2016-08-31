@@ -13,7 +13,7 @@ class Ui_ImageWindow(object):
         ImageWindow.setObjectName("ImageWindow")
         ImageWindow.resize(800, 600)
         font = QtGui.QFont()
-        font.setFamily("font/SourceSansPro-Regular.ttf")
+        font.setFamily("fonts/SourceSansPro-Regular.ttf")
         font.setPointSize(10)
         font.setBold(False)
         font.setWeight(50)
@@ -21,6 +21,12 @@ class Ui_ImageWindow(object):
         font.setStyleStrategy(QtGui.QFont.PreferAntialias)
         ImageWindow.setFont(font)
         ImageWindow.setWindowTitle("")
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap("icons/info_icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        ImageWindow.setWindowIcon(icon)
+        ImageWindow.setStyleSheet("QWidget {\n"
+"    background-color: rgb(230,230,230);\n"
+"}")
         self.gridLayout = QtWidgets.QGridLayout(ImageWindow)
         self.gridLayout.setObjectName("gridLayout")
         self.verticalLayout = QtWidgets.QVBoxLayout()
@@ -43,21 +49,41 @@ class Ui_ImageWindow(object):
         self.verticalLayout.addItem(spacerItem3)
         self.horizontalLayout = QtWidgets.QHBoxLayout()
         self.horizontalLayout.setObjectName("horizontalLayout")
-        spacerItem4 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem4 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout.addItem(spacerItem4)
-        self.pushButton = QtWidgets.QPushButton(ImageWindow)
-        self.pushButton.setMinimumSize(QtCore.QSize(50, 27))
-        self.pushButton.setMaximumSize(QtCore.QSize(50, 27))
+        self.toolButton = QtWidgets.QToolButton(ImageWindow)
+        self.toolButton.setMinimumSize(QtCore.QSize(93, 27))
+        self.toolButton.setMaximumSize(QtCore.QSize(93, 27))
         font = QtGui.QFont()
-        font.setFamily("font/SourceSansPro-Regular.ttf")
+        font.setFamily("fonts/SourceSansPro-Regular.ttf")
         font.setPointSize(10)
         font.setBold(False)
         font.setWeight(50)
         font.setKerning(True)
         font.setStyleStrategy(QtGui.QFont.PreferAntialias)
-        self.pushButton.setFont(font)
-        self.pushButton.setObjectName("pushButton")
-        self.horizontalLayout.addWidget(self.pushButton)
+        self.toolButton.setFont(font)
+        self.toolButton.setStyleSheet("QToolButton {\n"
+"    border: 1px solid #acacac;\n"
+"    border-radius: 1px;\n"
+"    background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1,\n"
+"                                    stop:0 #f0f0f0, stop:1 #e5e5e5);\n"
+"}\n"
+"\n"
+"QToolButton:hover {\n"
+"    border: 1px solid #7eb4ea;\n"
+"    border-radius: 1px;\n"
+"    background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1,\n"
+"                                    stop:0 #ecf4fc, stop:1 #dcecfc);\n"
+"}\n"
+"\n"
+"QToolButton:pressed {\n"
+"    border: 1px solid #579de5;\n"
+"    border-radius: 1px;\n"
+"    background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1,\n"
+"                                    stop:0 #daecfc, stop:1 #c4e0fc);\n"
+"}")
+        self.toolButton.setObjectName("toolButton")
+        self.horizontalLayout.addWidget(self.toolButton)
         spacerItem5 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout.addItem(spacerItem5)
         self.verticalLayout.addLayout(self.horizontalLayout)
@@ -69,5 +95,5 @@ class Ui_ImageWindow(object):
     def retranslateUi(self, ImageWindow):
         _translate = QtCore.QCoreApplication.translate
         self.label.setText(_translate("ImageWindow", "image"))
-        self.pushButton.setText(_translate("ImageWindow", "Ok"))
+        self.toolButton.setText(_translate("ImageWindow", "Ok"))
 

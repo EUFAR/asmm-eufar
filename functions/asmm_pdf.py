@@ -53,9 +53,9 @@ def create_asmm_pdf(self, out_file_name_pdf):
     tl = Paragraph(title, styles["asmm_title2"])
     w, h = tl.wrapOn(template, 400, 200)  # @UnusedVariable
     pos_x_tl = page_w/2 - w/2
-    pos_y_tl = 40
+    pos_y_tl = 80
     tl.drawOn(template, pos_x_tl, pos_y_tl)
-    sq = square(-173, 0, 348, 57, 2, 'black')
+    sq = square(-205, -33, 410, 57, 2, 'black')
     sq.wrapOn(template, 300, 100)
     sq.drawOn(template, page_w/2, pos_y_tl+1)
 
@@ -75,10 +75,10 @@ def create_asmm_pdf(self, out_file_name_pdf):
     template.drawString(pos_x_tl1+10, pos_y_tl1+25, 'Project acronym:')
     p = Paragraph(str(self.campaignLine.text()), styles["asmm_par_sl"])
     c, h = p.wrapOn(template, 150, 30)  # @UnusedVariable
-    p.drawOn(template, pos_x_tl1+100, pos_y_tl1 + 25 - h + 10)
+    p.drawOn(template, pos_x_tl1+90, pos_y_tl1 + 25 - h + 10)
     ptext = 'Date:     %s' % self.dateLine.date().toString(Qt.ISODate)
     template.drawString(pos_x_tl1+10, pos_y_tl1+55, ptext)
-    ptext = 'Flight Number:     %s' % self.flightNumberLine.text()
+    ptext = 'Flight Identifier:     %s' % self.flightNumberLine.text()
     template.drawString(pos_x_tl1+10, pos_y_tl1+85, ptext)
     ptext = 'Mission Scientist:     %s' % self.missionSciLine.text()
     template.drawString(pos_x_tl1+10, pos_y_tl1+115, ptext)
@@ -94,7 +94,7 @@ def create_asmm_pdf(self, out_file_name_pdf):
     template.drawString(pos_x_tl1+ofx, pos_y_tl1+55, 'Aircraft:')
     p = Paragraph(str(aircraft), styles["asmm_par_sl"])
     c, h = p.wrapOn(template, 150, 30)  # @UnusedVariable
-    p.drawOn(template, pos_x_tl1 + ofx + 50, pos_y_tl1 + 55 - h + 10)
+    p.drawOn(template, pos_x_tl1 + ofx + 45, pos_y_tl1 + 55 - h + 10)
     if self.operatorList.currentText() == "Make a choice...":
         operator = ""
     elif self.operatorList.currentText() == "Other...":
@@ -104,7 +104,7 @@ def create_asmm_pdf(self, out_file_name_pdf):
     template.drawString(pos_x_tl1+ofx, pos_y_tl1+85, 'Operator:')
     p = Paragraph(str(operator), styles["asmm_par_sl"])
     c, h = p.wrapOn(template, 200, 30)  # @UnusedVariable
-    p.drawOn(template, pos_x_tl1 + ofx + 60, pos_y_tl1 + 85 - h + 10)
+    p.drawOn(template, pos_x_tl1 + ofx + 55, pos_y_tl1 + 85 - h + 10)
     if self.locationList.currentText() == "Make a choice..." or self.detailList.currentText() == "Make a choice...":
         country = ""
     else:
@@ -154,10 +154,13 @@ def create_asmm_pdf(self, out_file_name_pdf):
     sq.drawOn(template, pos_x_tl3, pos_y_tl3+2)
     pos_y = [20,40,60,100,120,140,160,20,40,60,80,120,140,160,20,40,60,80,140,160]
     pos_x = [60,60,60,80,80,80,80,250,270,270,270,250,250,250,430,430,430,430,450,450]
-    box_c = ['satelliteCalVal','anthroPollution','mesoscaleImpacts','cloudMicrophysics','cloudDynam'
-             'ics','cloudRadiative','cloudConvection','gasChem','gasChemOxidants','gasChemOrganics',
-             'gasChemOther','aerosol','aerosolMicrophysical','aerosolRadiative','radiation','radiat'
-             'ionAtmosSpectroscopy','radiationSurfProperties','radiationOther','blCloud','blDynamics']
+    box_c = ['Satellite Cal/Val','Aerosol','Radiative properties/impacts (Aerosol)','Cloud microphy'
+             'sical impacts (Aerosol)','Anthropogenic pollution','Mesoscale atmospheric impacts','M'
+             'icrophysics (Cloud)','Dynamics (Cloud)','Radiative properties (Cloud)','Convection dy'
+             'namics (Cloud)','Cloud (Boundary-layer)','Dynamics (Boundary-layer)','Radiation','Atm'
+             'ospheric spectroscopy (Radiation)','Surface properties/retrievals (Radiation)','Other'
+             ' (Radiation)','Gas chemistry','Organics (Gas chemistry)','Oxydants (Gas chemistry)',
+             'Other (Gas chemistry)']
     name_c = ['Satellite Cal/Val','Anthropogenic pollution','Mesoscale atmospheric impacts','Microp'
               'hysics','Dynamics','Radiation properties','Convection dynamics','Gas chemistry','Oxy'
               'dants','Organics','Other','Aerosol','Cloud microphysical impacts','Radiative propert'
@@ -176,7 +179,7 @@ def create_asmm_pdf(self, out_file_name_pdf):
         template.setFont("Times",12)
         ptext = 'User-defined:'
         template.drawString(pos_x_tl3 + 18, pos_y, ptext)
-        ln = line(0,0,72,0, 'black')
+        ln = line(0,0,68,0, 'black')
         ln.wrapOn(template, 200, 100)
         ln.drawOn(template, pos_x_tl3 + 18, pos_y + 3)
         template.setFont("Times",10)
@@ -220,7 +223,7 @@ def create_asmm_pdf(self, out_file_name_pdf):
     ptext = 'Comments:'
     template.drawString(pos_x_tl3 + 18, pos_y_tl3, ptext)
     template.setFont("Times",10)
-    ln = line(0,0,62,0, 'black')
+    ln = line(0,0,58,0, 'black')
     ln.wrapOn(template, 200, 100)
     ln.drawOn(template, pos_x_tl3 + 18, pos_y_tl3 + 3)
     pos_y = pos_y_tl3 - h1 + 30
@@ -270,8 +273,8 @@ def create_asmm_pdf(self, out_file_name_pdf):
     ln.drawOn(template, pos_x_tl4+18, pos_y_tl4+95+3)
     pos_y = [115,115,115,115,135,135,135,135]
     pos_x = [80,210,340,470,80,210,340,470]
-    box_c = ['polar','midLatitudes','subTropical','tropical','maritime','continental','oceanicIslan'
-             'ds','other']
+    box_c = ['Polar','Mid-latitudes','Sub-tropical','Tropical','Maritime','Continental','Oceanic islan'
+             'ds','Other (Geographical region)']
     name_c = ['Polar','Mid-latitudes','Sub-tropical','Tropical','Maritime','Continental','Oceanic I'
               'slands','Other']
     check_boxes_loop(pos_x,pos_y,pos_y_tl4,box_c,name_c,self.geographical_region_check_dict,template)
@@ -283,7 +286,7 @@ def create_asmm_pdf(self, out_file_name_pdf):
         template.setFont("Times",12)
         ptext = 'User-defined:'
         template.drawString(pos_x_tl4 + 18, pos_y, ptext)
-        ln = line(0,0,72,0, 'black')
+        ln = line(0,0,68,0, 'black')
         ln.wrapOn(template, 200, 100)
         ln.drawOn(template, pos_x_tl4 + 18, pos_y + 3)
         template.setFont("Times",10)
@@ -327,7 +330,7 @@ def create_asmm_pdf(self, out_file_name_pdf):
     ptext = 'Comments:'
     template.drawString(pos_x_tl4 + 18, pos_y_tl4, ptext)
     template.setFont("Times",10)
-    ln = line(0,0,62,0, 'black')
+    ln = line(0,0,58,0, 'black')
     ln.wrapOn(template, 200, 100)
     ln.drawOn(template, pos_x_tl4 + 18, pos_y_tl4 + 3)
     pos_y = pos_y_tl4 - h2 + 30
@@ -354,11 +357,11 @@ def create_asmm_pdf(self, out_file_name_pdf):
     sq.drawOn(template, pos_x_tl5, pos_y_tl5+3)
     pos_y = [20,40,60,80,100,120,20,40,60,80,100,120,20,40,60,80,100,120]
     pos_x = [60,80,80,60,60,60,240,240,240,240,240,240,420,420,420,420,420,420]
-    box_c = ['stationary','stationaryAnticyclonic','stationaryCyclonic','warmFront','warmConveyorBe'
-             'lt','coldFront','occludedFront','warmSector','postColdFrontalAirMass','arcticColdAirO'
-             'utbreak','orographicInfluence','seaBreezeFront','stratosphericFold','extendedConverge'
-             'nceLine','easterlyWave','equatorialWave','tropycalCyclone','mesoscaleOrganizedConvect'
-             'ion']
+    box_c = ['Stationary','Stationary anticyclonic','Stationary cyclonic','Warm front','Warm convey'
+             'or belt','Cold front','Occluded front','Warm sector','Post-cold-frontal air-mass','Ar'
+             'ctic cold-air outbreak','Orographic influence','Sea-breeze front','Stratospheric fold'
+             '/intrusion','Extended convergence line','Easterly wave','Equatorial wave','Tropical c'
+             'yclone','Mesoscale organized convection']
     name_c = ['Stationary','Anticyclonic','Cyclonic','Warm front','Warm conveyor belt','Cold front',
               'Occluded front','Warm sector','Post-cold-frontal air mass','Arctic cold-air outbreak',
               'Orographic influence','Sea-breeze front','Stratospheric fold / intrusion','Extended '
@@ -373,7 +376,7 @@ def create_asmm_pdf(self, out_file_name_pdf):
         template.setFont("Times",12)
         ptext = 'User-defined:'
         template.drawString(pos_x_tl5 + 18, pos_y, ptext)
-        ln = line(0,0,72,0, 'black')
+        ln = line(0,0,68,0, 'black')
         ln.wrapOn(template, 200, 100)
         ln.drawOn(template, pos_x_tl5 + 18, pos_y + 3)
         template.setFont("Times",10)
@@ -417,7 +420,7 @@ def create_asmm_pdf(self, out_file_name_pdf):
     ptext = 'Comments:'
     template.drawString(pos_x_tl5 + 18, pos_y_tl5, ptext)
     template.setFont("Times",10)
-    ln = line(0,0,62,0, 'black')
+    ln = line(0,0,58,0, 'black')
     ln.wrapOn(template, 200, 100)
     ln.drawOn(template, pos_x_tl5 + 18, pos_y_tl5 + 3)
     pos_y = pos_y_tl5 - h3 + 30
@@ -444,10 +447,10 @@ def create_asmm_pdf(self, out_file_name_pdf):
     sq.drawOn(template, pos_x_tl6, pos_y_tl6+3)
     pos_y = [20,40,60,80,100,20,40,60,80,100,20,40,60,80]
     pos_x = [60,60,60,60,60,220,220,220,220,220,420,420,420,420]
-    box_c = ['waterClouds','mixedPhaseClouds','iceClouds','cirrus','contrails','stratocumulus','sha'
-             'llowCumulus','cumulusCongestus','cumulonimbusToweringCumulus','altostratusAltocumulus',
-             'waveClouds','deepFrontalStratiformClouds','cloudFreeAboveAircraft','cloudFreeBelowAir'
-             'craft']
+    box_c = ['Water clouds','Mixed-phase clouds','Ice clouds','Cirrus','Contrails','Stratocumulus',
+             'Shallow cumulus','Cumulus congestus','Cumulonimbus/towering cumulus','Altostratus/alt'
+             'ocumulus','Wave clouds','Deep frontal statiform clouds','Cloud-free above aircraft',
+             'Cloud-free below aircraft']
     name_c = ['Water clouds','Mixed-phase clouds','Ice clouds','Cirrus','Contrails','Stratocumulus',
               'Shallow cumulus','Cumulus congestus','Cumulonimbus / towering cumulus','Altostratus '
               '/ altocumulus','Wave clouds','Deep frontal statiform clounds','Cloud-free above airc'
@@ -461,7 +464,7 @@ def create_asmm_pdf(self, out_file_name_pdf):
         template.setFont("Times",12)
         ptext = 'User-defined:'
         template.drawString(pos_x_tl6 + 18, pos_y, ptext)
-        ln = line(0,0,72,0, 'black')
+        ln = line(0,0,68,0, 'black')
         ln.wrapOn(template, 200, 100)
         ln.drawOn(template, pos_x_tl6 + 18, pos_y + 3)
         template.setFont("Times",10)
@@ -505,7 +508,7 @@ def create_asmm_pdf(self, out_file_name_pdf):
     ptext = 'Comments:'
     template.drawString(pos_x_tl6 + 18, pos_y_tl6, ptext)
     template.setFont("Times",10)
-    ln = line(0,0,62,0, 'black')
+    ln = line(0,0,58,0, 'black')
     ln.wrapOn(template, 200, 100)
     ln.drawOn(template, pos_x_tl6 + 18, pos_y_tl6 + 3)
     pos_y = pos_y_tl6 - h4 + 30
@@ -532,9 +535,9 @@ def create_asmm_pdf(self, out_file_name_pdf):
     sq.drawOn(template, pos_x_tl7, pos_y_tl7+3)
     pos_y = [20,40,60,80,20,40,60,80,20,40,60,80]
     pos_x = [60,60,60,60,240,240,240,240,420,420,420,420]
-    box_c = ['rain','drizzle','droplets','pristineIceCrystals','snowOrAggregates','graupelOrHail',
-             'seaSaltAerosol','continentalAerosol','urbanPlume','biomassBurning','desertOrMineralDu'
-             'st','volcanicAsh']
+    box_c = ['Rain','Drizzle','Droplets (Liquid)','Pristine ice crystals','Snow/aggregates','Graupe'
+             'l/hail','Sea-salt aerosol','Continental aerosol','Urban plume','Biomass burning','Des'
+             'ert/mineral dust','Volcanic ash']
     name_c = ['Rain','Drizzle','Droplets (liquid)','Pristine ice crystals','Snow / aggregates','Gra'
               'upel / hail','Sea-salt aerosol','Continental aerosol','Urban plume','Biomass burning',
               'Desert / mineral dust','Volcanic ashes']
@@ -547,7 +550,7 @@ def create_asmm_pdf(self, out_file_name_pdf):
         template.setFont("Times",12)
         ptext = 'User-defined:'
         template.drawString(pos_x_tl7 + 18, pos_y, ptext)
-        ln = line(0,0,72,0, 'black')
+        ln = line(0,0,68,0, 'black')
         ln.wrapOn(template, 200, 100)
         ln.drawOn(template, pos_x_tl7 + 18, pos_y + 3)
         template.setFont("Times",10)
@@ -591,7 +594,7 @@ def create_asmm_pdf(self, out_file_name_pdf):
     ptext = 'Comments:'
     template.drawString(pos_x_tl7 + 18, pos_y_tl7, ptext)
     template.setFont("Times",10)
-    ln = line(0,0,62,0, 'black')
+    ln = line(0,0,58,0, 'black')
     ln.wrapOn(template, 200, 100)
     ln.drawOn(template, pos_x_tl7 + 18, pos_y_tl7 + 3)
     pos_y = pos_y_tl7 - h5 + 30
@@ -617,8 +620,8 @@ def create_asmm_pdf(self, out_file_name_pdf):
     sq.drawOn(template, pos_x_tl8, pos_y_tl8+3)
     pos_y = [20,40,60,20,40,60,20,40,60,20,40,60]
     pos_x = [60,60,60,200,200,200,340,340,340,480,480,480]    
-    box_c = ['ocean','semiArid','seaIce','desert','snow','urban','lakeIce','forest','vegetation',
-             'mountainous','hilly','flat']
+    box_c = ['Ocean','Semi-arid','Sea-ice','Desert','Snow','Urban','Lake-ice','Mountainous','Vegeta'
+             'tion','Hilly','Forest','Flat']
     name_c = ['Ocean','Semi-arid','Sea-ice','Desert','Snow','Urban','Lake-ice','Forest','Vegetation',
               'Mountainous','Hilly','Flat']
     check_boxes_loop(pos_x,pos_y,pos_y_tl8,box_c,name_c,self.surfaces_overflown_check_dict,template)
@@ -630,7 +633,7 @@ def create_asmm_pdf(self, out_file_name_pdf):
         template.setFont("Times",12)
         ptext = 'User-defined:'
         template.drawString(pos_x_tl8 + 18, pos_y, ptext)
-        ln = line(0,0,72,0, 'black')
+        ln = line(0,0,68,0, 'black')
         ln.wrapOn(template, 200, 100)
         ln.drawOn(template, pos_x_tl8 + 18, pos_y + 3)
         template.setFont("Times",10)
@@ -674,7 +677,7 @@ def create_asmm_pdf(self, out_file_name_pdf):
     ptext = 'Comments:'
     template.drawString(pos_x_tl8 + 18, pos_y_tl8, ptext)
     template.setFont("Times",10)
-    ln = line(0,0,62,0, 'black')
+    ln = line(0,0,58,0, 'black')
     ln.wrapOn(template, 200, 100)
     ln.drawOn(template, pos_x_tl8 + 18, pos_y_tl8 + 3)
     pos_y = pos_y_tl8 - h6 + 30
@@ -701,8 +704,9 @@ def create_asmm_pdf(self, out_file_name_pdf):
     sq.drawOn(template, pos_x_tl9, pos_y_tl9+3)
     pos_y = [20,40,60,80,20,40,20,40]
     pos_x = [60,80,80,80,240,240,420,420]    
-    box_c = ['boundaryLayer','blNearSurface','blSubCloud','blInCloud','lowerTroposphere','midTropos'
-             'phere','upperTroposphere','lowerStratosphere']
+    box_c = ['Boundary-layer','Near-surface (Boundary-layer)','Sub-cloud (Boundary-layer)','In-clou'
+             'd (Boundary-layer)','Lower troposphere','Mid troposphere','Upper troposphere','Lower '
+             'stratosphere']
     name_c = ['Boundary-layer','near-surface','sub-cloud','in-cloud','Lower troposphere','Mid tropo'
               'sphere','Upper troposphere','Lower stratosphere']
     check_boxes_loop(pos_x,pos_y,pos_y_tl9,box_c,name_c,self.altitude_ranges_check_dict,template)
@@ -714,7 +718,7 @@ def create_asmm_pdf(self, out_file_name_pdf):
         template.setFont("Times",12)
         ptext = 'User-defined:'
         template.drawString(pos_x_tl9 + 18, pos_y, ptext)
-        ln = line(0,0,72,0, 'black')
+        ln = line(0,0,68,0, 'black')
         ln.wrapOn(template, 200, 100)
         ln.drawOn(template, pos_x_tl9 + 18, pos_y + 3)
         template.setFont("Times",10)
@@ -758,7 +762,7 @@ def create_asmm_pdf(self, out_file_name_pdf):
     ptext = 'Comments:'
     template.drawString(pos_x_tl9 + 18, pos_y_tl9, ptext)
     template.setFont("Times",10)
-    ln = line(0,0,62,0, 'black')
+    ln = line(0,0,58,0, 'black')
     ln.wrapOn(template, 200, 100)
     ln.drawOn(template, pos_x_tl9 + 18, pos_y_tl9 + 3)
     pos_y = pos_y_tl9 - h7 + 30
@@ -787,9 +791,9 @@ def create_asmm_pdf(self, out_file_name_pdf):
     sq.drawOn(template, pos_x_tl10, pos_y_tl10+3)
     pos_y = [20,40,60,20,40,60,20,40,60]
     pos_x = [60,80,80,240,240,240,420,420,420]      
-    box_c = ['straightLevelRuns','stackedStraightLevelRuns','separatedStraightLevelRuns','racetracks',
-             'orbits','lagrangianDescents','deepProfileAscentDescents','dropsondeDeployed','selfCal'
-             'ibration']
+    box_c = ['Straight/level runs','Stacked (Straight/level runs)','Separated (Straight/level runs)'
+             ,'Racetracks','Orbits','Lagrangian descents','Deep profile ascents/descents','Dropsond'
+             'e deployed','Self-calibration']
     name_c = ['Straight / level runs','stacked','separated','Racetracks','Orbits','Lagrangian desce'
               'nts','Deep profile ascents / descents','Dropsonde deployed','Self-calibration']
     check_boxes_loop(pos_x,pos_y,pos_y_tl10,box_c,name_c,self.flight_types_check_dict,template)
@@ -801,7 +805,7 @@ def create_asmm_pdf(self, out_file_name_pdf):
         template.setFont("Times",12)
         ptext = 'User-defined:'
         template.drawString(pos_x_tl10 + 18, pos_y, ptext)
-        ln = line(0,0,72,0, 'black')
+        ln = line(0,0,68,0, 'black')
         ln.wrapOn(template, 200, 100)
         ln.drawOn(template, pos_x_tl10 + 18, pos_y + 3)
         template.setFont("Times",10)
@@ -845,7 +849,7 @@ def create_asmm_pdf(self, out_file_name_pdf):
     ptext = 'Comments:'
     template.drawString(pos_x_tl10 + 18, pos_y_tl10, ptext)
     template.setFont("Times",10)
-    ln = line(0,0,62,0, 'black')
+    ln = line(0,0,58,0, 'black')
     ln.wrapOn(template, 200, 100)
     ln.drawOn(template, pos_x_tl10 + 18, pos_y_tl10 + 3)
     pos_y = pos_y_tl10 - h8 + 30
@@ -872,8 +876,8 @@ def create_asmm_pdf(self, out_file_name_pdf):
     sq.drawOn(template, pos_x_tl11, pos_y_tl11+3)
     pos_y = [40,60,80,100,40,60,20,40,60,80,20,40,60]
     pos_x = [80,80,80,80,200,200,320,320,320,320,440,440,440]      
-    box_c = ['polarMetop','polarNpoess','polarAtrain','polarOther','geosynchMsg','geosynchOther',
-             'modis','cloudsat','caliop','iasi','airs','cris','amsuMhs']
+    box_c = ['METOP (Polar)','NPOESS (Polar)','A-train (Polar)','Other (Polar)','MSG (Geosynch)','O'
+             'ther (Geosynch)','MODIS','Cloudsat','CALIOP','IASI','AIRS','CriS','AMSU/MHS']
     name_c = ['METOP','NPOESS','A-train','Other','MSG','Other','MODIS','Cloudsat','CALIOP','IASI',
               'AIRS','CriS','AMSU / MHS']
     check_boxes_loop(pos_x,pos_y,pos_y_tl11,box_c,name_c,self.satellite_coordination_check_dict,template)
@@ -889,7 +893,7 @@ def create_asmm_pdf(self, out_file_name_pdf):
         template.setFont("Times",12)
         ptext = 'User-defined:'
         template.drawString(pos_x_tl11 + 18, pos_y, ptext)
-        ln = line(0,0,72,0, 'black')
+        ln = line(0,0,68,0, 'black')
         ln.wrapOn(template, 200, 100)
         ln.drawOn(template, pos_x_tl11 + 18, pos_y + 3)
         template.setFont("Times",10)
@@ -933,7 +937,7 @@ def create_asmm_pdf(self, out_file_name_pdf):
     ptext = 'Comments:'
     template.drawString(pos_x_tl11 + 18, pos_y_tl11, ptext)
     template.setFont("Times",10)
-    ln = line(0,0,62,0, 'black')
+    ln = line(0,0,58,0, 'black')
     ln.wrapOn(template, 200, 100)
     ln.drawOn(template, pos_x_tl11 + 18, pos_y_tl11 + 3)
     pos_y = pos_y_tl11 - h9 + 30

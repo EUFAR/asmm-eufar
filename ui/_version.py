@@ -1,6 +1,6 @@
-_asmm_version = '1.0.3'
+_asmm_version = '1.1.0'
 _xml_version = '1.0a'
 _py_version = '3.5.1'
-_eclipse_version = '4.5.2'
+_eclipse_version = '4.6.0'
 _qt_version = '5.6'
 _report_version = '3.3.9'

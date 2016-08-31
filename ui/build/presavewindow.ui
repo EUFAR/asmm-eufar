@@ -6,19 +6,19 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>450</width>
+    <width>470</width>
     <height>180</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>450</width>
+    <width>470</width>
     <height>180</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>452</width>
+    <width>470</width>
     <height>16777215</height>
    </size>
   </property>
@@ -38,6 +38,11 @@
   <property name="windowIcon">
    <iconset>
     <normaloff>icons/warning_icon.png</normaloff>icons/warning_icon.png</iconset>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QWidget {
+	background-color: rgb(230,230,230);
+}</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">
@@ -170,16 +175,16 @@
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_2">
        <item>
-        <widget class="QPushButton" name="iw_nosaveButton">
+        <widget class="QToolButton" name="iw_nosaveButton">
          <property name="minimumSize">
           <size>
-           <width>180</width>
+           <width>160</width>
            <height>27</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>220</width>
+           <width>180</width>
            <height>27</height>
           </size>
          </property>
@@ -193,12 +198,30 @@
            <kerning>true</kerning>
           </font>
          </property>
+         <property name="styleSheet">
+          <string notr="true">QToolButton {
+	border: 1px solid #acacac;
+	border-radius: 1px;
+	background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+									stop:0 #f0f0f0, stop:1 #e5e5e5);
+}
+
+QToolButton:hover {
+	border: 1px solid #7eb4ea;
+	border-radius: 1px;
+	background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+									stop:0 #ecf4fc, stop:1 #dcecfc);
+}
+
+QToolButton:pressed {
+	border: 1px solid #579de5;
+	border-radius: 1px;
+	background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+									stop:0 #daecfc, stop:1 #c4e0fc);
+}</string>
+         </property>
          <property name="text">
           <string>Close without saving</string>
-         </property>
-         <property name="icon">
-          <iconset>
-           <normaloff>icons/cancel_icon.png</normaloff>icons/cancel_icon.png</iconset>
          </property>
          <property name="iconSize">
           <size>
@@ -225,7 +248,7 @@
         </spacer>
        </item>
        <item>
-        <widget class="QPushButton" name="iw_cancelButton">
+        <widget class="QToolButton" name="iw_cancelButton">
          <property name="minimumSize">
           <size>
            <width>93</width>
@@ -248,12 +271,30 @@
            <kerning>true</kerning>
           </font>
          </property>
+         <property name="styleSheet">
+          <string notr="true">QToolButton {
+	border: 1px solid #acacac;
+	border-radius: 1px;
+	background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+									stop:0 #f0f0f0, stop:1 #e5e5e5);
+}
+
+QToolButton:hover {
+	border: 1px solid #7eb4ea;
+	border-radius: 1px;
+	background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+									stop:0 #ecf4fc, stop:1 #dcecfc);
+}
+
+QToolButton:pressed {
+	border: 1px solid #579de5;
+	border-radius: 1px;
+	background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+									stop:0 #daecfc, stop:1 #c4e0fc);
+}</string>
+         </property>
          <property name="text">
           <string>Cancel</string>
-         </property>
-         <property name="icon">
-          <iconset>
-           <normaloff>icons/del_icon.png</normaloff>icons/del_icon.png</iconset>
          </property>
          <property name="iconSize">
           <size>
@@ -280,7 +321,7 @@
         </spacer>
        </item>
        <item>
-        <widget class="QPushButton" name="iw_saveButton">
+        <widget class="QToolButton" name="iw_saveButton">
          <property name="minimumSize">
           <size>
            <width>93</width>
@@ -303,12 +344,30 @@
            <kerning>true</kerning>
           </font>
          </property>
+         <property name="styleSheet">
+          <string notr="true">QToolButton {
+	border: 1px solid #acacac;
+	border-radius: 1px;
+	background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+									stop:0 #f0f0f0, stop:1 #e5e5e5);
+}
+
+QToolButton:hover {
+	border: 1px solid #7eb4ea;
+	border-radius: 1px;
+	background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+									stop:0 #ecf4fc, stop:1 #dcecfc);
+}
+
+QToolButton:pressed {
+	border: 1px solid #579de5;
+	border-radius: 1px;
+	background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+									stop:0 #daecfc, stop:1 #c4e0fc);
+}</string>
+         </property>
          <property name="text">
           <string>Save</string>
-         </property>
-         <property name="icon">
-          <iconset>
-           <normaloff>icons/save_icon.png</normaloff>icons/save_icon.png</iconset>
          </property>
          <property name="iconSize">
           <size>
