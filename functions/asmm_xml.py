@@ -26,28 +26,28 @@ def create_asmm_xml(self, out_file_name):
     # Flight Information
     ############################
     flightInformation = add_element(doc, "FlightInformation", doc_root)
-    add_element(doc, "FlightNumber", flightInformation, self.flightNumberLine.text())
-    add_element(doc, "Date", flightInformation, self.dateLine.date().toString(Qt.ISODate))
-    add_element(doc, "ProjectAcronym", flightInformation, self.campaignLine.text())
-    add_element(doc, "MissionScientist", flightInformation, self.missionSciLine.text())
-    add_element(doc, "FlightManager", flightInformation, self.flightManagerLine.text())
+    add_element(doc, "FlightNumber", flightInformation, self.flightNumber_ln.text())
+    add_element(doc, "Date", flightInformation, self.date_dt.date().toString(Qt.ISODate))
+    add_element(doc, "ProjectAcronym", flightInformation, self.projectAcronym_ln.text())
+    add_element(doc, "MissionScientist", flightInformation, self.missionSci_ln.text())
+    add_element(doc, "FlightManager", flightInformation, self.flightManager_ln.text())
     operator = ""
     aircraft = ""
-    if self.operatorList.currentText() == "Other...":
-        operator = self.tmpAircraftLine.text()
-        aircraft = self.tmpOperatorLine.text()
-    elif self.operatorList.currentText() != "Make a choice...":
+    if self.operator_cb.currentText() == "Other...":
+        operator = self.newAircraft_ln.text()
+        aircraft = self.newOperator_ln.text()
+    elif self.operator_cb.currentText() != "Make a choice...":
         for i in range(len(self.operators_aircraft)):
-            if self.operatorList.currentText() == self.operators_aircraft[i][0]:
+            if self.operator_cb.currentText() == self.operators_aircraft[i][0]:
                 operator = self.operators_aircraft[i][2]
                 break
         for i in range(len(self.operators_aircraft)):
-            if self.aircraftList.currentText() == self.operators_aircraft[i][1]:
+            if self.aircraft_cb.currentText() == self.operators_aircraft[i][1]:
                 aircraft = self.operators_aircraft[i][3]
                 break
     add_element(doc, "Platform", flightInformation, aircraft)
     add_element(doc, "Operator", flightInformation, operator)
-    if self.locationList.currentText() == "Make a choice...":
+    if self.location_cb.currentText() == "Make a choice...":
         add_element(doc, "Localisation", flightInformation, "")
     elif self.detailList.currentText() == "Make a choice...":
         add_element(doc, "Localisation", flightInformation, "")
@@ -59,12 +59,12 @@ def create_asmm_xml(self, out_file_name):
     # Metadata Contact Info
     ###########################
     contactInfo = add_element(doc, "ContactInfo", doc_root)
-    add_element(doc, "ContactName", contactInfo, self.contactNameLine.text())
-    if self.contactRoleBox.currentText() == 'Make a choice...':
+    add_element(doc, "ContactName", contactInfo, self.contactName_ln.text())
+    if self.contact_cb.currentText() == 'Make a choice...':
         add_element(doc, "ContactRole", contactInfo, '')
     else:
-        add_element(doc, "ContactRole", contactInfo, self.contactRoleBox.currentText())
-    add_element(doc, "ContactEmail", contactInfo, self.contactEmailLine.text())
+        add_element(doc, "ContactRole", contactInfo, self.contact_cb.currentText())
+    add_element(doc, "ContactEmail", contactInfo, self.contactEmail_ln.text())
 
 
     ############################
@@ -242,12 +242,12 @@ def read_asmm_xml(self, in_file_name):
     ############################
     self.create_date = get_element_value(doc, "CreationDate")
     flightInformation = get_element(doc, "FlightInformation")
-    set_text_value(self.flightNumberLine, flightInformation, "FlightNumber")
+    set_text_value(self.flightNumber_ln, flightInformation, "FlightNumber")
     date = get_element_value(flightInformation, "Date")
-    self.dateLine.setDate(QDate.fromString(date, Qt.ISODate))
-    set_text_value(self.campaignLine, flightInformation, "ProjectAcronym")
-    set_text_value(self.missionSciLine, flightInformation, "MissionScientist")
-    set_text_value(self.flightManagerLine, flightInformation, "FlightManager")
+    self.date_dt.setDate(QDate.fromString(date, Qt.ISODate))
+    set_text_value(self.projectAcronym_ln, flightInformation, "ProjectAcronym")
+    set_text_value(self.missionSci_ln, flightInformation, "MissionScientist")
+    set_text_value(self.flightManager_ln, flightInformation, "FlightManager")
     operator = get_element_value(flightInformation, "Operator")
     aircraft = get_element_value(flightInformation, "Platform")
     operator_combo = None
@@ -260,53 +260,53 @@ def read_asmm_xml(self, in_file_name):
             aircraft_combo = self.operators_aircraft[i][1]
             break
     if operator_combo == None:
-        self.operatorList.setCurrentIndex(self.operatorList.findText("Other..."))
+        self.operator_cb.setCurrentIndex(self.operator_cb.findText("Other..."))
         operator_read(self)
-        self.tmpOperatorLine.setText(operator)
-        self.tmpAircraftLine.setText(aircraft)
+        self.newOperator_ln.setText(operator)
+        self.newAircraft_ln.setText(aircraft)
     else:
         if aircraft_combo == None and aircraft != None:
-            self.operatorList.setCurrentIndex(self.operatorList.findText("Other..."))
+            self.operator_cb.setCurrentIndex(self.operator_cb.findText("Other..."))
             operator_read(self)
-            self.tmpOperatorLine.setText(operator)
-            self.tmpAircraftLine.setText(aircraft)
+            self.newOperator_ln.setText(operator)
+            self.newAircraft_ln.setText(aircraft)
         else:
-            self.operatorList.setCurrentIndex(self.operatorList.findText(operator_combo))
-            self.aircraftList.clear()
-            self.aircraftList.addItem("Make a choice...")
-            self.aircraftList.setEnabled(True)
+            self.operator_cb.setCurrentIndex(self.operator_cb.findText(operator_combo))
+            self.aircraft_cb.clear()
+            self.aircraft_cb.addItem("Make a choice...")
+            self.aircraft_cb.setEnabled(True)
             for i in range(len(self.operators_aircraft)):
-                if self.operatorList.currentText() == self.operators_aircraft[i][0]:
-                    self.aircraftList.addItem(self.operators_aircraft[i][1])
-            if self.aircraftList.count() < 3:
-                self.aircraftList.removeItem(0)
+                if self.operator_cb.currentText() == self.operators_aircraft[i][0]:
+                    self.aircraft_cb.addItem(self.operators_aircraft[i][1])
+            if self.aircraft_cb.count() < 3:
+                self.aircraft_cb.removeItem(0)
             if aircraft == None:
-                self.aircraftList.setCurrentIndex(0)
+                self.aircraft_cb.setCurrentIndex(0)
             else:
-                self.aircraftList.setCurrentIndex(self.aircraftList.findText(aircraft_combo))
+                self.aircraft_cb.setCurrentIndex(self.aircraft_cb.findText(aircraft_combo))
 
     combo_text = get_element_value(flightInformation, "Localisation")
     if combo_text != None:
         if combo_text in self.countries:
-            self.locationList.setCurrentIndex(self.locationList.findText("Countries"))
+            self.location_cb.setCurrentIndex(self.location_cb.findText("Countries"))
             self.detailList.clear()
             self.detailList.setEnabled(True)
             self.detailList.addItems(self.countries)
             self.detailList.setCurrentIndex(self.detailList.findText(combo_text))
         elif combo_text in self.continents:
-            self.locationList.setCurrentIndex(self.locationList.findText("Continents"))
+            self.location_cb.setCurrentIndex(self.location_cb.findText("Continents"))
             self.detailList.clear()
             self.detailList.setEnabled(True)
             self.detailList.addItems(self.continents)
             self.detailList.setCurrentIndex(self.detailList.findText(combo_text))
         elif combo_text in self.oceans:
-            self.locationList.setCurrentIndex(self.locationList.findText("Oceans"))
+            self.location_cb.setCurrentIndex(self.location_cb.findText("Oceans"))
             self.detailList.clear()
             self.detailList.setEnabled(True)
             self.detailList.addItems(self.oceans)
             self.detailList.setCurrentIndex(self.detailList.findText(combo_text))
         elif combo_text in self.regions:
-            self.locationList.setCurrentIndex(self.locationList.findText("Regions"))
+            self.location_cb.setCurrentIndex(self.location_cb.findText("Regions"))
             self.detailList.clear()
             self.detailList.setEnabled(True)
             self.detailList.addItems(self.regions)
@@ -317,13 +317,11 @@ def read_asmm_xml(self, in_file_name):
     # Metadata Contact Info
     #############################
     contactInfo = get_element(doc, "ContactInfo")
-    set_text_value(self.contactNameLine, contactInfo, "ContactName")
-    set_text_value(self.contactEmailLine, contactInfo, "ContactEmail")
+    set_text_value(self.contactName_ln, contactInfo, "ContactName")
+    set_text_value(self.contactEmail_ln, contactInfo, "ContactEmail")
     combo_text = get_element_value(contactInfo, "ContactRole")
-    if combo_text == None:
-        self.contactRoleBox.setCurrentIndex(self.contactRoleBox.findText('None'))
-    else:
-        self.contactRoleBox.setCurrentIndex(self.contactRoleBox.findText(combo_text))
+    if combo_text != None:
+        self.contact_cb.setCurrentIndex(self.contact_cb.findText(combo_text))
 
 
     #############################
@@ -513,10 +511,10 @@ def find_key(dic, val):
 
 
 def operator_read(self):
-    self.aircraftList.clear()
-    self.aircraftList.addItem("Other")
-    self.aircraftList.setEnabled(True)
-    self.tmpOperatorLine.show()
-    self.tmpAircraftLine.show()
+    self.aircraft_cb.clear()
+    self.aircraft_cb.addItem("Other...")
+    self.aircraft_cb.setEnabled(True)
+    self.newOperator_ln.show()
+    self.newAircraft_ln.show()
     self.label_38.show()
     self.label_39.show()

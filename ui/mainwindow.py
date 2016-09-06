@@ -40,6 +40,7 @@ from functions.button_functions import add_image
 from functions.button_functions import delete_image
 from functions.button_functions import display_image
 from functions.sql_functions import objectsInit
+from functions.check_functions import fill_all_fields
 
 
 class MainWindow(QMainWindow, Ui_MainWindow):
@@ -57,18 +58,18 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         all_line_edits = self.findChildren(QLineEdit)
         for widget in all_line_edits:
             widget.textChanged.connect(lambda: self.set_modified())
-        self.dateLine.dateChanged.connect(lambda: self.set_modified()) 
+        self.date_dt.dateChanged.connect(lambda: self.set_modified()) 
         all_tool_buttons = self.findChildren(QToolButton)
         for widget in all_tool_buttons:
             widget.clicked.connect(lambda: self.toolButton_clicked())
         all_rolbox_edits = self.findChildren(QComboBox)
         for widget in all_rolbox_edits:
             widget.activated.connect(lambda: self.set_modified())
-        self.operatorList.activated.connect(lambda: self.operator_changed())
-        self.locationList.addItems(self.locations)
-        self.locationList.activated.connect(lambda: self.location_changed())
-        self.tmpOperatorLine.hide()
-        self.tmpAircraftLine.hide()
+        self.operator_cb.activated.connect(lambda: self.operator_changed())
+        self.location_cb.addItems(self.locations)
+        self.location_cb.activated.connect(lambda: self.location_changed())
+        self.newOperator_ln.hide()
+        self.newAircraft_ln.hide()
         self.label_38.hide()
         self.label_39.hide()
         self.make_window_title()
@@ -335,6 +336,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
 
     def save_document(self, save_as=False):
+        cancel = fill_all_fields(self)
+        if cancel == True:
+            return
         if not self.out_file_name or save_as:
             self.out_file_name = self.get_file_name()
             if not self.out_file_name:
@@ -348,7 +352,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def get_file_name(self):
         file_dialog = QFileDialog()
         file_dialog.setDefaultSuffix('xml')
-        out_file_name, out_file_ext = file_dialog.getSaveFileName(self, "Save XML File",self.flightNumberLine.text() + '_'
+        out_file_name, out_file_ext = file_dialog.getSaveFileName(self, "Save XML File","!!!Flight identifier!!!_xxxxxxxxxx.xml"
                                                                   , filter='XML Files (*.xml)')  # @UnusedVariable
         return out_file_name
 
@@ -391,16 +395,16 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.gridLayout_15.itemAt(i).widget().deleteLater()
         for i in reversed(range(self.gridLayout_25.count())):
             self.gridLayout_25.itemAt(i).widget().deleteLater()
-        self.operatorList.setCurrentIndex(0)
-        self.tmpOperatorLine.clear()
-        self.tmpAircraftLine.clear()
-        self.tmpOperatorLine.hide()
-        self.tmpAircraftLine.hide()
+        self.operator_cb.setCurrentIndex(0)
+        self.newOperator_ln.clear()
+        self.newAircraft_ln.clear()
+        self.newOperator_ln.hide()
+        self.newAircraft_ln.hide()
         self.label_38.hide()
         self.label_39.hide()
-        self.aircraftList.clear()
-        self.aircraftList.setEnabled(False)    
-        self.locationList.setCurrentIndex(0)
+        self.aircraft_cb.clear()
+        self.aircraft_cb.setEnabled(False)    
+        self.location_cb.setCurrentIndex(0)
         self.detailList.clear()
         self.detailList.setEnabled(False)
         for i in reversed(range(0, len(self.images_pdf_path))):
@@ -493,54 +497,57 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     
     def location_changed(self):
-        if self.locationList.currentText() == "Make a choice...":
+        if self.location_cb.currentText() == "Make a choice...":
             self.detailList.clear()
             self.detailList.setEnabled(False)
-        elif self.locationList.currentText() == "Continents":
+        elif self.location_cb.currentText() == "Continents":
             self.detailList.clear()
             self.detailList.setEnabled(True)
             self.detailList.addItems(self.continents) 
-        elif self.locationList.currentText() == "Countries":
+        elif self.location_cb.currentText() == "Countries":
             self.detailList.clear()
             self.detailList.setEnabled(True)
             self.detailList.addItems(self.countries)
-        elif self.locationList.currentText() == "Oceans":
+        elif self.location_cb.currentText() == "Oceans":
             self.detailList.clear()
             self.detailList.setEnabled(True)
             self.detailList.addItems(self.oceans)
-        elif self.locationList.currentText() == "Regions":
+        elif self.location_cb.currentText() == "Regions":
             self.detailList.clear()
             self.detailList.setEnabled(True)
             self.detailList.addItems(self.regions)
 
 
     def operator_changed(self):
-        if self.operatorList.currentText() == "Make a choice...":
-            self.tmpOperatorLine.hide()
-            self.tmpAircraftLine.hide()
+        if self.operator_cb.currentText() == "Make a choice...":
+            self.newAircraft_ln.hide()
+            self.newOperator_ln.hide()
             self.label_38.hide()
             self.label_39.hide()
-            self.aircraftList.clear()
-            self.aircraftList.setEnabled(False)
-        elif self.operatorList.currentText() == "Other...":
-            self.tmpOperatorLine.show()
-            self.tmpAircraftLine.show()
+            self.aircraft_cb.clear()
+            self.aircraft_cb.setEnabled(False)
+        elif self.operator_cb.currentText() == "Other...":
+            self.newOperator_ln.show()
+            self.newAircraft_ln.show()
             self.label_38.show()
             self.label_39.show()
+            self.aircraft_cb.clear()
+            self.aircraft_cb.addItem("Other...")
+            self.aircraft_cb.setEnabled(True)
         else:
-            self.tmpOperatorLine.hide()
-            self.tmpAircraftLine.hide()
+            self.newOperator_ln.hide()
+            self.newAircraft_ln.hide()
             self.label_38.hide()
             self.label_39.hide()
-            self.aircraftList.clear()
-            self.aircraftList.addItem("Make a choice...")
-            self.aircraftList.setEnabled(True)
+            self.aircraft_cb.clear()
+            self.aircraft_cb.addItem("Make a choice...")
+            self.aircraft_cb.setEnabled(True)
             for i in range(len(self.operators_aircraft)):
-                if self.operatorList.currentText() == self.operators_aircraft[i][0]:
-                    self.aircraftList.addItem(self.operators_aircraft[i][1])
-            if self.aircraftList.count() < 3:
-                self.aircraftList.removeItem(0)
-            self.aircraftList.setCurrentIndex(0)
+                if self.operator_cb.currentText() == self.operators_aircraft[i][0]:
+                    self.aircraft_cb.addItem(self.operators_aircraft[i][1])
+            if self.aircraft_cb.count() < 3:
+                self.aircraft_cb.removeItem(0)
+            self.aircraft_cb.setCurrentIndex(0)
 
 
 class MyAbout(QtWidgets.QDialog, Ui_aboutWindow):

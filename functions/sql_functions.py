@@ -7,7 +7,7 @@ def objectsInit(self):
     self.research_vessel_list = []
     self.arm_site_list = []
     self.arm_mobile_list = []
-    self.dateLine.setDate(QDate.currentDate())
+    self.date_dt.setDate(QDate.currentDate())
     self.images_pdf_path = []
     self.images_display_path = []
     self.out_file_name = None
@@ -595,6 +595,7 @@ def objectsInit(self):
                       ]
     
     self.continents = [
+                       "Make a choice...",
                        "Africa",
                        "Antarctica",
                        "Asia",
@@ -605,6 +606,7 @@ def objectsInit(self):
                        ]
     
     self.oceans = [
+                   "Make a choice...",
                    "Atlantic Ocean",
                    "Arctic Ocean",
                    "Indian Ocean",
@@ -613,6 +615,7 @@ def objectsInit(self):
                    ]
     
     self.regions = [
+                    "Make a choice...",
                     "Arctic Region",
                     "Atlantic Ocean Islands",
                     "Central Africa",
@@ -693,3 +696,20 @@ def objectsInit(self):
                               + ". It can be scientific aims, details about the clouds, or manoeuvre"
                               + "s performed by the aircraft.</p>"
                               ]
+    
+    self.check_information = [
+                                ["01","projectAcronym_ln","Project acronym","Flight Information","text"],
+                                ["02","date_dt","Date","Flight Information",""],
+                                ["03","flightNumber_ln","Flight identifier","Flight Information","text"],
+                                ["04","missionSci_ln","Mission scientist","Flight Information","text"],
+                                ["05","flightManager_ln","Flight manager","Flight Information","text"],
+                                ["06","operator_cb","Operator","Flight Information",""],
+                                ["08","newOperator_ln","Operator","Flight Information","text"],
+                                ["09","aircraft_cb","Aircraft","Flight Information",""],
+                                ["10","newAircraft_ln","Aircraft","Flight Information","text"],
+                                ["11","location_cb","Location","Flight Information",""],
+                                ["12","detailList","Location","Flight Information",""],
+                                ["13","contactName_ln","Name","Contact Information","text"],
+                                ["14","contact_cb","Role","Contact Information",""],
+                                ["15","contactEmail_cb","E-mail","Contact Information","text"]
+                             ]

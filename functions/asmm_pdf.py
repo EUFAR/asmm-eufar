@@ -27,7 +27,7 @@ def create_asmm_pdf(self, out_file_name_pdf):
     deb_page = 0
     
     # polices
-    fontname1 = 'font/SourceSansPro-Regular.ttf'
+    fontname1 = 'fonts/SourceSansPro-Regular.ttf'
     pdfmetrics.registerFont(TTFont('Times', fontname1))
     pdfmetrics.registerFont(TTFont('Arial', fontname1))
     pdfmetrics.registerFont(TTFont('Ariali', fontname1))
@@ -73,39 +73,39 @@ def create_asmm_pdf(self, out_file_name_pdf):
     sq.drawOn(template, pos_x_tl1, pos_y_tl1+3)
     template.setFont("Times",10)
     template.drawString(pos_x_tl1+10, pos_y_tl1+25, 'Project acronym:')
-    p = Paragraph(str(self.campaignLine.text()), styles["asmm_par_sl"])
+    p = Paragraph(str(self.projectAcronym_ln.text()), styles["asmm_par_sl"])
     c, h = p.wrapOn(template, 150, 30)  # @UnusedVariable
     p.drawOn(template, pos_x_tl1+90, pos_y_tl1 + 25 - h + 10)
-    ptext = 'Date:     %s' % self.dateLine.date().toString(Qt.ISODate)
+    ptext = 'Date:     %s' % self.date_dt.date().toString(Qt.ISODate)
     template.drawString(pos_x_tl1+10, pos_y_tl1+55, ptext)
-    ptext = 'Flight Identifier:     %s' % self.flightNumberLine.text()
+    ptext = 'Flight Identifier:     %s' % self.flightNumber_ln.text()
     template.drawString(pos_x_tl1+10, pos_y_tl1+85, ptext)
-    ptext = 'Mission Scientist:     %s' % self.missionSciLine.text()
+    ptext = 'Mission Scientist:     %s' % self.missionSci_ln.text()
     template.drawString(pos_x_tl1+10, pos_y_tl1+115, ptext)
     ofx = 280
-    ptext = 'Flight Manager:     %s' % self.flightManagerLine.text()
+    ptext = 'Flight Manager:     %s' % self.flightManager_ln.text()
     template.drawString(pos_x_tl1+ofx, pos_y_tl1+25, ptext)
-    if self.aircraftList.currentText() == "Make a choice...":
+    if self.aircraft_cb.currentText() == "Make a choice...":
         aircraft = ""
-    elif self.aircraftList.currentText() == "Other...":
-        aircraft = self.tmpAircraftLine.text()
+    elif self.aircraft_cb.currentText() == "Other...":
+        aircraft = self.newAircraft_ln.text()
     else:
-        aircraft = self.aircraftList.currentText()
+        aircraft = self.aircraft_cb.currentText()
     template.drawString(pos_x_tl1+ofx, pos_y_tl1+55, 'Aircraft:')
     p = Paragraph(str(aircraft), styles["asmm_par_sl"])
     c, h = p.wrapOn(template, 150, 30)  # @UnusedVariable
     p.drawOn(template, pos_x_tl1 + ofx + 45, pos_y_tl1 + 55 - h + 10)
-    if self.operatorList.currentText() == "Make a choice...":
+    if self.operator_cb.currentText() == "Make a choice...":
         operator = ""
-    elif self.operatorList.currentText() == "Other...":
-        operator = self.tmpOperatorLine.text()
+    elif self.operator_cb.currentText() == "Other...":
+        operator = self.newOperator_ln.text()
     else:
-        operator = self.operatorList.currentText()
+        operator = self.operator_cb.currentText()
     template.drawString(pos_x_tl1+ofx, pos_y_tl1+85, 'Operator:')
     p = Paragraph(str(operator), styles["asmm_par_sl"])
     c, h = p.wrapOn(template, 200, 30)  # @UnusedVariable
     p.drawOn(template, pos_x_tl1 + ofx + 55, pos_y_tl1 + 85 - h + 10)
-    if self.locationList.currentText() == "Make a choice..." or self.detailList.currentText() == "Make a choice...":
+    if self.location_cb.currentText() == "Make a choice..." or self.detailList.currentText() == "Make a choice...":
         country = ""
     else:
         country = self.detailList.currentText()
@@ -127,14 +127,14 @@ def create_asmm_pdf(self, out_file_name_pdf):
     sq = semi_square(-10, 0, -10, -28, page_w-50, 0, 2, 'black')
     sq.wrapOn(template, 600, 100)
     sq.drawOn(template, pos_x_tl2, pos_y_tl2+2)
-    ptext = 'Name:     %s' % self.contactNameLine.text()
+    ptext = 'Name:     %s' % self.contactName_ln.text()
     template.drawString(pos_x_tl2+10, pos_y_tl2+25, ptext)
-    if self.contactRoleBox.currentText() != "Make a choice...":
-        ptext = 'Role:     %s' % self.contactRoleBox.currentText()
+    if self.contact_cb.currentText() != "Make a choice...":
+        ptext = 'Role:     %s' % self.contact_cb.currentText()
     else:
         ptext = 'Role:'
     template.drawString(pos_x_tl2+10, pos_y_tl2+55, ptext)
-    ptext = 'E-mail:     %s' % self.contactEmailLine.text()
+    ptext = 'E-mail:     %s' % self.contactEmail_ln.text()
     template.drawString(pos_x_tl2+10, pos_y_tl2+85, ptext)
 
 
