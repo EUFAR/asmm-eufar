@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
 
-import os, urllib.request
-import tempfile
+import os, urllib.request, tempfile
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QWidget, QLabel
 from PyQt5.QtGui import QCursor
+from PyQt5.QtCore import pyqtSignal
 from ui.Ui_infowindow import Ui_infoWindow
 from ui.Ui_imagewindow import Ui_ImageWindow
 from ui.Ui_addcheckbox import Ui_Addcheckbox
 from PIL import Image
-from PyQt5.QtCore import pyqtSignal
+
 
 
 def add_clicked(self):
@@ -195,7 +195,7 @@ def add_image(self, filename):
     spacerItem2 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
     self.im_horlay[self.im_number].addItem(spacerItem2)
     icon1 = QtGui.QIcon()
-    icon1.addPixmap(QtGui.QPixmap("icons/del_icon.png"), QtGui.QIcon.
+    icon1.addPixmap(QtGui.QPixmap("icons/del_icon.svg"), QtGui.QIcon.
                     Normal, QtGui.QIcon.Off)
     tmp7 = QtWidgets.QToolButton()
     self.im_del.append(tmp7)
@@ -203,7 +203,7 @@ def add_image(self, filename):
     self.im_del[self.im_number].setMaximumSize(QtCore.QSize(27, 27))
     self.im_del[self.im_number].setText("")
     self.im_del[self.im_number].setIcon(icon1)
-    self.im_del[self.im_number].setIconSize(QtCore.QSize(27, 27))
+    self.im_del[self.im_number].setIconSize(QtCore.QSize(23, 23))
     self.im_del[self.im_number].setToolButtonStyle(QtCore.Qt.ToolButtonIconOnly)
     self.im_del[self.im_number].setStyleSheet("QToolButton {\n"
 "    border: 1px solid transparent;\n"
@@ -212,20 +212,9 @@ def add_image(self, filename):
 "    height: 27px;\n"
 "}\n"
 "\n"
-"QToolButton:hover {\n"
-"    border: 1px solid gray;\n"
-"    border-radius: 3px;\n"
-"    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #f6f7fa, stop: 1 #dadbde);\n"
-"}\n"
-"\n"
-"QToolButton:pressed {\n"
-"    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #dadbde, stop: 1 #f6f7fa);\n"
-"}\n"
-"\n"
 "QToolButton:flat {\n"
 "    border: none;\n"
 "}")
-    self.im_del[self.im_number].setAutoRaise(True)
     self.im_del[self.im_number].setObjectName("im_del" + str(self.im_number))
     self.im_horlay[self.im_number].addWidget(self.im_del[self.im_number])
     spacerItem3 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)

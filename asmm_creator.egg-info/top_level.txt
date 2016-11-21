@@ -1,5 +1,5 @@
 Documentation
-font
+fonts
 functions
 icons
 ui

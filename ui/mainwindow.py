@@ -352,8 +352,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def get_file_name(self):
         file_dialog = QFileDialog()
         file_dialog.setDefaultSuffix('xml')
-        out_file_name, out_file_ext = file_dialog.getSaveFileName(self, "Save XML File","!!!Flight identifier!!!_xxxxxxxxxx.xml"
-                                                                  , filter='XML Files (*.xml)')  # @UnusedVariable
+        out_file_name, out_file_ext = file_dialog.getSaveFileName(self, "Save XML File","!!!Flight identifier!!!_xxxxxxxxxx.xml"  # @UnusedVariable
+                                                                  , filter='XML Files (*.xml)')
         return out_file_name
 
 

@@ -16,7 +16,7 @@ except ImportError:
     from distutils.core import setup
 
 classifiers = """\
-Development Status :: 4 - Beta
+Development Status :: 5 - Production/Stable
 Environment :: X11 Applications :: Qt
 Environment :: Win32 (MS Windows)
 Intended Audience :: Developers
@@ -24,7 +24,7 @@ Intended Audience :: Education
 Intended Audience :: Science/Research
 License :: OSI Approved :: BSD License
 Natural Language :: English
-Programming Language :: Python
+Programming Language :: Python :: 3.5
 Topic :: Scientific/Engineering :: Atmospheric Science
 Topic :: Text Processing :: Markup :: XML
 """
@@ -33,7 +33,7 @@ doclines = __doc__.split('\n')
 
 
 setup(name='asmm',
-      version='1.0.3',
+      version='1.2.0',
       description=doclines[0],
       long_description='\n'.join(doclines[2:]),
       author='EUFAR',
@@ -44,7 +44,7 @@ setup(name='asmm',
       download_url='https://github.com/eufarn7sp/asmm-eufar',
       license='New BSD License',
       keywords=['airbornescience', 'xml', 'eufar', 'science', 'metadata'],
-      packages=['ui','font','functions','icons'],
+      packages=['ui','fonts','functions','icons', 'Documentation'],
       classifiers=filter(None, classifiers.split("\n")),
       requires=['PyQt5 (>=5.6)','reportlab (>=3.3.9)','netCDF4-python (>=1.2.4)'],
       install_requires=['PyQt5 (>=5.6)','reportlab (>=3.3.9)','netCDF4-python (>=1.2.4)'],

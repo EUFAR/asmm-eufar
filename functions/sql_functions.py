@@ -697,19 +697,26 @@ def objectsInit(self):
                               + "s performed by the aircraft.</p>"
                               ]
     
-    self.check_information = [
-                                ["01","projectAcronym_ln","Project acronym","Flight Information","text"],
-                                ["02","date_dt","Date","Flight Information",""],
-                                ["03","flightNumber_ln","Flight identifier","Flight Information","text"],
-                                ["04","missionSci_ln","Mission scientist","Flight Information","text"],
-                                ["05","flightManager_ln","Flight manager","Flight Information","text"],
-                                ["06","operator_cb","Operator","Flight Information",""],
-                                ["08","newOperator_ln","Operator","Flight Information","text"],
-                                ["09","aircraft_cb","Aircraft","Flight Information",""],
-                                ["10","newAircraft_ln","Aircraft","Flight Information","text"],
-                                ["11","location_cb","Location","Flight Information",""],
-                                ["12","detailList","Location","Flight Information",""],
-                                ["13","contactName_ln","Name","Contact Information","text"],
-                                ["14","contact_cb","Role","Contact Information",""],
-                                ["15","contactEmail_cb","E-mail","Contact Information","text"]
-                             ]
+    self.mandatory_line_edit_list = [
+        [self.projectAcronym_ln, self.projectAcronym_lb, "text", 0],
+        [self.flightNumber_ln, self.flightNumber_lb, "text", 0],
+        [self.missionSci_ln, self.missionSci_lb, "text", 0],
+        [self.flightManager_ln, self.flightManager_lb, "text", 0],
+        [self.newOperator_ln, self.operator_lb, "text", 0],
+        [self.newAircraft_ln, self.aircraft_lb, "text", 0],
+        [self.contactName_ln, self.contactName_lb, "text", 1],
+        [self.contactEmail_ln, self.contactEmail_lb, "email", 1]
+        ]
+    
+    self.mandatory_combobox_list = [
+        [self.operator_cb, self.operator_lb, 0],
+        [self.aircraft_cb, self.aircraft_lb, 0],
+        [self.location_cb, self.location_lb, 0],
+        [self.detailList, self.location_lb, 0],
+        [self.contact_cb, self.contact_lb, 1]
+        ]
+    
+    self.mandatory_datebox_list = [
+        [self.date_dt, self.date_lb, 0]
+        ]
+    
