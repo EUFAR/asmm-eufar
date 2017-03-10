@@ -328,7 +328,10 @@ def read_asmm_xml(self, in_file_name):
     # Scientific Aims
     #############################
     scientificAims = get_element(doc, "ScientificAims")
-    set_check_values(self.scientific_aims_check_dict, scientificAims, "SA_Code")
+    try:
+        set_check_values(self.scientific_aims_check_dict, scientificAims, "SA_Code")
+    except IndexError:
+        set_check_values(self.old_scientific_aims_check_dict, scientificAims, "SA_Code")
     set_text_value(self.SAOtherTextBox, scientificAims, "SA_Other")
     values = get_element_values(scientificAims, "SA_User")
     for item in values:
@@ -340,13 +343,16 @@ def read_asmm_xml(self, in_file_name):
     #############################
     geographicalRegion = get_element(doc, "GeographicalRegion")
     geographicBoundingBox = get_element(geographicalRegion, "GeographicBoundingBox")
-    set_text_value(self.westBoundLongitudeLine, geographicBoundingBox, "westBoundLongitude")
-    set_text_value(self.eastBoundLongitudeLine, geographicBoundingBox, "eastBoundLongitude")
-    set_text_value(self.northBoundLatitudeLine, geographicBoundingBox, "northBoundLatitude")
-    set_text_value(self.southBoundLatitudeLine, geographicBoundingBox, "southBoundLatitude")
-    set_text_value(self.minAltitudeLine, geographicBoundingBox, "minAltitude")
-    set_text_value(self.maxAltitudeLine, geographicBoundingBox, "maxAltitude")
-    set_check_values(self.geographical_region_check_dict, geographicalRegion, "GR_Code")
+    set_text_value_coord(self, self.westBoundLongitudeLine, geographicBoundingBox, "westBoundLongitude")
+    set_text_value_coord(self, self.eastBoundLongitudeLine, geographicBoundingBox, "eastBoundLongitude")
+    set_text_value_coord(self, self.northBoundLatitudeLine, geographicBoundingBox, "northBoundLatitude")
+    set_text_value_coord(self, self.southBoundLatitudeLine, geographicBoundingBox, "southBoundLatitude")
+    set_text_value_coord(self, self.minAltitudeLine, geographicBoundingBox, "minAltitude")
+    set_text_value_coord(self, self.maxAltitudeLine, geographicBoundingBox, "maxAltitude")
+    try:
+        set_check_values(self.geographical_region_check_dict, geographicalRegion, "GR_Code")
+    except IndexError:
+        set_check_values(self.old_geographical_region_check_dict, geographicalRegion, "GR_Code")
     set_text_value(self.GROtherTextBox, geographicalRegion, "GR_Other")
     values = get_element_values(geographicalRegion, "GR_User")
     for item in values:
@@ -357,7 +363,10 @@ def read_asmm_xml(self, in_file_name):
     # Atmospheric Features
     #############################
     atmosphericFeatures = get_element(doc, "AtmosFeatures")
-    set_check_values(self.atmospheric_features_check_dict, atmosphericFeatures, "AF_Code")
+    try:
+        set_check_values(self.atmospheric_features_check_dict, atmosphericFeatures, "AF_Code")
+    except IndexError:
+        set_check_values(self.old_atmospheric_features_check_dict, atmosphericFeatures, "AF_Code")
     set_text_value(self.AFOtherTextBox, atmosphericFeatures, "AF_Other")
     values = get_element_values(atmosphericFeatures, "AF_User")
     for item in values:
@@ -368,7 +377,10 @@ def read_asmm_xml(self, in_file_name):
     # Cloud Types
     #############################
     cloudTypes = get_element(doc, "CloudTypes")
-    set_check_values(self.cloud_types_check_dict, cloudTypes, "CT_Code")
+    try:
+        set_check_values(self.cloud_types_check_dict, cloudTypes, "CT_Code")
+    except IndexError:
+        set_check_values(self.old_cloud_types_check_dict, cloudTypes, "CT_Code")
     set_text_value(self.CTOtherTextBox, cloudTypes, "CT_Other")
     values = get_element_values(cloudTypes, "CT_User")
     for item in values:
@@ -379,7 +391,10 @@ def read_asmm_xml(self, in_file_name):
     # Particles Sampled
     #############################
     particlesSampled = get_element(doc, "ParticlesSampled")
-    set_check_values(self.particles_sampled_check_dict, particlesSampled, "PS_Code")
+    try:
+        set_check_values(self.particles_sampled_check_dict, particlesSampled, "PS_Code")
+    except IndexError:
+        set_check_values(self.old_particles_sampled_check_dict, particlesSampled, "PS_Code")
     set_text_value(self.PSOtherTextBox, particlesSampled, "PS_Other")
     values = get_element_values(particlesSampled, "PS_User")
     for item in values:
@@ -390,7 +405,10 @@ def read_asmm_xml(self, in_file_name):
     # Surfaces Overflown
     #############################
     surfacesOverflown = get_element(doc, "SurfacesOverflown")
-    set_check_values(self.surfaces_overflown_check_dict, surfacesOverflown, "SO_Code")
+    try:
+        set_check_values(self.surfaces_overflown_check_dict, surfacesOverflown, "SO_Code")
+    except IndexError:
+        set_check_values(self.old_surfaces_overflown_check_dict, surfacesOverflown, "SO_Code")
     set_text_value(self.SOOtherTextBox, surfacesOverflown, "SO_Other")
     values = get_element_values(surfacesOverflown, "SO_User")
     for item in values:
@@ -401,7 +419,10 @@ def read_asmm_xml(self, in_file_name):
     # Altitude Ranges
     #############################
     altitudeRanges = get_element(doc, "AltitudeRanges")
-    set_check_values(self.altitude_ranges_check_dict, altitudeRanges, "AR_Code")
+    try:
+        set_check_values(self.altitude_ranges_check_dict, altitudeRanges, "AR_Code")
+    except IndexError:
+        set_check_values(self.old_altitude_ranges_check_dict, altitudeRanges, "AR_Code")
     set_text_value(self.AROtherTextBox, altitudeRanges, "AR_Other")
     values = get_element_values(altitudeRanges, "AR_User")
     for item in values:
@@ -412,7 +433,10 @@ def read_asmm_xml(self, in_file_name):
     # Flight Types
     #############################
     flightTypes = get_element(doc, "FlightTypes")
-    set_check_values(self.flight_types_check_dict, flightTypes, "FT_Code")
+    try:
+        set_check_values(self.flight_types_check_dict, flightTypes, "FT_Code")
+    except IndexError:
+        set_check_values(self.old_flight_types_check_dict, flightTypes, "FT_Code")
     set_text_value(self.FTOtherTextBox, flightTypes, "FT_Other")
     values = get_element_values(flightTypes, "FT_User")
     for item in values:
@@ -423,7 +447,10 @@ def read_asmm_xml(self, in_file_name):
     # Satellite Coordination
     #############################
     satelliteCoordination = get_element(doc, "SatelliteCoordination")
-    set_check_values(self.satellite_coordination_check_dict, satelliteCoordination, "SC_Code")
+    try:
+        set_check_values(self.satellite_coordination_check_dict, satelliteCoordination, "SC_Code")
+    except IndexError:
+        set_check_values(self.old_satellite_coordination_check_dict, satelliteCoordination, "SC_Code")
     set_text_value(self.SCOtherTextBox, satelliteCoordination, "SC_Other")
     values = get_element_values(satelliteCoordination, "SC_User")
     for item in values:
@@ -484,6 +511,12 @@ def set_text_value(text_widget, parent, element_name):
     node_data = get_element_value(parent, element_name)
     if node_data:
         text_widget.setText(node_data)
+        
+        
+def set_text_value_coord(self, text_widget, parent, element_name):
+    node_data = get_element_value(parent, element_name)
+    if node_data:
+        text_widget.setText(clean_coordinate_string(self, node_data))        
 
 
 def add_element(doc, element_name, parent, value=None):
@@ -518,3 +551,17 @@ def operator_read(self):
     self.newAircraft_ln.show()
     self.label_38.show()
     self.label_39.show()
+    
+    
+def clean_coordinate_string(self, string):
+    for key, val in self.coordinate_units_list.items():
+        try:
+            string = string[:string.index(key)]
+            if val < 0:
+                string = '-' + string
+            break
+        except ValueError:
+            pass
+    return string
+    
+    

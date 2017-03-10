@@ -123,14 +123,9 @@ def add_image(self, filename):
         temp_name = next(tempfile._get_candidate_names())
         imagename = self.dirpath + "/" + temp_name + ".jpg"
         urllib.request.urlretrieve(str(filename), imagename)
-        tmp0 = Image.open(imagename)
         filename = imagename
-    else:
-        tmp0 = Image.open(filename)
+    tmp0 = Image.open(filename)
     w1, h1 = tmp0.size
-    tmp0 = tmp0.transpose(Image.FLIP_TOP_BOTTOM)
-    filename2 = self.dirpath + "/flip_" + os.path.basename(filename)
-    tmp0.save(filename2)
     ratio = float(w1) / float(h1)
     if ratio > 1:
         w2 = 300
@@ -221,7 +216,8 @@ def add_image(self, filename):
     self.im_horlay[self.im_number].addItem(spacerItem3)
     self.verticalLayout_52.addLayout(self.im_horlay[self.im_number])
     self.im_number += 1
-    self.images_pdf_path.append(filename2)
+    #self.images_pdf_path.append(filename2)
+    self.images_pdf_path.append(filename)
     self.images_display_path.append(filename)
 
 

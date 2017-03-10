@@ -372,7 +372,7 @@ class Ui_MainWindow(object):
 "\n"
 "QDateEdit::drop-down:hover {subcontrol-origin: padding; subcontrol-position: top right; width: 27px; border-left-width: 1px; border-left-color: darkgray; border-left-style: solid; border-top-right-radius: 3px; border-bottom-right-radius: 3px;}\n"
 "\n"
-"QDateEdit::down-arrow {image: url(icons/arrow_down.png); width: 18px; height: 18px;}\n"
+"QDateEdit::down-arrow {image: url(icons/down_arrow_icon.svg); width: 16px; height: 16px;}\n"
 "\n"
 "QDateEdit::down-arrow:on {top: 1px; left: 1px;}")
         self.date_dt.setFrame(False)
@@ -638,9 +638,9 @@ class Ui_MainWindow(object):
 "}\n"
 "\n"
 "QComboBox::down-arrow {\n"
-"    image: url(icons/arrow_down.png); \n"
-"    width: 18px;\n"
-"    height: 18px\n"
+"    image: url(icons/down_arrow_icon.svg); \n"
+"    width: 16px;\n"
+"    height: 16px\n"
 "}\n"
 "\n"
 "QComboBox::down-arrow:on {\n"
@@ -801,9 +801,9 @@ class Ui_MainWindow(object):
 "}\n"
 "\n"
 "QComboBox::down-arrow {\n"
-"    image: url(icons/arrow_down.png); \n"
-"    width: 18px;\n"
-"    height: 18px\n"
+"    image: url(icons/down_arrow_icon.svg); \n"
+"    width: 16px;\n"
+"    height: 16px\n"
 "}\n"
 "\n"
 "QComboBox::down-arrow:on {\n"
@@ -963,9 +963,9 @@ class Ui_MainWindow(object):
 "}\n"
 "\n"
 "QComboBox::down-arrow {\n"
-"    image: url(icons/arrow_down.png); \n"
-"    width: 18px;\n"
-"    height: 18px\n"
+"    image: url(icons/down_arrow_icon.svg); \n"
+"    width: 16px;\n"
+"    height: 16px\n"
 "}\n"
 "\n"
 "QComboBox::down-arrow:on {\n"
@@ -1053,9 +1053,9 @@ class Ui_MainWindow(object):
 "}\n"
 "\n"
 "QComboBox::down-arrow {\n"
-"    image: url(icons/arrow_down.png); \n"
-"    width: 18px;\n"
-"    height: 18px\n"
+"    image: url(icons/down_arrow_icon.svg); \n"
+"    width: 16px;\n"
+"    height: 16px\n"
 "}\n"
 "\n"
 "QComboBox::down-arrow:on {\n"
@@ -1254,7 +1254,7 @@ class Ui_MainWindow(object):
         self.gi_scrollArea.setWidgetResizable(True)
         self.gi_scrollArea.setObjectName("gi_scrollArea")
         self.scrollAreaWidgetContents_2 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 1069, 529))
+        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 589, 169))
         self.scrollAreaWidgetContents_2.setObjectName("scrollAreaWidgetContents_2")
         self.gridLayout_29 = QtWidgets.QGridLayout(self.scrollAreaWidgetContents_2)
         self.gridLayout_29.setContentsMargins(0, 0, 0, 0)
@@ -1383,9 +1383,9 @@ class Ui_MainWindow(object):
 "}\n"
 "\n"
 "QComboBox::down-arrow {\n"
-"    image: url(icons/arrow_down.png); \n"
-"    width: 18px;\n"
-"    height: 18px\n"
+"    image: url(icons/down_arrow_icon.svg); \n"
+"    width: 16px;\n"
+"    height: 16px\n"
 "}\n"
 "\n"
 "QComboBox::down-arrow:on {\n"
@@ -1651,7 +1651,7 @@ class Ui_MainWindow(object):
         self.sa_scrollArea.setWidgetResizable(True)
         self.sa_scrollArea.setObjectName("sa_scrollArea")
         self.scrollAreaWidgetContents_3 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_3.setGeometry(QtCore.QRect(0, 0, 1049, 542))
+        self.scrollAreaWidgetContents_3.setGeometry(QtCore.QRect(0, 0, 981, 542))
         self.scrollAreaWidgetContents_3.setObjectName("scrollAreaWidgetContents_3")
         self.gridLayout_6 = QtWidgets.QGridLayout(self.scrollAreaWidgetContents_3)
         self.gridLayout_6.setContentsMargins(0, 0, 0, 0)
@@ -2360,7 +2360,7 @@ class Ui_MainWindow(object):
         self.gr_scrollArea.setWidgetResizable(True)
         self.gr_scrollArea.setObjectName("gr_scrollArea")
         self.scrollAreaWidgetContents_4 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_4.setGeometry(QtCore.QRect(0, 0, 1069, 529))
+        self.scrollAreaWidgetContents_4.setGeometry(QtCore.QRect(0, 0, 959, 493))
         self.scrollAreaWidgetContents_4.setObjectName("scrollAreaWidgetContents_4")
         self.gridLayout_17 = QtWidgets.QGridLayout(self.scrollAreaWidgetContents_4)
         self.gridLayout_17.setContentsMargins(0, 0, 0, 0)
@@ -2934,459 +2934,6 @@ class Ui_MainWindow(object):
         self.gr_scrollArea.setWidget(self.scrollAreaWidgetContents_4)
         self.gridLayout_31.addWidget(self.gr_scrollArea, 0, 0, 1, 1)
         self.tabWidget.addTab(self.tabWidgetPage4, "")
-        self.tabWidgetPage8 = QtWidgets.QWidget()
-        self.tabWidgetPage8.setObjectName("tabWidgetPage8")
-        self.gridLayout_13 = QtWidgets.QGridLayout(self.tabWidgetPage8)
-        self.gridLayout_13.setContentsMargins(0, 0, 0, 0)
-        self.gridLayout_13.setObjectName("gridLayout_13")
-        self.lo_scrollArea = QtWidgets.QScrollArea(self.tabWidgetPage8)
-        self.lo_scrollArea.setStyleSheet("QScrollArea { background: transparent; }\n"
-"\n"
-"QScrollArea > QWidget > QWidget { background: transparent; }\n"
-"\n"
-"QScrollBar:vertical {\n"
-"  border: 1px solid white;\n"
-"  background-color: rgb(240, 240, 240);\n"
-"  width: 20px;\n"
-"  margin: 21px 0px 21px 0px;\n"
-"}\n"
-"\n"
-"QScrollBar:horizontal {\n"
-"  border: 1px solid white;\n"
-"  background-color: rgb(240, 240, 240);\n"
-"  height: 20px;\n"
-"  margin: 0px 21px 0px 21px;\n"
-"}\n"
-"\n"
-"QScrollBar::handle:vertical {\n"
-"  background-color: rgb(205, 205, 205);\n"
-"  min-height: 25px;\n"
-"}\n"
-"\n"
-"QScrollBar:handle:vertical:hover {\n"
-"  background-color: rgb(167, 167, 167);\n"
-"}\n"
-"\n"
-"QScrollBar::handle:horizontal {\n"
-"  background-color: rgb(205, 205, 205);\n"
-"  min-width: 25px;\n"
-"}\n"
-"\n"
-"QScrollBar:handle:horizontal:hover {\n"
-"  background-color: rgb(167, 167, 167);\n"
-"}\n"
-"\n"
-"QScrollBar::add-line:vertical {\n"
-"  border-top: 1px solid rgb(240,240,240);\n"
-"  border-left: 1px solid white;\n"
-"  border-right: 1px solid white;\n"
-"  border-bottom: 1px solid white;\n"
-"  background-color: rgb(240, 240, 240);\n"
-"  height: 20px;\n"
-"  subcontrol-position: bottom;\n"
-"  subcontrol-origin: margin;\n"
-"}\n"
-"\n"
-"QScrollBar::add-line:vertical:hover {\n"
-"  background-color: rgb(219, 219, 219);\n"
-"}\n"
-"\n"
-"QScrollBar::sub-line:vertical {\n"
-"  border-top: 1px solid white;\n"
-"  border-left: 1px solid white;\n"
-"  border-right: 1px solid white;\n"
-"  border-bottom: 1px solid rgb(240,240,240);\n"
-"  background-color: rgb(240, 240, 240);\n"
-"  height: 20px;\n"
-"  subcontrol-position: top;\n"
-"  subcontrol-origin: margin;\n"
-"}\n"
-"\n"
-"QScrollBar::sub-line:vertical:hover {\n"
-"  background-color: rgb(219, 219, 219);\n"
-"}\n"
-"\n"
-"QScrollBar::up-arrow:vertical {\n"
-"  image: url(icons/up_arrow_icon.svg); \n"
-"  width: 16px;\n"
-"  height: 16px;\n"
-"}\n"
-"\n"
-"QScrollBar::up-arrow:vertical:pressed {\n"
-"  right: -1px;\n"
-"  bottom: -1px;\n"
-"}\n"
-"\n"
-"QScrollBar::down-arrow:vertical {\n"
-"  image: url(icons/down_arrow_icon.svg); \n"
-"  width: 16px;\n"
-"  height: 16px;\n"
-"}\n"
-"\n"
-"QScrollBar::down-arrow:vertical:pressed {\n"
-"  right: -1px;\n"
-"  bottom: -1px;\n"
-"}\n"
-"\n"
-"\n"
-"\n"
-"\n"
-"QScrollBar::add-line:horizontal {\n"
-"  border-top: 1px solid white;\n"
-"  border-left: 1px solid rgb(240,240,240);\n"
-"  border-right: 1px solid white;\n"
-"  border-bottom: 1px solid white;\n"
-"  background-color: rgb(240, 240, 240);\n"
-"  width: 20px;\n"
-"  subcontrol-position: right;\n"
-"  subcontrol-origin: margin;\n"
-"}\n"
-"\n"
-"QScrollBar::add-line:horizontal:hover {\n"
-"  background-color: rgb(219, 219, 219);\n"
-"}\n"
-"\n"
-"QScrollBar::sub-line:horizontal {\n"
-"  border-top: 1px solid white;\n"
-"  border-left: 1px solid white;\n"
-"  border-right: 1px solid rgb(240,240,240);\n"
-"  border-bottom: 1px solid white;\n"
-"  background-color: rgb(240, 240, 240);\n"
-"  width: 20px;\n"
-"  subcontrol-position: left;\n"
-"  subcontrol-origin: margin;\n"
-"}\n"
-"\n"
-"QScrollBar::sub-line:horizontal:hover {\n"
-"  background-color: rgb(219, 219, 219);\n"
-"}\n"
-"\n"
-"QScrollBar::left-arrow:horizontal {\n"
-"  image: url(icons/left_arrow_icon.svg); \n"
-"  width: 16px;\n"
-"  height: 16px;\n"
-"}\n"
-"\n"
-"QScrollBar::left-arrow:horizontal:pressed {\n"
-"  right: -1px;\n"
-"  bottom: -1px;\n"
-"}\n"
-"\n"
-"QScrollBar::right-arrow:horizontal {\n"
-"  image: url(icons/right_arrow_icon.svg); \n"
-"  width: 16px;\n"
-"  height: 16px;\n"
-"}\n"
-"\n"
-"QScrollBar::right-arrow:horizontal:pressed {\n"
-"  right: -1px;\n"
-"  bottom: -1px;\n"
-"}")
-        self.lo_scrollArea.setFrameShape(QtWidgets.QFrame.NoFrame)
-        self.lo_scrollArea.setWidgetResizable(True)
-        self.lo_scrollArea.setObjectName("lo_scrollArea")
-        self.scrollAreaWidgetContents_5 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_5.setGeometry(QtCore.QRect(0, 0, 1069, 529))
-        self.scrollAreaWidgetContents_5.setObjectName("scrollAreaWidgetContents_5")
-        self.gridLayout_32 = QtWidgets.QGridLayout(self.scrollAreaWidgetContents_5)
-        self.gridLayout_32.setContentsMargins(0, 0, 0, 0)
-        self.gridLayout_32.setObjectName("gridLayout_32")
-        spacerItem120 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
-        self.gridLayout_32.addItem(spacerItem120, 0, 1, 1, 1)
-        spacerItem121 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
-        self.gridLayout_32.addItem(spacerItem121, 1, 0, 1, 1)
-        self.verticalLayout_44 = QtWidgets.QVBoxLayout()
-        self.verticalLayout_44.setObjectName("verticalLayout_44")
-        self.horizontalLayout_27 = QtWidgets.QHBoxLayout()
-        self.horizontalLayout_27.setObjectName("horizontalLayout_27")
-        self.verticalLayout_22 = QtWidgets.QVBoxLayout()
-        self.verticalLayout_22.setObjectName("verticalLayout_22")
-        self.oceanCheck = QtWidgets.QCheckBox(self.scrollAreaWidgetContents_5)
-        font = QtGui.QFont()
-        font.setFamily("fonts/SourceSansPro-Regular.ttf")
-        font.setPointSize(10)
-        font.setBold(False)
-        font.setWeight(50)
-        font.setKerning(True)
-        font.setStyleStrategy(QtGui.QFont.PreferAntialias)
-        self.oceanCheck.setFont(font)
-        self.oceanCheck.setObjectName("oceanCheck")
-        self.verticalLayout_22.addWidget(self.oceanCheck)
-        self.semiAridCheck = QtWidgets.QCheckBox(self.scrollAreaWidgetContents_5)
-        font = QtGui.QFont()
-        font.setFamily("fonts/SourceSansPro-Regular.ttf")
-        font.setPointSize(10)
-        font.setBold(False)
-        font.setWeight(50)
-        font.setKerning(True)
-        font.setStyleStrategy(QtGui.QFont.PreferAntialias)
-        self.semiAridCheck.setFont(font)
-        self.semiAridCheck.setObjectName("semiAridCheck")
-        self.verticalLayout_22.addWidget(self.semiAridCheck)
-        self.seaIceCheck = QtWidgets.QCheckBox(self.scrollAreaWidgetContents_5)
-        font = QtGui.QFont()
-        font.setFamily("fonts/SourceSansPro-Regular.ttf")
-        font.setPointSize(10)
-        font.setBold(False)
-        font.setWeight(50)
-        font.setKerning(True)
-        font.setStyleStrategy(QtGui.QFont.PreferAntialias)
-        self.seaIceCheck.setFont(font)
-        self.seaIceCheck.setObjectName("seaIceCheck")
-        self.verticalLayout_22.addWidget(self.seaIceCheck)
-        self.horizontalLayout_27.addLayout(self.verticalLayout_22)
-        spacerItem122 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_27.addItem(spacerItem122)
-        self.verticalLayout_23 = QtWidgets.QVBoxLayout()
-        self.verticalLayout_23.setObjectName("verticalLayout_23")
-        self.desertCheck = QtWidgets.QCheckBox(self.scrollAreaWidgetContents_5)
-        font = QtGui.QFont()
-        font.setFamily("fonts/SourceSansPro-Regular.ttf")
-        font.setPointSize(10)
-        font.setBold(False)
-        font.setWeight(50)
-        font.setKerning(True)
-        font.setStyleStrategy(QtGui.QFont.PreferAntialias)
-        self.desertCheck.setFont(font)
-        self.desertCheck.setObjectName("desertCheck")
-        self.verticalLayout_23.addWidget(self.desertCheck)
-        self.snowCheck = QtWidgets.QCheckBox(self.scrollAreaWidgetContents_5)
-        font = QtGui.QFont()
-        font.setFamily("fonts/SourceSansPro-Regular.ttf")
-        font.setPointSize(10)
-        font.setBold(False)
-        font.setWeight(50)
-        font.setKerning(True)
-        font.setStyleStrategy(QtGui.QFont.PreferAntialias)
-        self.snowCheck.setFont(font)
-        self.snowCheck.setObjectName("snowCheck")
-        self.verticalLayout_23.addWidget(self.snowCheck)
-        self.urbanCheck = QtWidgets.QCheckBox(self.scrollAreaWidgetContents_5)
-        font = QtGui.QFont()
-        font.setFamily("fonts/SourceSansPro-Regular.ttf")
-        font.setPointSize(10)
-        font.setBold(False)
-        font.setWeight(50)
-        font.setKerning(True)
-        font.setStyleStrategy(QtGui.QFont.PreferAntialias)
-        self.urbanCheck.setFont(font)
-        self.urbanCheck.setObjectName("urbanCheck")
-        self.verticalLayout_23.addWidget(self.urbanCheck)
-        self.horizontalLayout_27.addLayout(self.verticalLayout_23)
-        spacerItem123 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_27.addItem(spacerItem123)
-        self.verticalLayout_24 = QtWidgets.QVBoxLayout()
-        self.verticalLayout_24.setObjectName("verticalLayout_24")
-        self.lakeIceCheck = QtWidgets.QCheckBox(self.scrollAreaWidgetContents_5)
-        font = QtGui.QFont()
-        font.setFamily("fonts/SourceSansPro-Regular.ttf")
-        font.setPointSize(10)
-        font.setBold(False)
-        font.setWeight(50)
-        font.setKerning(True)
-        font.setStyleStrategy(QtGui.QFont.PreferAntialias)
-        self.lakeIceCheck.setFont(font)
-        self.lakeIceCheck.setObjectName("lakeIceCheck")
-        self.verticalLayout_24.addWidget(self.lakeIceCheck)
-        self.forestCheck = QtWidgets.QCheckBox(self.scrollAreaWidgetContents_5)
-        font = QtGui.QFont()
-        font.setFamily("fonts/SourceSansPro-Regular.ttf")
-        font.setPointSize(10)
-        font.setBold(False)
-        font.setWeight(50)
-        font.setKerning(True)
-        font.setStyleStrategy(QtGui.QFont.PreferAntialias)
-        self.forestCheck.setFont(font)
-        self.forestCheck.setObjectName("forestCheck")
-        self.verticalLayout_24.addWidget(self.forestCheck)
-        self.vegetationCheck = QtWidgets.QCheckBox(self.scrollAreaWidgetContents_5)
-        font = QtGui.QFont()
-        font.setFamily("fonts/SourceSansPro-Regular.ttf")
-        font.setPointSize(10)
-        font.setBold(False)
-        font.setWeight(50)
-        font.setKerning(True)
-        font.setStyleStrategy(QtGui.QFont.PreferAntialias)
-        self.vegetationCheck.setFont(font)
-        self.vegetationCheck.setObjectName("vegetationCheck")
-        self.verticalLayout_24.addWidget(self.vegetationCheck)
-        self.horizontalLayout_27.addLayout(self.verticalLayout_24)
-        spacerItem124 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_27.addItem(spacerItem124)
-        self.verticalLayout_43 = QtWidgets.QVBoxLayout()
-        self.verticalLayout_43.setObjectName("verticalLayout_43")
-        self.mountainousCheck = QtWidgets.QCheckBox(self.scrollAreaWidgetContents_5)
-        font = QtGui.QFont()
-        font.setFamily("fonts/SourceSansPro-Regular.ttf")
-        font.setPointSize(10)
-        font.setBold(False)
-        font.setWeight(50)
-        font.setKerning(True)
-        font.setStyleStrategy(QtGui.QFont.PreferAntialias)
-        self.mountainousCheck.setFont(font)
-        self.mountainousCheck.setObjectName("mountainousCheck")
-        self.verticalLayout_43.addWidget(self.mountainousCheck)
-        self.hillyCheck = QtWidgets.QCheckBox(self.scrollAreaWidgetContents_5)
-        font = QtGui.QFont()
-        font.setFamily("fonts/SourceSansPro-Regular.ttf")
-        font.setPointSize(10)
-        font.setBold(False)
-        font.setWeight(50)
-        font.setKerning(True)
-        font.setStyleStrategy(QtGui.QFont.PreferAntialias)
-        self.hillyCheck.setFont(font)
-        self.hillyCheck.setObjectName("hillyCheck")
-        self.verticalLayout_43.addWidget(self.hillyCheck)
-        self.flatCheck = QtWidgets.QCheckBox(self.scrollAreaWidgetContents_5)
-        font = QtGui.QFont()
-        font.setFamily("fonts/SourceSansPro-Regular.ttf")
-        font.setPointSize(10)
-        font.setBold(False)
-        font.setWeight(50)
-        font.setKerning(True)
-        font.setStyleStrategy(QtGui.QFont.PreferAntialias)
-        self.flatCheck.setFont(font)
-        self.flatCheck.setObjectName("flatCheck")
-        self.verticalLayout_43.addWidget(self.flatCheck)
-        self.horizontalLayout_27.addLayout(self.verticalLayout_43)
-        spacerItem125 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_27.addItem(spacerItem125)
-        self.infoButton_17 = QtWidgets.QToolButton(self.scrollAreaWidgetContents_5)
-        self.infoButton_17.setMaximumSize(QtCore.QSize(27, 27))
-        self.infoButton_17.setStyleSheet("QToolButton {\n"
-"    border: 1px solid transparent;\n"
-"    background-color: transparent;\n"
-"    width: 27px;\n"
-"    height: 27px;\n"
-"}\n"
-"\n"
-"QToolButton:flat {\n"
-"    border: none;\n"
-"}")
-        self.infoButton_17.setText("")
-        self.infoButton_17.setIcon(icon1)
-        self.infoButton_17.setIconSize(QtCore.QSize(23, 23))
-        self.infoButton_17.setAutoRaise(False)
-        self.infoButton_17.setObjectName("infoButton_17")
-        self.horizontalLayout_27.addWidget(self.infoButton_17)
-        self.verticalLayout_44.addLayout(self.horizontalLayout_27)
-        spacerItem126 = QtWidgets.QSpacerItem(20, 13, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
-        self.verticalLayout_44.addItem(spacerItem126)
-        self.horizontalLayout_66 = QtWidgets.QHBoxLayout()
-        self.horizontalLayout_66.setObjectName("horizontalLayout_66")
-        spacerItem127 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_66.addItem(spacerItem127)
-        self.so_addButton = QtWidgets.QToolButton(self.scrollAreaWidgetContents_5)
-        self.so_addButton.setMinimumSize(QtCore.QSize(180, 27))
-        self.so_addButton.setMaximumSize(QtCore.QSize(16777215, 27))
-        font = QtGui.QFont()
-        font.setFamily("fonts/SourceSansPro-Regular.ttf")
-        font.setPointSize(10)
-        font.setBold(False)
-        font.setWeight(50)
-        font.setKerning(True)
-        font.setStyleStrategy(QtGui.QFont.PreferAntialias)
-        self.so_addButton.setFont(font)
-        self.so_addButton.setStyleSheet("QToolButton {\n"
-"    border: 1px solid #acacac;\n"
-"    border-radius: 1px;\n"
-"    background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1,\n"
-"                                    stop:0 #f0f0f0, stop:1 #e5e5e5);\n"
-"}\n"
-"\n"
-"QToolButton:hover {\n"
-"    border: 1px solid #7eb4ea;\n"
-"    border-radius: 1px;\n"
-"    background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1,\n"
-"                                    stop:0 #ecf4fc, stop:1 #dcecfc);\n"
-"}\n"
-"\n"
-"QToolButton:pressed {\n"
-"    border: 1px solid #579de5;\n"
-"    border-radius: 1px;\n"
-"    background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1,\n"
-"                                    stop:0 #daecfc, stop:1 #c4e0fc);\n"
-"}")
-        self.so_addButton.setObjectName("so_addButton")
-        self.horizontalLayout_66.addWidget(self.so_addButton)
-        spacerItem128 = QtWidgets.QSpacerItem(13, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_66.addItem(spacerItem128)
-        self.so_infoButton = QtWidgets.QToolButton(self.scrollAreaWidgetContents_5)
-        self.so_infoButton.setMinimumSize(QtCore.QSize(27, 27))
-        self.so_infoButton.setMaximumSize(QtCore.QSize(27, 27))
-        self.so_infoButton.setStyleSheet("QToolButton {\n"
-"    border: 1px solid transparent;\n"
-"    background-color: transparent;\n"
-"    width: 27px;\n"
-"    height: 27px;\n"
-"}\n"
-"\n"
-"QToolButton:flat {\n"
-"    border: none;\n"
-"}")
-        self.so_infoButton.setText("")
-        self.so_infoButton.setIcon(icon1)
-        self.so_infoButton.setIconSize(QtCore.QSize(23, 23))
-        self.so_infoButton.setAutoRaise(False)
-        self.so_infoButton.setObjectName("so_infoButton")
-        self.horizontalLayout_66.addWidget(self.so_infoButton)
-        spacerItem129 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_66.addItem(spacerItem129)
-        self.verticalLayout_44.addLayout(self.horizontalLayout_66)
-        self.gridLayout_16 = QtWidgets.QGridLayout()
-        self.gridLayout_16.setObjectName("gridLayout_16")
-        self.verticalLayout_44.addLayout(self.gridLayout_16)
-        spacerItem130 = QtWidgets.QSpacerItem(20, 13, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
-        self.verticalLayout_44.addItem(spacerItem130)
-        self.horizontalLayout_28 = QtWidgets.QHBoxLayout()
-        self.horizontalLayout_28.setObjectName("horizontalLayout_28")
-        self.verticalLayout_53 = QtWidgets.QVBoxLayout()
-        self.verticalLayout_53.setObjectName("verticalLayout_53")
-        self.label_19 = QtWidgets.QLabel(self.scrollAreaWidgetContents_5)
-        self.label_19.setMinimumSize(QtCore.QSize(90, 27))
-        self.label_19.setMaximumSize(QtCore.QSize(16777215, 27))
-        font = QtGui.QFont()
-        font.setFamily("fonts/SourceSansPro-Regular.ttf")
-        font.setPointSize(10)
-        font.setBold(True)
-        font.setUnderline(True)
-        font.setWeight(75)
-        font.setKerning(True)
-        font.setStyleStrategy(QtGui.QFont.PreferAntialias)
-        self.label_19.setFont(font)
-        self.label_19.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
-        self.label_19.setObjectName("label_19")
-        self.verticalLayout_53.addWidget(self.label_19)
-        spacerItem131 = QtWidgets.QSpacerItem(20, 18, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.verticalLayout_53.addItem(spacerItem131)
-        self.horizontalLayout_28.addLayout(self.verticalLayout_53)
-        self.SOOtherTextBox = QtWidgets.QTextEdit(self.scrollAreaWidgetContents_5)
-        self.SOOtherTextBox.setMinimumSize(QtCore.QSize(750, 100))
-        self.SOOtherTextBox.setMaximumSize(QtCore.QSize(16777215, 100))
-        font = QtGui.QFont()
-        font.setFamily("fonts/SourceSansPro-Regular.ttf")
-        font.setPointSize(9)
-        font.setBold(False)
-        font.setWeight(50)
-        font.setStyleStrategy(QtGui.QFont.PreferAntialias)
-        self.SOOtherTextBox.setFont(font)
-        self.SOOtherTextBox.setStyleSheet("QTextEdit {\n"
-"    border-radius: 3px;\n"
-"   padding: 1px 4px 1px 4px;\n"
-"    background-color:  rgb(240, 240, 240);\n"
-"}")
-        self.SOOtherTextBox.setFrameShape(QtWidgets.QFrame.NoFrame)
-        self.SOOtherTextBox.setObjectName("SOOtherTextBox")
-        self.horizontalLayout_28.addWidget(self.SOOtherTextBox)
-        self.verticalLayout_44.addLayout(self.horizontalLayout_28)
-        self.gridLayout_32.addLayout(self.verticalLayout_44, 1, 1, 2, 2)
-        spacerItem132 = QtWidgets.QSpacerItem(152, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.gridLayout_32.addItem(spacerItem132, 2, 3, 1, 1)
-        spacerItem133 = QtWidgets.QSpacerItem(20, 277, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.gridLayout_32.addItem(spacerItem133, 3, 2, 1, 1)
-        self.lo_scrollArea.setWidget(self.scrollAreaWidgetContents_5)
-        self.gridLayout_13.addWidget(self.lo_scrollArea, 0, 0, 1, 1)
-        self.tabWidget.addTab(self.tabWidgetPage8, "")
         self.tabWidgetPage5 = QtWidgets.QWidget()
         self.tabWidgetPage5.setObjectName("tabWidgetPage5")
         self.gridLayout_18 = QtWidgets.QGridLayout(self.tabWidgetPage5)
@@ -3544,10 +3091,10 @@ class Ui_MainWindow(object):
         self.gridLayout_33 = QtWidgets.QGridLayout(self.scrollAreaWidgetContents_6)
         self.gridLayout_33.setContentsMargins(0, 0, 0, 0)
         self.gridLayout_33.setObjectName("gridLayout_33")
-        spacerItem134 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
-        self.gridLayout_33.addItem(spacerItem134, 0, 1, 1, 1)
-        spacerItem135 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
-        self.gridLayout_33.addItem(spacerItem135, 1, 0, 1, 1)
+        spacerItem120 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
+        self.gridLayout_33.addItem(spacerItem120, 0, 1, 1, 1)
+        spacerItem121 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        self.gridLayout_33.addItem(spacerItem121, 1, 0, 1, 1)
         self.verticalLayout_61 = QtWidgets.QVBoxLayout()
         self.verticalLayout_61.setObjectName("verticalLayout_61")
         self.horizontalLayout_21 = QtWidgets.QHBoxLayout()
@@ -3567,8 +3114,8 @@ class Ui_MainWindow(object):
         self.verticalLayout_10.addWidget(self.stationaryCheck)
         self.horizontalLayout_20 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_20.setObjectName("horizontalLayout_20")
-        spacerItem136 = QtWidgets.QSpacerItem(10, 10, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_20.addItem(spacerItem136)
+        spacerItem122 = QtWidgets.QSpacerItem(10, 10, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_20.addItem(spacerItem122)
         self.stationaryCyclonicCheck = QtWidgets.QCheckBox(self.scrollAreaWidgetContents_6)
         font = QtGui.QFont()
         font.setFamily("fonts/SourceSansPro-Regular.ttf")
@@ -3583,8 +3130,8 @@ class Ui_MainWindow(object):
         self.verticalLayout_10.addLayout(self.horizontalLayout_20)
         self.horizontalLayout_19 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_19.setObjectName("horizontalLayout_19")
-        spacerItem137 = QtWidgets.QSpacerItem(10, 10, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_19.addItem(spacerItem137)
+        spacerItem123 = QtWidgets.QSpacerItem(10, 10, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_19.addItem(spacerItem123)
         self.stationaryAnticyclonicCheck = QtWidgets.QCheckBox(self.scrollAreaWidgetContents_6)
         font = QtGui.QFont()
         font.setFamily("fonts/SourceSansPro-Regular.ttf")
@@ -3620,8 +3167,8 @@ class Ui_MainWindow(object):
         self.warmConveyorBeltCheck.setObjectName("warmConveyorBeltCheck")
         self.verticalLayout_10.addWidget(self.warmConveyorBeltCheck)
         self.horizontalLayout_21.addLayout(self.verticalLayout_10)
-        spacerItem138 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_21.addItem(spacerItem138)
+        spacerItem124 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_21.addItem(spacerItem124)
         self.verticalLayout_13 = QtWidgets.QVBoxLayout()
         self.verticalLayout_13.setSpacing(6)
         self.verticalLayout_13.setObjectName("verticalLayout_13")
@@ -3681,8 +3228,8 @@ class Ui_MainWindow(object):
         self.postColdFrontalAirMassCheck.setObjectName("postColdFrontalAirMassCheck")
         self.verticalLayout_13.addWidget(self.postColdFrontalAirMassCheck)
         self.horizontalLayout_21.addLayout(self.verticalLayout_13)
-        spacerItem139 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_21.addItem(spacerItem139)
+        spacerItem125 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_21.addItem(spacerItem125)
         self.verticalLayout_14 = QtWidgets.QVBoxLayout()
         self.verticalLayout_14.setSpacing(6)
         self.verticalLayout_14.setObjectName("verticalLayout_14")
@@ -3731,8 +3278,8 @@ class Ui_MainWindow(object):
         self.extendedConvergenceLineCheck.setObjectName("extendedConvergenceLineCheck")
         self.verticalLayout_14.addWidget(self.extendedConvergenceLineCheck)
         self.horizontalLayout_21.addLayout(self.verticalLayout_14)
-        spacerItem140 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_21.addItem(spacerItem140)
+        spacerItem126 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_21.addItem(spacerItem126)
         self.verticalLayout_15 = QtWidgets.QVBoxLayout()
         self.verticalLayout_15.setSpacing(6)
         self.verticalLayout_15.setObjectName("verticalLayout_15")
@@ -3788,8 +3335,8 @@ class Ui_MainWindow(object):
         self.mesoscaleOrganizedConvectionCheck.setObjectName("mesoscaleOrganizedConvectionCheck")
         self.verticalLayout_15.addWidget(self.mesoscaleOrganizedConvectionCheck)
         self.horizontalLayout_21.addLayout(self.verticalLayout_15)
-        spacerItem141 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_21.addItem(spacerItem141)
+        spacerItem127 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_21.addItem(spacerItem127)
         self.infoButton_18 = QtWidgets.QToolButton(self.scrollAreaWidgetContents_6)
         self.infoButton_18.setMaximumSize(QtCore.QSize(27, 27))
         self.infoButton_18.setStyleSheet("QToolButton {\n"
@@ -3809,12 +3356,12 @@ class Ui_MainWindow(object):
         self.infoButton_18.setObjectName("infoButton_18")
         self.horizontalLayout_21.addWidget(self.infoButton_18)
         self.verticalLayout_61.addLayout(self.horizontalLayout_21)
-        spacerItem142 = QtWidgets.QSpacerItem(20, 13, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
-        self.verticalLayout_61.addItem(spacerItem142)
+        spacerItem128 = QtWidgets.QSpacerItem(20, 13, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
+        self.verticalLayout_61.addItem(spacerItem128)
         self.horizontalLayout_63 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_63.setObjectName("horizontalLayout_63")
-        spacerItem143 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_63.addItem(spacerItem143)
+        spacerItem129 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_63.addItem(spacerItem129)
         self.af_addButton = QtWidgets.QToolButton(self.scrollAreaWidgetContents_6)
         self.af_addButton.setMinimumSize(QtCore.QSize(180, 27))
         self.af_addButton.setMaximumSize(QtCore.QSize(16777215, 27))
@@ -3848,8 +3395,8 @@ class Ui_MainWindow(object):
 "}")
         self.af_addButton.setObjectName("af_addButton")
         self.horizontalLayout_63.addWidget(self.af_addButton)
-        spacerItem144 = QtWidgets.QSpacerItem(13, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_63.addItem(spacerItem144)
+        spacerItem130 = QtWidgets.QSpacerItem(13, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_63.addItem(spacerItem130)
         self.af_infoButton = QtWidgets.QToolButton(self.scrollAreaWidgetContents_6)
         self.af_infoButton.setMinimumSize(QtCore.QSize(27, 27))
         self.af_infoButton.setMaximumSize(QtCore.QSize(27, 27))
@@ -3869,14 +3416,14 @@ class Ui_MainWindow(object):
         self.af_infoButton.setAutoRaise(False)
         self.af_infoButton.setObjectName("af_infoButton")
         self.horizontalLayout_63.addWidget(self.af_infoButton)
-        spacerItem145 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_63.addItem(spacerItem145)
+        spacerItem131 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_63.addItem(spacerItem131)
         self.verticalLayout_61.addLayout(self.horizontalLayout_63)
         self.gridLayout_9 = QtWidgets.QGridLayout()
         self.gridLayout_9.setObjectName("gridLayout_9")
         self.verticalLayout_61.addLayout(self.gridLayout_9)
-        spacerItem146 = QtWidgets.QSpacerItem(20, 13, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
-        self.verticalLayout_61.addItem(spacerItem146)
+        spacerItem132 = QtWidgets.QSpacerItem(20, 13, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
+        self.verticalLayout_61.addItem(spacerItem132)
         self.horizontalLayout_22 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_22.setObjectName("horizontalLayout_22")
         self.verticalLayout_47 = QtWidgets.QVBoxLayout()
@@ -3896,8 +3443,8 @@ class Ui_MainWindow(object):
         self.label_16.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
         self.label_16.setObjectName("label_16")
         self.verticalLayout_47.addWidget(self.label_16)
-        spacerItem147 = QtWidgets.QSpacerItem(20, 18, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.verticalLayout_47.addItem(spacerItem147)
+        spacerItem133 = QtWidgets.QSpacerItem(20, 18, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.verticalLayout_47.addItem(spacerItem133)
         self.horizontalLayout_22.addLayout(self.verticalLayout_47)
         self.AFOtherTextBox = QtWidgets.QTextEdit(self.scrollAreaWidgetContents_6)
         self.AFOtherTextBox.setMinimumSize(QtCore.QSize(750, 100))
@@ -3919,10 +3466,10 @@ class Ui_MainWindow(object):
         self.horizontalLayout_22.addWidget(self.AFOtherTextBox)
         self.verticalLayout_61.addLayout(self.horizontalLayout_22)
         self.gridLayout_33.addLayout(self.verticalLayout_61, 1, 1, 1, 2)
-        spacerItem148 = QtWidgets.QSpacerItem(3, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.gridLayout_33.addItem(spacerItem148, 1, 3, 1, 1)
-        spacerItem149 = QtWidgets.QSpacerItem(20, 105, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.gridLayout_33.addItem(spacerItem149, 2, 2, 1, 1)
+        spacerItem134 = QtWidgets.QSpacerItem(3, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.gridLayout_33.addItem(spacerItem134, 1, 3, 1, 1)
+        spacerItem135 = QtWidgets.QSpacerItem(20, 105, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.gridLayout_33.addItem(spacerItem135, 2, 2, 1, 1)
         self.af_scrollArea.setWidget(self.scrollAreaWidgetContents_6)
         self.gridLayout_18.addWidget(self.af_scrollArea, 0, 0, 1, 1)
         self.tabWidget.addTab(self.tabWidgetPage5, "")
@@ -4083,10 +3630,10 @@ class Ui_MainWindow(object):
         self.gridLayout_34 = QtWidgets.QGridLayout(self.scrollAreaWidgetContents_7)
         self.gridLayout_34.setContentsMargins(0, 0, 0, 0)
         self.gridLayout_34.setObjectName("gridLayout_34")
-        spacerItem150 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
-        self.gridLayout_34.addItem(spacerItem150, 0, 1, 1, 1)
-        spacerItem151 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
-        self.gridLayout_34.addItem(spacerItem151, 1, 0, 1, 1)
+        spacerItem136 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
+        self.gridLayout_34.addItem(spacerItem136, 0, 1, 1, 1)
+        spacerItem137 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        self.gridLayout_34.addItem(spacerItem137, 1, 0, 1, 1)
         self.verticalLayout_62 = QtWidgets.QVBoxLayout()
         self.verticalLayout_62.setObjectName("verticalLayout_62")
         self.horizontalLayout_23 = QtWidgets.QHBoxLayout()
@@ -4138,8 +3685,8 @@ class Ui_MainWindow(object):
         self.cirrusCheck.setObjectName("cirrusCheck")
         self.verticalLayout_16.addWidget(self.cirrusCheck)
         self.horizontalLayout_23.addLayout(self.verticalLayout_16)
-        spacerItem152 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_23.addItem(spacerItem152)
+        spacerItem138 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_23.addItem(spacerItem138)
         self.verticalLayout_17 = QtWidgets.QVBoxLayout()
         self.verticalLayout_17.setObjectName("verticalLayout_17")
         self.contrailsCheck = QtWidgets.QCheckBox(self.scrollAreaWidgetContents_7)
@@ -4187,8 +3734,8 @@ class Ui_MainWindow(object):
         self.cumulusCongestusCheck.setObjectName("cumulusCongestusCheck")
         self.verticalLayout_17.addWidget(self.cumulusCongestusCheck)
         self.horizontalLayout_23.addLayout(self.verticalLayout_17)
-        spacerItem153 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_23.addItem(spacerItem153)
+        spacerItem139 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_23.addItem(spacerItem139)
         self.verticalLayout_18 = QtWidgets.QVBoxLayout()
         self.verticalLayout_18.setObjectName("verticalLayout_18")
         self.cumulonimbusToweringCumulusCheck = QtWidgets.QCheckBox(self.scrollAreaWidgetContents_7)
@@ -4225,8 +3772,8 @@ class Ui_MainWindow(object):
         self.waveCloudsCheck.setObjectName("waveCloudsCheck")
         self.verticalLayout_18.addWidget(self.waveCloudsCheck)
         self.horizontalLayout_23.addLayout(self.verticalLayout_18)
-        spacerItem154 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_23.addItem(spacerItem154)
+        spacerItem140 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_23.addItem(spacerItem140)
         self.verticalLayout_48 = QtWidgets.QVBoxLayout()
         self.verticalLayout_48.setObjectName("verticalLayout_48")
         self.deepFrontalStratiformCloudsCheck = QtWidgets.QCheckBox(self.scrollAreaWidgetContents_7)
@@ -4282,12 +3829,12 @@ class Ui_MainWindow(object):
         self.infoButton_19.setObjectName("infoButton_19")
         self.horizontalLayout_23.addWidget(self.infoButton_19)
         self.verticalLayout_62.addLayout(self.horizontalLayout_23)
-        spacerItem155 = QtWidgets.QSpacerItem(20, 13, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
-        self.verticalLayout_62.addItem(spacerItem155)
+        spacerItem141 = QtWidgets.QSpacerItem(20, 13, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
+        self.verticalLayout_62.addItem(spacerItem141)
         self.horizontalLayout_64 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_64.setObjectName("horizontalLayout_64")
-        spacerItem156 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_64.addItem(spacerItem156)
+        spacerItem142 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_64.addItem(spacerItem142)
         self.ct_addButton = QtWidgets.QToolButton(self.scrollAreaWidgetContents_7)
         self.ct_addButton.setMinimumSize(QtCore.QSize(180, 27))
         self.ct_addButton.setMaximumSize(QtCore.QSize(16777215, 27))
@@ -4321,8 +3868,8 @@ class Ui_MainWindow(object):
 "}")
         self.ct_addButton.setObjectName("ct_addButton")
         self.horizontalLayout_64.addWidget(self.ct_addButton)
-        spacerItem157 = QtWidgets.QSpacerItem(13, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_64.addItem(spacerItem157)
+        spacerItem143 = QtWidgets.QSpacerItem(13, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_64.addItem(spacerItem143)
         self.ct_infoButton = QtWidgets.QToolButton(self.scrollAreaWidgetContents_7)
         self.ct_infoButton.setMinimumSize(QtCore.QSize(27, 27))
         self.ct_infoButton.setMaximumSize(QtCore.QSize(27, 27))
@@ -4342,14 +3889,14 @@ class Ui_MainWindow(object):
         self.ct_infoButton.setAutoRaise(False)
         self.ct_infoButton.setObjectName("ct_infoButton")
         self.horizontalLayout_64.addWidget(self.ct_infoButton)
-        spacerItem158 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_64.addItem(spacerItem158)
+        spacerItem144 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_64.addItem(spacerItem144)
         self.verticalLayout_62.addLayout(self.horizontalLayout_64)
         self.gridLayout_10 = QtWidgets.QGridLayout()
         self.gridLayout_10.setObjectName("gridLayout_10")
         self.verticalLayout_62.addLayout(self.gridLayout_10)
-        spacerItem159 = QtWidgets.QSpacerItem(20, 13, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
-        self.verticalLayout_62.addItem(spacerItem159)
+        spacerItem145 = QtWidgets.QSpacerItem(20, 13, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
+        self.verticalLayout_62.addItem(spacerItem145)
         self.horizontalLayout_24 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_24.setObjectName("horizontalLayout_24")
         self.verticalLayout_49 = QtWidgets.QVBoxLayout()
@@ -4370,8 +3917,8 @@ class Ui_MainWindow(object):
         self.label_17.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
         self.label_17.setObjectName("label_17")
         self.verticalLayout_49.addWidget(self.label_17)
-        spacerItem160 = QtWidgets.QSpacerItem(20, 18, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.verticalLayout_49.addItem(spacerItem160)
+        spacerItem146 = QtWidgets.QSpacerItem(20, 18, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.verticalLayout_49.addItem(spacerItem146)
         self.horizontalLayout_24.addLayout(self.verticalLayout_49)
         self.CTOtherTextBox = QtWidgets.QTextEdit(self.scrollAreaWidgetContents_7)
         self.CTOtherTextBox.setMinimumSize(QtCore.QSize(750, 75))
@@ -4393,10 +3940,10 @@ class Ui_MainWindow(object):
         self.horizontalLayout_24.addWidget(self.CTOtherTextBox)
         self.verticalLayout_62.addLayout(self.horizontalLayout_24)
         self.gridLayout_34.addLayout(self.verticalLayout_62, 1, 1, 2, 2)
-        spacerItem161 = QtWidgets.QSpacerItem(8, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.gridLayout_34.addItem(spacerItem161, 2, 3, 1, 1)
-        spacerItem162 = QtWidgets.QSpacerItem(20, 36, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.gridLayout_34.addItem(spacerItem162, 3, 2, 1, 1)
+        spacerItem147 = QtWidgets.QSpacerItem(8, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.gridLayout_34.addItem(spacerItem147, 2, 3, 1, 1)
+        spacerItem148 = QtWidgets.QSpacerItem(20, 36, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.gridLayout_34.addItem(spacerItem148, 3, 2, 1, 1)
         self.ct_scrollArea.setWidget(self.scrollAreaWidgetContents_7)
         self.gridLayout_19.addWidget(self.ct_scrollArea, 0, 0, 1, 1)
         self.tabWidget.addTab(self.tabWidgetPage6, "")
@@ -4557,10 +4104,10 @@ class Ui_MainWindow(object):
         self.gridLayout_35 = QtWidgets.QGridLayout(self.scrollAreaWidgetContents_8)
         self.gridLayout_35.setContentsMargins(0, 0, 0, 0)
         self.gridLayout_35.setObjectName("gridLayout_35")
-        spacerItem163 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
-        self.gridLayout_35.addItem(spacerItem163, 0, 2, 1, 1)
-        spacerItem164 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
-        self.gridLayout_35.addItem(spacerItem164, 1, 0, 1, 1)
+        spacerItem149 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
+        self.gridLayout_35.addItem(spacerItem149, 0, 2, 1, 1)
+        spacerItem150 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        self.gridLayout_35.addItem(spacerItem150, 1, 0, 1, 1)
         self.verticalLayout_63 = QtWidgets.QVBoxLayout()
         self.verticalLayout_63.setObjectName("verticalLayout_63")
         self.horizontalLayout_25 = QtWidgets.QHBoxLayout()
@@ -4602,8 +4149,8 @@ class Ui_MainWindow(object):
         self.dropletsCheck.setObjectName("dropletsCheck")
         self.verticalLayout_50.addWidget(self.dropletsCheck)
         self.horizontalLayout_25.addLayout(self.verticalLayout_50)
-        spacerItem165 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_25.addItem(spacerItem165)
+        spacerItem151 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_25.addItem(spacerItem151)
         self.verticalLayout_21 = QtWidgets.QVBoxLayout()
         self.verticalLayout_21.setSpacing(7)
         self.verticalLayout_21.setObjectName("verticalLayout_21")
@@ -4641,8 +4188,8 @@ class Ui_MainWindow(object):
         self.graupelOrHailCheck.setObjectName("graupelOrHailCheck")
         self.verticalLayout_21.addWidget(self.graupelOrHailCheck)
         self.horizontalLayout_25.addLayout(self.verticalLayout_21)
-        spacerItem166 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_25.addItem(spacerItem166)
+        spacerItem152 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_25.addItem(spacerItem152)
         self.verticalLayout_20 = QtWidgets.QVBoxLayout()
         self.verticalLayout_20.setSpacing(7)
         self.verticalLayout_20.setObjectName("verticalLayout_20")
@@ -4680,8 +4227,8 @@ class Ui_MainWindow(object):
         self.urbanPlumeCheck.setObjectName("urbanPlumeCheck")
         self.verticalLayout_20.addWidget(self.urbanPlumeCheck)
         self.horizontalLayout_25.addLayout(self.verticalLayout_20)
-        spacerItem167 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_25.addItem(spacerItem167)
+        spacerItem153 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_25.addItem(spacerItem153)
         self.verticalLayout_19 = QtWidgets.QVBoxLayout()
         self.verticalLayout_19.setSpacing(7)
         self.verticalLayout_19.setObjectName("verticalLayout_19")
@@ -4719,8 +4266,8 @@ class Ui_MainWindow(object):
         self.volcanicAshCheck.setObjectName("volcanicAshCheck")
         self.verticalLayout_19.addWidget(self.volcanicAshCheck)
         self.horizontalLayout_25.addLayout(self.verticalLayout_19)
-        spacerItem168 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_25.addItem(spacerItem168)
+        spacerItem154 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_25.addItem(spacerItem154)
         self.infoButton_20 = QtWidgets.QToolButton(self.scrollAreaWidgetContents_8)
         self.infoButton_20.setMaximumSize(QtCore.QSize(27, 27))
         self.infoButton_20.setStyleSheet("QToolButton {\n"
@@ -4740,12 +4287,12 @@ class Ui_MainWindow(object):
         self.infoButton_20.setObjectName("infoButton_20")
         self.horizontalLayout_25.addWidget(self.infoButton_20)
         self.verticalLayout_63.addLayout(self.horizontalLayout_25)
-        spacerItem169 = QtWidgets.QSpacerItem(20, 13, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
-        self.verticalLayout_63.addItem(spacerItem169)
+        spacerItem155 = QtWidgets.QSpacerItem(20, 13, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
+        self.verticalLayout_63.addItem(spacerItem155)
         self.horizontalLayout_65 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_65.setObjectName("horizontalLayout_65")
-        spacerItem170 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_65.addItem(spacerItem170)
+        spacerItem156 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_65.addItem(spacerItem156)
         self.ps_addButton = QtWidgets.QToolButton(self.scrollAreaWidgetContents_8)
         self.ps_addButton.setMinimumSize(QtCore.QSize(180, 27))
         self.ps_addButton.setMaximumSize(QtCore.QSize(16777215, 27))
@@ -4779,8 +4326,8 @@ class Ui_MainWindow(object):
 "}")
         self.ps_addButton.setObjectName("ps_addButton")
         self.horizontalLayout_65.addWidget(self.ps_addButton)
-        spacerItem171 = QtWidgets.QSpacerItem(13, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_65.addItem(spacerItem171)
+        spacerItem157 = QtWidgets.QSpacerItem(13, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_65.addItem(spacerItem157)
         self.ps_infoButton = QtWidgets.QToolButton(self.scrollAreaWidgetContents_8)
         self.ps_infoButton.setMinimumSize(QtCore.QSize(27, 27))
         self.ps_infoButton.setMaximumSize(QtCore.QSize(27, 27))
@@ -4800,14 +4347,14 @@ class Ui_MainWindow(object):
         self.ps_infoButton.setAutoRaise(False)
         self.ps_infoButton.setObjectName("ps_infoButton")
         self.horizontalLayout_65.addWidget(self.ps_infoButton)
-        spacerItem172 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_65.addItem(spacerItem172)
+        spacerItem158 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_65.addItem(spacerItem158)
         self.verticalLayout_63.addLayout(self.horizontalLayout_65)
         self.gridLayout_11 = QtWidgets.QGridLayout()
         self.gridLayout_11.setObjectName("gridLayout_11")
         self.verticalLayout_63.addLayout(self.gridLayout_11)
-        spacerItem173 = QtWidgets.QSpacerItem(20, 13, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
-        self.verticalLayout_63.addItem(spacerItem173)
+        spacerItem159 = QtWidgets.QSpacerItem(20, 13, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
+        self.verticalLayout_63.addItem(spacerItem159)
         self.horizontalLayout_26 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_26.setObjectName("horizontalLayout_26")
         self.verticalLayout_51 = QtWidgets.QVBoxLayout()
@@ -4827,8 +4374,8 @@ class Ui_MainWindow(object):
         self.label_18.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
         self.label_18.setObjectName("label_18")
         self.verticalLayout_51.addWidget(self.label_18)
-        spacerItem174 = QtWidgets.QSpacerItem(20, 18, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.verticalLayout_51.addItem(spacerItem174)
+        spacerItem160 = QtWidgets.QSpacerItem(20, 18, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.verticalLayout_51.addItem(spacerItem160)
         self.horizontalLayout_26.addLayout(self.verticalLayout_51)
         self.PSOtherTextBox = QtWidgets.QTextEdit(self.scrollAreaWidgetContents_8)
         self.PSOtherTextBox.setMinimumSize(QtCore.QSize(750, 100))
@@ -4850,13 +4397,466 @@ class Ui_MainWindow(object):
         self.horizontalLayout_26.addWidget(self.PSOtherTextBox)
         self.verticalLayout_63.addLayout(self.horizontalLayout_26)
         self.gridLayout_35.addLayout(self.verticalLayout_63, 1, 1, 2, 2)
-        spacerItem175 = QtWidgets.QSpacerItem(8, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.gridLayout_35.addItem(spacerItem175, 2, 3, 1, 1)
-        spacerItem176 = QtWidgets.QSpacerItem(20, 175, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.gridLayout_35.addItem(spacerItem176, 3, 1, 1, 1)
+        spacerItem161 = QtWidgets.QSpacerItem(8, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.gridLayout_35.addItem(spacerItem161, 2, 3, 1, 1)
+        spacerItem162 = QtWidgets.QSpacerItem(20, 175, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.gridLayout_35.addItem(spacerItem162, 3, 1, 1, 1)
         self.cp_scrollArea.setWidget(self.scrollAreaWidgetContents_8)
         self.gridLayout_20.addWidget(self.cp_scrollArea, 0, 0, 1, 1)
         self.tabWidget.addTab(self.tabWidgetPage7, "")
+        self.tabWidgetPage8 = QtWidgets.QWidget()
+        self.tabWidgetPage8.setObjectName("tabWidgetPage8")
+        self.gridLayout_13 = QtWidgets.QGridLayout(self.tabWidgetPage8)
+        self.gridLayout_13.setContentsMargins(0, 0, 0, 0)
+        self.gridLayout_13.setObjectName("gridLayout_13")
+        self.lo_scrollArea = QtWidgets.QScrollArea(self.tabWidgetPage8)
+        self.lo_scrollArea.setStyleSheet("QScrollArea { background: transparent; }\n"
+"\n"
+"QScrollArea > QWidget > QWidget { background: transparent; }\n"
+"\n"
+"QScrollBar:vertical {\n"
+"  border: 1px solid white;\n"
+"  background-color: rgb(240, 240, 240);\n"
+"  width: 20px;\n"
+"  margin: 21px 0px 21px 0px;\n"
+"}\n"
+"\n"
+"QScrollBar:horizontal {\n"
+"  border: 1px solid white;\n"
+"  background-color: rgb(240, 240, 240);\n"
+"  height: 20px;\n"
+"  margin: 0px 21px 0px 21px;\n"
+"}\n"
+"\n"
+"QScrollBar::handle:vertical {\n"
+"  background-color: rgb(205, 205, 205);\n"
+"  min-height: 25px;\n"
+"}\n"
+"\n"
+"QScrollBar:handle:vertical:hover {\n"
+"  background-color: rgb(167, 167, 167);\n"
+"}\n"
+"\n"
+"QScrollBar::handle:horizontal {\n"
+"  background-color: rgb(205, 205, 205);\n"
+"  min-width: 25px;\n"
+"}\n"
+"\n"
+"QScrollBar:handle:horizontal:hover {\n"
+"  background-color: rgb(167, 167, 167);\n"
+"}\n"
+"\n"
+"QScrollBar::add-line:vertical {\n"
+"  border-top: 1px solid rgb(240,240,240);\n"
+"  border-left: 1px solid white;\n"
+"  border-right: 1px solid white;\n"
+"  border-bottom: 1px solid white;\n"
+"  background-color: rgb(240, 240, 240);\n"
+"  height: 20px;\n"
+"  subcontrol-position: bottom;\n"
+"  subcontrol-origin: margin;\n"
+"}\n"
+"\n"
+"QScrollBar::add-line:vertical:hover {\n"
+"  background-color: rgb(219, 219, 219);\n"
+"}\n"
+"\n"
+"QScrollBar::sub-line:vertical {\n"
+"  border-top: 1px solid white;\n"
+"  border-left: 1px solid white;\n"
+"  border-right: 1px solid white;\n"
+"  border-bottom: 1px solid rgb(240,240,240);\n"
+"  background-color: rgb(240, 240, 240);\n"
+"  height: 20px;\n"
+"  subcontrol-position: top;\n"
+"  subcontrol-origin: margin;\n"
+"}\n"
+"\n"
+"QScrollBar::sub-line:vertical:hover {\n"
+"  background-color: rgb(219, 219, 219);\n"
+"}\n"
+"\n"
+"QScrollBar::up-arrow:vertical {\n"
+"  image: url(icons/up_arrow_icon.svg); \n"
+"  width: 16px;\n"
+"  height: 16px;\n"
+"}\n"
+"\n"
+"QScrollBar::up-arrow:vertical:pressed {\n"
+"  right: -1px;\n"
+"  bottom: -1px;\n"
+"}\n"
+"\n"
+"QScrollBar::down-arrow:vertical {\n"
+"  image: url(icons/down_arrow_icon.svg); \n"
+"  width: 16px;\n"
+"  height: 16px;\n"
+"}\n"
+"\n"
+"QScrollBar::down-arrow:vertical:pressed {\n"
+"  right: -1px;\n"
+"  bottom: -1px;\n"
+"}\n"
+"\n"
+"\n"
+"\n"
+"\n"
+"QScrollBar::add-line:horizontal {\n"
+"  border-top: 1px solid white;\n"
+"  border-left: 1px solid rgb(240,240,240);\n"
+"  border-right: 1px solid white;\n"
+"  border-bottom: 1px solid white;\n"
+"  background-color: rgb(240, 240, 240);\n"
+"  width: 20px;\n"
+"  subcontrol-position: right;\n"
+"  subcontrol-origin: margin;\n"
+"}\n"
+"\n"
+"QScrollBar::add-line:horizontal:hover {\n"
+"  background-color: rgb(219, 219, 219);\n"
+"}\n"
+"\n"
+"QScrollBar::sub-line:horizontal {\n"
+"  border-top: 1px solid white;\n"
+"  border-left: 1px solid white;\n"
+"  border-right: 1px solid rgb(240,240,240);\n"
+"  border-bottom: 1px solid white;\n"
+"  background-color: rgb(240, 240, 240);\n"
+"  width: 20px;\n"
+"  subcontrol-position: left;\n"
+"  subcontrol-origin: margin;\n"
+"}\n"
+"\n"
+"QScrollBar::sub-line:horizontal:hover {\n"
+"  background-color: rgb(219, 219, 219);\n"
+"}\n"
+"\n"
+"QScrollBar::left-arrow:horizontal {\n"
+"  image: url(icons/left_arrow_icon.svg); \n"
+"  width: 16px;\n"
+"  height: 16px;\n"
+"}\n"
+"\n"
+"QScrollBar::left-arrow:horizontal:pressed {\n"
+"  right: -1px;\n"
+"  bottom: -1px;\n"
+"}\n"
+"\n"
+"QScrollBar::right-arrow:horizontal {\n"
+"  image: url(icons/right_arrow_icon.svg); \n"
+"  width: 16px;\n"
+"  height: 16px;\n"
+"}\n"
+"\n"
+"QScrollBar::right-arrow:horizontal:pressed {\n"
+"  right: -1px;\n"
+"  bottom: -1px;\n"
+"}")
+        self.lo_scrollArea.setFrameShape(QtWidgets.QFrame.NoFrame)
+        self.lo_scrollArea.setWidgetResizable(True)
+        self.lo_scrollArea.setObjectName("lo_scrollArea")
+        self.scrollAreaWidgetContents_5 = QtWidgets.QWidget()
+        self.scrollAreaWidgetContents_5.setGeometry(QtCore.QRect(0, 0, 1069, 529))
+        self.scrollAreaWidgetContents_5.setObjectName("scrollAreaWidgetContents_5")
+        self.gridLayout_32 = QtWidgets.QGridLayout(self.scrollAreaWidgetContents_5)
+        self.gridLayout_32.setContentsMargins(0, 0, 0, 0)
+        self.gridLayout_32.setObjectName("gridLayout_32")
+        spacerItem163 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
+        self.gridLayout_32.addItem(spacerItem163, 0, 1, 1, 1)
+        spacerItem164 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        self.gridLayout_32.addItem(spacerItem164, 1, 0, 1, 1)
+        self.verticalLayout_44 = QtWidgets.QVBoxLayout()
+        self.verticalLayout_44.setObjectName("verticalLayout_44")
+        self.horizontalLayout_27 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_27.setObjectName("horizontalLayout_27")
+        self.verticalLayout_22 = QtWidgets.QVBoxLayout()
+        self.verticalLayout_22.setObjectName("verticalLayout_22")
+        self.oceanCheck = QtWidgets.QCheckBox(self.scrollAreaWidgetContents_5)
+        font = QtGui.QFont()
+        font.setFamily("fonts/SourceSansPro-Regular.ttf")
+        font.setPointSize(10)
+        font.setBold(False)
+        font.setWeight(50)
+        font.setKerning(True)
+        font.setStyleStrategy(QtGui.QFont.PreferAntialias)
+        self.oceanCheck.setFont(font)
+        self.oceanCheck.setObjectName("oceanCheck")
+        self.verticalLayout_22.addWidget(self.oceanCheck)
+        self.semiAridCheck = QtWidgets.QCheckBox(self.scrollAreaWidgetContents_5)
+        font = QtGui.QFont()
+        font.setFamily("fonts/SourceSansPro-Regular.ttf")
+        font.setPointSize(10)
+        font.setBold(False)
+        font.setWeight(50)
+        font.setKerning(True)
+        font.setStyleStrategy(QtGui.QFont.PreferAntialias)
+        self.semiAridCheck.setFont(font)
+        self.semiAridCheck.setObjectName("semiAridCheck")
+        self.verticalLayout_22.addWidget(self.semiAridCheck)
+        self.seaIceCheck = QtWidgets.QCheckBox(self.scrollAreaWidgetContents_5)
+        font = QtGui.QFont()
+        font.setFamily("fonts/SourceSansPro-Regular.ttf")
+        font.setPointSize(10)
+        font.setBold(False)
+        font.setWeight(50)
+        font.setKerning(True)
+        font.setStyleStrategy(QtGui.QFont.PreferAntialias)
+        self.seaIceCheck.setFont(font)
+        self.seaIceCheck.setObjectName("seaIceCheck")
+        self.verticalLayout_22.addWidget(self.seaIceCheck)
+        self.horizontalLayout_27.addLayout(self.verticalLayout_22)
+        spacerItem165 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_27.addItem(spacerItem165)
+        self.verticalLayout_23 = QtWidgets.QVBoxLayout()
+        self.verticalLayout_23.setObjectName("verticalLayout_23")
+        self.desertCheck = QtWidgets.QCheckBox(self.scrollAreaWidgetContents_5)
+        font = QtGui.QFont()
+        font.setFamily("fonts/SourceSansPro-Regular.ttf")
+        font.setPointSize(10)
+        font.setBold(False)
+        font.setWeight(50)
+        font.setKerning(True)
+        font.setStyleStrategy(QtGui.QFont.PreferAntialias)
+        self.desertCheck.setFont(font)
+        self.desertCheck.setObjectName("desertCheck")
+        self.verticalLayout_23.addWidget(self.desertCheck)
+        self.snowCheck = QtWidgets.QCheckBox(self.scrollAreaWidgetContents_5)
+        font = QtGui.QFont()
+        font.setFamily("fonts/SourceSansPro-Regular.ttf")
+        font.setPointSize(10)
+        font.setBold(False)
+        font.setWeight(50)
+        font.setKerning(True)
+        font.setStyleStrategy(QtGui.QFont.PreferAntialias)
+        self.snowCheck.setFont(font)
+        self.snowCheck.setObjectName("snowCheck")
+        self.verticalLayout_23.addWidget(self.snowCheck)
+        self.urbanCheck = QtWidgets.QCheckBox(self.scrollAreaWidgetContents_5)
+        font = QtGui.QFont()
+        font.setFamily("fonts/SourceSansPro-Regular.ttf")
+        font.setPointSize(10)
+        font.setBold(False)
+        font.setWeight(50)
+        font.setKerning(True)
+        font.setStyleStrategy(QtGui.QFont.PreferAntialias)
+        self.urbanCheck.setFont(font)
+        self.urbanCheck.setObjectName("urbanCheck")
+        self.verticalLayout_23.addWidget(self.urbanCheck)
+        self.horizontalLayout_27.addLayout(self.verticalLayout_23)
+        spacerItem166 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_27.addItem(spacerItem166)
+        self.verticalLayout_24 = QtWidgets.QVBoxLayout()
+        self.verticalLayout_24.setObjectName("verticalLayout_24")
+        self.lakeIceCheck = QtWidgets.QCheckBox(self.scrollAreaWidgetContents_5)
+        font = QtGui.QFont()
+        font.setFamily("fonts/SourceSansPro-Regular.ttf")
+        font.setPointSize(10)
+        font.setBold(False)
+        font.setWeight(50)
+        font.setKerning(True)
+        font.setStyleStrategy(QtGui.QFont.PreferAntialias)
+        self.lakeIceCheck.setFont(font)
+        self.lakeIceCheck.setObjectName("lakeIceCheck")
+        self.verticalLayout_24.addWidget(self.lakeIceCheck)
+        self.forestCheck = QtWidgets.QCheckBox(self.scrollAreaWidgetContents_5)
+        font = QtGui.QFont()
+        font.setFamily("fonts/SourceSansPro-Regular.ttf")
+        font.setPointSize(10)
+        font.setBold(False)
+        font.setWeight(50)
+        font.setKerning(True)
+        font.setStyleStrategy(QtGui.QFont.PreferAntialias)
+        self.forestCheck.setFont(font)
+        self.forestCheck.setObjectName("forestCheck")
+        self.verticalLayout_24.addWidget(self.forestCheck)
+        self.vegetationCheck = QtWidgets.QCheckBox(self.scrollAreaWidgetContents_5)
+        font = QtGui.QFont()
+        font.setFamily("fonts/SourceSansPro-Regular.ttf")
+        font.setPointSize(10)
+        font.setBold(False)
+        font.setWeight(50)
+        font.setKerning(True)
+        font.setStyleStrategy(QtGui.QFont.PreferAntialias)
+        self.vegetationCheck.setFont(font)
+        self.vegetationCheck.setObjectName("vegetationCheck")
+        self.verticalLayout_24.addWidget(self.vegetationCheck)
+        self.horizontalLayout_27.addLayout(self.verticalLayout_24)
+        spacerItem167 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_27.addItem(spacerItem167)
+        self.verticalLayout_43 = QtWidgets.QVBoxLayout()
+        self.verticalLayout_43.setObjectName("verticalLayout_43")
+        self.mountainousCheck = QtWidgets.QCheckBox(self.scrollAreaWidgetContents_5)
+        font = QtGui.QFont()
+        font.setFamily("fonts/SourceSansPro-Regular.ttf")
+        font.setPointSize(10)
+        font.setBold(False)
+        font.setWeight(50)
+        font.setKerning(True)
+        font.setStyleStrategy(QtGui.QFont.PreferAntialias)
+        self.mountainousCheck.setFont(font)
+        self.mountainousCheck.setObjectName("mountainousCheck")
+        self.verticalLayout_43.addWidget(self.mountainousCheck)
+        self.hillyCheck = QtWidgets.QCheckBox(self.scrollAreaWidgetContents_5)
+        font = QtGui.QFont()
+        font.setFamily("fonts/SourceSansPro-Regular.ttf")
+        font.setPointSize(10)
+        font.setBold(False)
+        font.setWeight(50)
+        font.setKerning(True)
+        font.setStyleStrategy(QtGui.QFont.PreferAntialias)
+        self.hillyCheck.setFont(font)
+        self.hillyCheck.setObjectName("hillyCheck")
+        self.verticalLayout_43.addWidget(self.hillyCheck)
+        self.flatCheck = QtWidgets.QCheckBox(self.scrollAreaWidgetContents_5)
+        font = QtGui.QFont()
+        font.setFamily("fonts/SourceSansPro-Regular.ttf")
+        font.setPointSize(10)
+        font.setBold(False)
+        font.setWeight(50)
+        font.setKerning(True)
+        font.setStyleStrategy(QtGui.QFont.PreferAntialias)
+        self.flatCheck.setFont(font)
+        self.flatCheck.setObjectName("flatCheck")
+        self.verticalLayout_43.addWidget(self.flatCheck)
+        self.horizontalLayout_27.addLayout(self.verticalLayout_43)
+        spacerItem168 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_27.addItem(spacerItem168)
+        self.infoButton_17 = QtWidgets.QToolButton(self.scrollAreaWidgetContents_5)
+        self.infoButton_17.setMaximumSize(QtCore.QSize(27, 27))
+        self.infoButton_17.setStyleSheet("QToolButton {\n"
+"    border: 1px solid transparent;\n"
+"    background-color: transparent;\n"
+"    width: 27px;\n"
+"    height: 27px;\n"
+"}\n"
+"\n"
+"QToolButton:flat {\n"
+"    border: none;\n"
+"}")
+        self.infoButton_17.setText("")
+        self.infoButton_17.setIcon(icon1)
+        self.infoButton_17.setIconSize(QtCore.QSize(23, 23))
+        self.infoButton_17.setAutoRaise(False)
+        self.infoButton_17.setObjectName("infoButton_17")
+        self.horizontalLayout_27.addWidget(self.infoButton_17)
+        self.verticalLayout_44.addLayout(self.horizontalLayout_27)
+        spacerItem169 = QtWidgets.QSpacerItem(20, 13, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
+        self.verticalLayout_44.addItem(spacerItem169)
+        self.horizontalLayout_66 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_66.setObjectName("horizontalLayout_66")
+        spacerItem170 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_66.addItem(spacerItem170)
+        self.so_addButton = QtWidgets.QToolButton(self.scrollAreaWidgetContents_5)
+        self.so_addButton.setMinimumSize(QtCore.QSize(180, 27))
+        self.so_addButton.setMaximumSize(QtCore.QSize(16777215, 27))
+        font = QtGui.QFont()
+        font.setFamily("fonts/SourceSansPro-Regular.ttf")
+        font.setPointSize(10)
+        font.setBold(False)
+        font.setWeight(50)
+        font.setKerning(True)
+        font.setStyleStrategy(QtGui.QFont.PreferAntialias)
+        self.so_addButton.setFont(font)
+        self.so_addButton.setStyleSheet("QToolButton {\n"
+"    border: 1px solid #acacac;\n"
+"    border-radius: 1px;\n"
+"    background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1,\n"
+"                                    stop:0 #f0f0f0, stop:1 #e5e5e5);\n"
+"}\n"
+"\n"
+"QToolButton:hover {\n"
+"    border: 1px solid #7eb4ea;\n"
+"    border-radius: 1px;\n"
+"    background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1,\n"
+"                                    stop:0 #ecf4fc, stop:1 #dcecfc);\n"
+"}\n"
+"\n"
+"QToolButton:pressed {\n"
+"    border: 1px solid #579de5;\n"
+"    border-radius: 1px;\n"
+"    background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1,\n"
+"                                    stop:0 #daecfc, stop:1 #c4e0fc);\n"
+"}")
+        self.so_addButton.setObjectName("so_addButton")
+        self.horizontalLayout_66.addWidget(self.so_addButton)
+        spacerItem171 = QtWidgets.QSpacerItem(13, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_66.addItem(spacerItem171)
+        self.so_infoButton = QtWidgets.QToolButton(self.scrollAreaWidgetContents_5)
+        self.so_infoButton.setMinimumSize(QtCore.QSize(27, 27))
+        self.so_infoButton.setMaximumSize(QtCore.QSize(27, 27))
+        self.so_infoButton.setStyleSheet("QToolButton {\n"
+"    border: 1px solid transparent;\n"
+"    background-color: transparent;\n"
+"    width: 27px;\n"
+"    height: 27px;\n"
+"}\n"
+"\n"
+"QToolButton:flat {\n"
+"    border: none;\n"
+"}")
+        self.so_infoButton.setText("")
+        self.so_infoButton.setIcon(icon1)
+        self.so_infoButton.setIconSize(QtCore.QSize(23, 23))
+        self.so_infoButton.setAutoRaise(False)
+        self.so_infoButton.setObjectName("so_infoButton")
+        self.horizontalLayout_66.addWidget(self.so_infoButton)
+        spacerItem172 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_66.addItem(spacerItem172)
+        self.verticalLayout_44.addLayout(self.horizontalLayout_66)
+        self.gridLayout_16 = QtWidgets.QGridLayout()
+        self.gridLayout_16.setObjectName("gridLayout_16")
+        self.verticalLayout_44.addLayout(self.gridLayout_16)
+        spacerItem173 = QtWidgets.QSpacerItem(20, 13, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
+        self.verticalLayout_44.addItem(spacerItem173)
+        self.horizontalLayout_28 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_28.setObjectName("horizontalLayout_28")
+        self.verticalLayout_53 = QtWidgets.QVBoxLayout()
+        self.verticalLayout_53.setObjectName("verticalLayout_53")
+        self.label_19 = QtWidgets.QLabel(self.scrollAreaWidgetContents_5)
+        self.label_19.setMinimumSize(QtCore.QSize(90, 27))
+        self.label_19.setMaximumSize(QtCore.QSize(16777215, 27))
+        font = QtGui.QFont()
+        font.setFamily("fonts/SourceSansPro-Regular.ttf")
+        font.setPointSize(10)
+        font.setBold(True)
+        font.setUnderline(True)
+        font.setWeight(75)
+        font.setKerning(True)
+        font.setStyleStrategy(QtGui.QFont.PreferAntialias)
+        self.label_19.setFont(font)
+        self.label_19.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
+        self.label_19.setObjectName("label_19")
+        self.verticalLayout_53.addWidget(self.label_19)
+        spacerItem174 = QtWidgets.QSpacerItem(20, 18, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.verticalLayout_53.addItem(spacerItem174)
+        self.horizontalLayout_28.addLayout(self.verticalLayout_53)
+        self.SOOtherTextBox = QtWidgets.QTextEdit(self.scrollAreaWidgetContents_5)
+        self.SOOtherTextBox.setMinimumSize(QtCore.QSize(750, 100))
+        self.SOOtherTextBox.setMaximumSize(QtCore.QSize(16777215, 100))
+        font = QtGui.QFont()
+        font.setFamily("fonts/SourceSansPro-Regular.ttf")
+        font.setPointSize(9)
+        font.setBold(False)
+        font.setWeight(50)
+        font.setStyleStrategy(QtGui.QFont.PreferAntialias)
+        self.SOOtherTextBox.setFont(font)
+        self.SOOtherTextBox.setStyleSheet("QTextEdit {\n"
+"    border-radius: 3px;\n"
+"   padding: 1px 4px 1px 4px;\n"
+"    background-color:  rgb(240, 240, 240);\n"
+"}")
+        self.SOOtherTextBox.setFrameShape(QtWidgets.QFrame.NoFrame)
+        self.SOOtherTextBox.setObjectName("SOOtherTextBox")
+        self.horizontalLayout_28.addWidget(self.SOOtherTextBox)
+        self.verticalLayout_44.addLayout(self.horizontalLayout_28)
+        self.gridLayout_32.addLayout(self.verticalLayout_44, 1, 1, 2, 2)
+        spacerItem175 = QtWidgets.QSpacerItem(152, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.gridLayout_32.addItem(spacerItem175, 2, 3, 1, 1)
+        spacerItem176 = QtWidgets.QSpacerItem(20, 277, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.gridLayout_32.addItem(spacerItem176, 3, 2, 1, 1)
+        self.lo_scrollArea.setWidget(self.scrollAreaWidgetContents_5)
+        self.gridLayout_13.addWidget(self.lo_scrollArea, 0, 0, 1, 1)
+        self.tabWidget.addTab(self.tabWidgetPage8, "")
         self.tabWidgetPage9 = QtWidgets.QWidget()
         self.tabWidgetPage9.setObjectName("tabWidgetPage9")
         self.gridLayout_21 = QtWidgets.QGridLayout(self.tabWidgetPage9)
@@ -5436,7 +5436,7 @@ class Ui_MainWindow(object):
         self.fm_scrollArea.setWidgetResizable(True)
         self.fm_scrollArea.setObjectName("fm_scrollArea")
         self.scrollAreaWidgetContents_10 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_10.setGeometry(QtCore.QRect(0, 0, 1069, 529))
+        self.scrollAreaWidgetContents_10.setGeometry(QtCore.QRect(0, 0, 909, 352))
         self.scrollAreaWidgetContents_10.setObjectName("scrollAreaWidgetContents_10")
         self.gridLayout_37 = QtWidgets.QGridLayout(self.scrollAreaWidgetContents_10)
         self.gridLayout_37.setContentsMargins(0, 0, 0, 0)
@@ -5876,7 +5876,7 @@ class Ui_MainWindow(object):
         self.sc_scrollArea.setWidgetResizable(True)
         self.sc_scrollArea.setObjectName("sc_scrollArea")
         self.scrollAreaWidgetContents_11 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_11.setGeometry(QtCore.QRect(0, 0, 1069, 529))
+        self.scrollAreaWidgetContents_11.setGeometry(QtCore.QRect(0, 0, 909, 418))
         self.scrollAreaWidgetContents_11.setObjectName("scrollAreaWidgetContents_11")
         self.gridLayout_38 = QtWidgets.QGridLayout(self.scrollAreaWidgetContents_11)
         self.gridLayout_38.setContentsMargins(0, 0, 0, 0)
@@ -6387,7 +6387,7 @@ class Ui_MainWindow(object):
         self.so_scrollArea.setWidgetResizable(True)
         self.so_scrollArea.setObjectName("so_scrollArea")
         self.scrollAreaWidgetContents_12 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_12.setGeometry(QtCore.QRect(0, 0, 1069, 529))
+        self.scrollAreaWidgetContents_12.setGeometry(QtCore.QRect(0, 0, 917, 394))
         self.scrollAreaWidgetContents_12.setObjectName("scrollAreaWidgetContents_12")
         self.gridLayout = QtWidgets.QGridLayout(self.scrollAreaWidgetContents_12)
         self.gridLayout.setContentsMargins(0, 0, 0, 0)
@@ -7008,7 +7008,7 @@ class Ui_MainWindow(object):
         self.an_scrollArea.setWidgetResizable(True)
         self.an_scrollArea.setObjectName("an_scrollArea")
         self.scrollAreaWidgetContents_13 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_13.setGeometry(QtCore.QRect(0, 0, 1069, 529))
+        self.scrollAreaWidgetContents_13.setGeometry(QtCore.QRect(0, 0, 173, 153))
         self.scrollAreaWidgetContents_13.setObjectName("scrollAreaWidgetContents_13")
         self.gridLayout_40 = QtWidgets.QGridLayout(self.scrollAreaWidgetContents_13)
         self.gridLayout_40.setContentsMargins(0, 0, 0, 0)
@@ -7193,7 +7193,7 @@ class Ui_MainWindow(object):
         self.ii_scrollArea.setWidgetResizable(True)
         self.ii_scrollArea.setObjectName("ii_scrollArea")
         self.scrollAreaWidgetContents_14 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_14.setGeometry(QtCore.QRect(0, 0, 1069, 529))
+        self.scrollAreaWidgetContents_14.setGeometry(QtCore.QRect(0, 0, 908, 417))
         self.scrollAreaWidgetContents_14.setObjectName("scrollAreaWidgetContents_14")
         self.gridLayout_41 = QtWidgets.QGridLayout(self.scrollAreaWidgetContents_14)
         self.gridLayout_41.setContentsMargins(0, 0, 0, 0)
@@ -7562,21 +7562,6 @@ class Ui_MainWindow(object):
         self.gr_addButton.setText(_translate("MainWindow", "Add a new CheckBox"))
         self.label_15.setText(_translate("MainWindow", "Comments:"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabWidgetPage4), _translate("MainWindow", "Geographical Region"))
-        self.oceanCheck.setText(_translate("MainWindow", "Ocean"))
-        self.semiAridCheck.setText(_translate("MainWindow", "Semi-arid"))
-        self.seaIceCheck.setText(_translate("MainWindow", "Sea-ice"))
-        self.desertCheck.setText(_translate("MainWindow", "Desert"))
-        self.snowCheck.setText(_translate("MainWindow", "Snow"))
-        self.urbanCheck.setText(_translate("MainWindow", "Urban"))
-        self.lakeIceCheck.setText(_translate("MainWindow", "Lake-ice"))
-        self.forestCheck.setText(_translate("MainWindow", "Forest"))
-        self.vegetationCheck.setText(_translate("MainWindow", "Vegetation"))
-        self.mountainousCheck.setText(_translate("MainWindow", "Mountainous"))
-        self.hillyCheck.setText(_translate("MainWindow", "Hilly"))
-        self.flatCheck.setText(_translate("MainWindow", "Flat"))
-        self.so_addButton.setText(_translate("MainWindow", "Add a new CheckBox"))
-        self.label_19.setText(_translate("MainWindow", "Comments:"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabWidgetPage8), _translate("MainWindow", "Land or Oceans Surfaces Overflown"))
         self.stationaryCheck.setText(_translate("MainWindow", "Stationary"))
         self.stationaryCyclonicCheck.setText(_translate("MainWindow", "Cyclonic"))
         self.stationaryAnticyclonicCheck.setText(_translate("MainWindow", "Anticyclonic"))
@@ -7630,6 +7615,21 @@ class Ui_MainWindow(object):
         self.ps_addButton.setText(_translate("MainWindow", "Add a new CheckBox"))
         self.label_18.setText(_translate("MainWindow", "Comments:"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabWidgetPage7), _translate("MainWindow", "Cloud, Precipitation and Aerosol Particles Sampled"))
+        self.oceanCheck.setText(_translate("MainWindow", "Ocean"))
+        self.semiAridCheck.setText(_translate("MainWindow", "Semi-arid"))
+        self.seaIceCheck.setText(_translate("MainWindow", "Sea-ice"))
+        self.desertCheck.setText(_translate("MainWindow", "Desert"))
+        self.snowCheck.setText(_translate("MainWindow", "Snow"))
+        self.urbanCheck.setText(_translate("MainWindow", "Urban"))
+        self.lakeIceCheck.setText(_translate("MainWindow", "Lake-ice"))
+        self.forestCheck.setText(_translate("MainWindow", "Forest"))
+        self.vegetationCheck.setText(_translate("MainWindow", "Vegetation"))
+        self.mountainousCheck.setText(_translate("MainWindow", "Mountainous"))
+        self.hillyCheck.setText(_translate("MainWindow", "Hilly"))
+        self.flatCheck.setText(_translate("MainWindow", "Flat"))
+        self.so_addButton.setText(_translate("MainWindow", "Add a new CheckBox"))
+        self.label_19.setText(_translate("MainWindow", "Comments:"))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tabWidgetPage8), _translate("MainWindow", "Land or Oceans Surfaces Overflown"))
         self.boundaryLayerCheck.setText(_translate("MainWindow", "Boundary-layer:"))
         self.blSubCloudCheck.setText(_translate("MainWindow", "sub-cloud"))
         self.blNearSurfaceCheck.setText(_translate("MainWindow", "near-surface"))

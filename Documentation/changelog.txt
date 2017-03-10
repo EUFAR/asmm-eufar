@@ -10,6 +10,19 @@ OFFLINE VERSION TESTED ON:
     - Windows 8.1 (32 and 64 bits)
 
 
+March 10 2017, Release version 1.2.1 [OFFLINE]
+====================================
+  FIXED:
+    - xml code for checkboxes couldn't be parsed if an old xml file, created before version 1.2.0, was uploaded into ASMM. It has been fixed.
+    - the section "Land or Ocean surfaces overflown" was deleted  when the "New..." button was hit or when a file was uploaded. It has been fixed.
+    - user-defined checkboxes weren't well displayed in the section "Land or Ocean surfaces overflown" once created.
+    - geographic coordinates including letters weren't cleaned well to follow EUFAR recommandations.
+    
+  MODIFIED:
+    - the list of EUFAR aircraft opened to Transnational Access has been updated.
+    - the pdf report template has been redone. It now uses the natural Reportlab Platypus flow.
+
+
 November 21 2016, Release version 1.2.0 [OFFLINE]
 =======================================
   ASMM style has been reworked for harmonisation with EMC and the EUFAR website. The check function has been simplified for better performance and harmonisation with EMC.

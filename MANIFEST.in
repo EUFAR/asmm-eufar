@@ -1,5 +1,7 @@
-include *.py
+include *.py *md
+include LICENCE
 recursive-include ui *.py *.ui
 recursive-include functions *.py
 recursive-include fonts *.ttf
 recursive-include icons *.png *.ico *.svg
+recursive-include Documentation *.xsd *.pdf *.txt

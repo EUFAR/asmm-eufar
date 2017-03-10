@@ -387,8 +387,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.gridLayout_10.itemAt(i).widget().deleteLater()
         for i in reversed(range(self.gridLayout_11.count())):
             self.gridLayout_11.itemAt(i).widget().deleteLater()
-        for i in reversed(range(self.gridLayout_13.count())):
-            self.gridLayout_13.itemAt(i).widget().deleteLater()
+        for i in reversed(range(self.gridLayout_16.count())):
+            self.gridLayout_16.itemAt(i).widget().deleteLater()
         for i in reversed(range(self.gridLayout_14.count())):
             self.gridLayout_14.itemAt(i).widget().deleteLater()
         for i in reversed(range(self.gridLayout_15.count())):

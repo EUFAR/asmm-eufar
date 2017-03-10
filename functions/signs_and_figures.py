@@ -21,6 +21,32 @@ class tick(Flowable):
             self.canv.setLineWidth(self.w)
             self.canv.line(self.w1+(s*0.15), self.h1-(s*0.35), self.w1+(s*0.35), self.h1-(s*0.15))
             self.canv.line(self.w1+(s*0.35), self.h1-(s*0.15), self.w1+(s*0.85), self.h1-(s*0.85))
+            
+            
+class tick_2(Flowable):
+
+    def __init__(self, x1, y1, x2, y2, t, w, color='black'):
+        Flowable.__init__(self)
+        self.x1 = x1
+        self.y1 = y1
+        self.x2 = x2
+        self.y2 = y2
+        self.t = t
+        self.w = w
+        self.d1 = float(abs(x1 - x2))
+        self.d2 = float(abs(y1 - y2))
+        self.color = color
+        
+    def draw(self):
+        self.canv.rect(self.x1, self.y1, self.x2, self.y2)
+        if self.t == 1:
+            self.canv.setStrokeColor(self.color)
+            self.canv.setLineWidth(self.w)
+            self.canv.line(self.x1 + (self.d1 * 0.15), self.y1 + (self.d2 * 0.55),
+                           self.x1 + (self.d1 * 0.35), self.y1 + (self.d2 * 0.25))
+            self.canv.line(self.x1 + (self.d1 * 0.35), self.y1 + (self.d2 * 0.25),
+                           self.x1 + (self.d1 * 0.85), self.y1 + (self.d2 * 1.05))
+            
 
 class line(Flowable):
 

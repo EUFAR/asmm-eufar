@@ -121,7 +121,7 @@ def objectsInit(self):
                         'af':self.gridLayout_9,
                         'ct':self.gridLayout_10,
                         'ps':self.gridLayout_11,
-                        'so':self.gridLayout_13,
+                        'so':self.gridLayout_16,
                         'ar':self.gridLayout_14,
                         'fm':self.gridLayout_15,
                         'sc':self.gridLayout_25
@@ -269,11 +269,144 @@ def objectsInit(self):
                                               self.crisCheck:'CriS',
                                               self.amsuMhsCheck:'AMSU/MHS'
                                               }
+
+    self.old_scientific_aims_check_dict = {self.satelliteCalValCheck:'satelliteCalVal',
+                                       self.aerosolCheck:'aerosol',
+                                       self.aerosolRadiativeCheck:'aerosolRadiative',
+                                       self.aerosolMicrophysicalCheck:'aerosolMicrophysical',
+                                       self.anthroPollutionCheck:'anthroPollution',
+                                       self.mesoscaleImpactsCheck:'mesoscaleImpacts',
+                                       self.cloudMicrophysicsCheck:'cloudMicrophysics',
+                                       self.cloudDynamicsCheck:'cloudDynamics',
+                                       self.cloudRadiativeCheck:'cloudRadiative',
+                                       self.cloudConvectionCheck:'cloudConvection',
+                                       self.blCloudCheck:'blCloud',
+                                       self.blDynamicsCheck:'blDynamics',
+                                       self.radiationCheck:'radiation',
+                                       self.radiationAtmosSpectroscopyCheck:'radiationAtmosSpectroscopy',
+                                       self.radiationSurfPropertiesCheck:'radiationSurfProperties',
+                                       self.radiationOtherCheck:'radiationOther',
+                                       self.gasChemCheck:'gasChem',
+                                       self.gasChemOrganicsCheck:'gasChemOrganics',
+                                       self.gasChemOxidantsCheck:'gasChemOxidants',
+                                       self.gasChemOtherCheck:'gasChemOther'
+                                       }
+
+    self.old_geographical_region_check_dict = {self.polarCheck:'polar',
+                                           self.midLatitudesCheck:'midLatitudes',
+                                           self.subTropicalCheck:'subTropical',
+                                           self.tropicalCheck:'tropical',
+                                           self.maritimeCheck:'maritime',
+                                           self.continentalCheck:'continental',
+                                           self.oceanicIslandsCheck:'oceanicIslands',
+                                           self.geogOtherCheck:'other'
+                                           }
+
+    self.old_atmospheric_features_check_dict = {self.stationaryCheck:'stationary',
+                                            self.stationaryAnticyclonicCheck:'stationaryAnticyclonic',
+                                            self.stationaryCyclonicCheck:'stationaryCyclonic',
+                                            self.warmFrontCheck:'warmFront',
+                                            self.warmConveyorBeltCheck:'warmConveyorBelt',
+                                            self.coldFrontCheck:'coldFront',
+                                            self.occludedFrontCheck:'occludedFront',
+                                            self.warmSectorCheck:'warmSector',
+                                            self.postColdFrontalAirMassCheck:'postColdFrontalAirMass',
+                                            self.arcticColdAirOutbreakCheck:'arcticColdAirOutbreak',
+                                            self.orographicInfluenceCheck:'orographicInfluence',
+                                            self.seaBreezeFrontCheck:'seaBreezeFront',
+                                            self.stratosphericFoldCheck:'stratosphericFold',
+                                            self.extendedConvergenceLineCheck:'extendedConvergenceLine',
+                                            self.easterlyWaveCheck:'easterlyWave',
+                                            self.equatorialWaveCheck:'equatorialWave',
+                                            self.tropicalCycloneCheck:'tropycalCyclone',
+                                            self.mesoscaleOrganizedConvectionCheck:'mesoscaleOrganizedConvection'
+                                            }
+
+    self.old_cloud_types_check_dict = {self.waterCloudsCheck:'waterClouds',
+                                   self.mixedPhaseCloudsCheck:'mixedPhaseClouds',
+                                   self.iceCloudsCheck:'iceClouds',
+                                   self.cirrusCheck:'cirrus',
+                                   self.contrailsCheck:'contrails',
+                                   self.stratocumulusCheck:'stratocumulus',
+                                   self.shallowCumulusCheck:'shallowCumulus',
+                                   self.cumulusCongestusCheck:'cumulusCongestus',
+                                   self.cumulonimbusToweringCumulusCheck:'cumulonimbusToweringCumulus',
+                                   self.altostratusAltocumulusCheck:'altostratusAltocumulus',
+                                   self.waveCloudsCheck:'waveClouds',
+                                   self.deepFrontalStratiformCloudsCheck:'deepFrontalStratiformClouds',
+                                   self.cloudFreeAboveAircraftCheck:'cloudFreeAboveAircraft',
+                                   self.cloudFreeBelowAircraftCheck:'cloudFreeBelowAircraft'
+                                   }
+
+    self.old_particles_sampled_check_dict = {self.rainCheck:'rain',
+                                         self.drizzleCheck:'drizzle',
+                                         self.dropletsCheck:'droplets',
+                                         self.pristineIceCrystalsCheck:'pristineIceCrystals',
+                                         self.snowOrAggregatesCheck:'snowOrAggregates',
+                                         self.graupelOrHailCheck:'graupelOrHail',
+                                         self.seaSaltAerosolCheck:'seaSaltAerosol',
+                                         self.continentalAerosolCheck:'continentalAerosol',
+                                         self.urbanPlumeCheck:'urbanPlume',
+                                         self.biomassBurningCheck:'biomassBurning',
+                                         self.desertOrMineralDustCheck:'desertOrMineralDust',
+                                         self.volcanicAshCheck:'volcanicAsh'
+                                         }
+
+    self.old_surfaces_overflown_check_dict = {self.oceanCheck:'ocean',
+                                          self.semiAridCheck:'semiArid',
+                                          self.seaIceCheck:'seaIce',
+                                          self.desertCheck:'desert',
+                                          self.snowCheck:'snow',
+                                          self.urbanCheck:'urban',
+                                          self.lakeIceCheck:'lakeIce',
+                                          self.mountainousCheck:'mountainous',
+                                          self.vegetationCheck:'vegetation',
+                                          self.hillyCheck:'hilly',
+                                          self.forestCheck:'forest',
+                                          self.flatCheck:'flat'
+                                          }
+
+    self.old_altitude_ranges_check_dict = {self.boundaryLayerCheck:'boundaryLayer',
+                                       self.blNearSurfaceCheck:'blNearSurface',
+                                       self.blSubCloudCheck:'blSubCloud',
+                                       self.blInCloudCheck:'blInCloud',
+                                       self.lowerTroposphereCheck:'lowerTroposphere',
+                                       self.midTroposphereCheck:'midTroposphere',
+                                       self.upperTroposphereCheck:'upperTroposphere',
+                                       self.lowerStratosphereCheck:'lowerStratosphere'
+                                       }
+
+    self.old_flight_types_check_dict = {self.straightLevelRunsCheck:'straightLevelRuns',
+                                    self.stackedStraightLevelRunsCheck:'stackedStraightLevelRuns',
+                                    self.separatedStraightLevelRuns:'separatedStraightLevelRuns',
+                                    self.racetracksCheck:'racetracks',
+                                    self.orbitsCheck:'orbits',
+                                    self.lagrangianDescentsCheck:'lagrangianDescents',
+                                    self.deepProfileAscentDescentsCheck:'deepProfileAscentDescents',
+                                    self.dropsondeDeployedCheck:'dropsondeDeployed',
+                                    self.selfCalibrationCheck:'selfCalibration'
+                                    }
+
+    self.old_satellite_coordination_check_dict = {self.polarMetopCheck:'polarMetop',
+                                              self.polarNpoessCheck:'polarNpoess',
+                                              self.polarAtrainCheck:'polarAtrain',
+                                              self.polarOtherCheck:'polarOther',
+                                              self.geosynchMsgCheck:'geosynchMsg',
+                                              self.geosynchOtherCheck:'geosynchOther',
+                                              self.modisCheck:'modis',
+                                              self.cloudsatCheck:'cloudsat',
+                                              self.caliopCheck:'caliop',
+                                              self.iasiCheck:'iasi',
+                                              self.airsCheck:'airs',
+                                              self.crisCheck:'cris',
+                                              self.amsuMhsCheck:'amsuMhs'
+                                              }
     
     self.operators_aircraft = [
         ["Alfred Wegener Institute","BT-67 POLAR 5","AWI","BT-67"],
         ["CNR - Istituto per i Sistemi Agricoli e Forestali del Mediterraneo","Sky Arrow 650","CNR-ISAFoM","Sky Arrow 650"],
         ["CNR - Istituto di Metodologie per l'Analisi Ambientale","Partenavia P-68","CNR-IMAA","P-68"],
+        ["CzechGlobe","Cessna 208","CzechGlobe","Cessna 208"],
         ["Deutsches Zentrum fur Luft- und Raumfahrt","Cessna 208","DLR","Cessna 208"],
         ["Deutsches Zentrum fur Luft- und Raumfahrt","Dornier DO-228 D-CFFU","DLR","DO-228"],
         ["Deutsches Zentrum fur Luft- und Raumfahrt","Dornier DO-228 D-CODE","DLR","DO-228"],
@@ -282,11 +415,12 @@ def objectsInit(self):
         ["ENVISCOPE","Partenavia P-68","Enviscope","P-68"],
         ["NERC - Facility for Airborne Atmospheric Measurements","BAe-146","FAAM","BAe-146"],
         ["FUB - Institut fur Weltraumwissenschaften","Cessna 207","FUB-ISS","Cessna 207"],
-        ["Instituto Nacional de Tecnica Aeroespacial","CASA-212 AR","INTA","CASA-212"],
-        ["Instituto Nacional de Tecnica Aeroespacial","CASA-212 RS","INTA","CASA-212"],
+        ["Instituto Nacional de Tecnica Aeroespacial","CASA-212 AR EC-DTV","INTA","CASA-212 EC-DTV"],
+        ["Instituto Nacional de Tecnica Aeroespacial","CASA-212 RS EC-DUQ","INTA","CASA-212 EC-DUQ"],
         ["KIT - Institute of Meteorology and Climate Research","Enduro","KIT-IMK-IFU","Enduro"],
-        ["NERC - Airborne Research and Survey Facility","Dornier DO-228","NERC-ARSF","DO-228"],
-        ["NERC - British Antarctic Survey","DHC-6 Twin Otter","NERC-BAS","DHC-6"],
+        ["NERC - Airborne Research Facility","Dornier DO-228","NERC-ARF","DO-228"],
+        ["NERC - British Antarctic Survey","DHC-6 Twin Otter VP-FAZ","NERC-BAS","DHC-6 VP-FAZ"],
+        ["NERC - British Antarctic Survey","DHC-6 Twin Otter VP-FBL","NERC-BAS","DHC-6 VP-FBL"],
         ["SAFIRE","ATR-42","SAFIRE","ATR-42"],
         ["SAFIRE","Mystere/Falcon 20","SAFIRE","Mystere/Falcon 20"],
         ["SAFIRE","Piper PA23","SAFIRE","PA23"],
@@ -719,4 +853,26 @@ def objectsInit(self):
     self.mandatory_datebox_list = [
         [self.date_dt, self.date_lb, 0]
         ]
+    
+    self.coordinate_units_list = {
+        "°n": 2,
+        "°e": 2,
+        "°N": 2,
+        "°E": 2,
+        "n": 1,
+        "e": 1,
+        "m": 1,
+        "N": 1,
+        "E": 1,
+        "M": 1,
+        "°s": -2,
+        "°w": -2,
+        "°S": -2,
+        "°W": -2,
+        "s": -1,
+        "w": -1,
+        "S": -1,
+        "W": -1,
+        "°": 0
+        }
     

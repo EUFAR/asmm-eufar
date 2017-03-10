@@ -1,4 +1,0 @@
-PyQt5 >= 5.6
-netCDF4-python >= 1.1.9
-Reportlab >= 3.2.8
-Pillow >= 2.9.0

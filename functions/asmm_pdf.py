@@ -1,1139 +1,792 @@
 # -*- coding: utf-8 -*-
 
-import time
+import datetime
 from PyQt5.QtCore import Qt
-from reportlab.lib.enums import TA_JUSTIFY, TA_CENTER, TA_LEFT
+from reportlab.lib.enums import TA_JUSTIFY, TA_CENTER, TA_LEFT, TA_RIGHT
 from reportlab.lib.pagesizes import A4
-from reportlab.platypus import Paragraph
+from reportlab.platypus import Paragraph, Image
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
-from reportlab.pdfgen import canvas
-from reportlab.lib import utils
-from functions.signs_and_figures import tick, line, square, semi_square
+from reportlab.lib import colors, utils
+from functions.signs_and_figures import tick_2, square, semi_square
 from PyQt5.QtWidgets import QCheckBox
+from reportlab.platypus.doctemplate import SimpleDocTemplate
+from reportlab.platypus.tables import Table, TableStyle
 
 
 def create_asmm_pdf(self, out_file_name_pdf):
-
-    ############################
-    # Document Preparation
-    ############################
     
-    # création du document
-    template = canvas.Canvas(out_file_name_pdf, pagesize=A4, bottomup=0)
-    template.setFillColor('black')
-    page_w, page_h = A4  # @UnusedVariable
-    deb_page = 0
+    # document creation
+    docpdf = SimpleDocTemplate(out_file_name_pdf,
+                               pagesize = A4,
+                               rightMargin=30,
+                               leftMargin=30,
+                               topMargin=30,
+                               bottomMargin=50)
+    page_w, _ = A4
     
     # polices
-    fontname1 = 'fonts/SourceSansPro-Regular.ttf'
-    pdfmetrics.registerFont(TTFont('Times', fontname1))
-    pdfmetrics.registerFont(TTFont('Arial', fontname1))
-    pdfmetrics.registerFont(TTFont('Ariali', fontname1))
+    pdfmetrics.registerFont(TTFont('asmm', 'fonts/SourceSansPro-Regular.ttf'))
+    pdfmetrics.registerFont(TTFont('asmm_bold', 'fonts/SourceSansPro-Semibold.ttf'))
+    pdfmetrics.registerFont(TTFont('asmm_italic', 'fonts/SourceSansPro-Italic.ttf'))
+
 
     # styles
     styles = getSampleStyleSheet()
-    styles.add(ParagraphStyle(name='asmm_title', fontName='Times', alignment=TA_CENTER, fontSize=16, textColor='red'))
-    styles.add(ParagraphStyle(name='asmm_par', fontName='Times', alignment=TA_JUSTIFY, fontSize=10))
-    styles.add(ParagraphStyle(name='asmm_par_sl', fontName='Arial', alignment=TA_JUSTIFY, fontSize=10))
-    styles.add(ParagraphStyle(name='asmm_par_tl', fontName='Times', alignment=TA_LEFT, fontSize=16))
-    styles.add(ParagraphStyle(name='asmm_title2', fontName='Arial', alignment=TA_CENTER, fontSize=22, textColor='black', leading=24))
-    styles.add(ParagraphStyle(name='asmm_figure', fontName='Times', alignment=TA_CENTER, fontSize=12))
-
-    # date
-    template.setFont("Arial",10)
-    pos_x_dt, pos_y_dt = 515, 30
-    ptext = time.strftime("%Y-%m-%d")
-    template.drawString(pos_x_dt, pos_y_dt, ptext)
-    template.setFont("Times",12)
-
-    # titre
-    title = 'Airborne Science Mission Metadata Report'
-    tl = Paragraph(title, styles["asmm_title2"])
-    w, h = tl.wrapOn(template, 400, 200)  # @UnusedVariable
-    pos_x_tl = page_w/2 - w/2
-    pos_y_tl = 80
-    tl.drawOn(template, pos_x_tl, pos_y_tl)
-    sq = square(-205, -33, 410, 57, 2, 'black')
-    sq.wrapOn(template, 300, 100)
-    sq.drawOn(template, page_w/2, pos_y_tl+1)
+    styles.add(ParagraphStyle(name='report_title', fontName='asmm', fontSize=22, alignment=TA_CENTER, wordWrap = 'CJK'))
+    styles.add(ParagraphStyle(name='date', fontName='asmm', fontSize=13, alignment=TA_RIGHT, wordWrap = 'CJK'))
+    styles.add(ParagraphStyle(name='section_title', fontName='asmm_bold', fontSize=16, alignment=TA_LEFT, wordWrap = 'CJK'))
+    styles.add(ParagraphStyle(name='asmm', fontName='asmm', fontSize=12, leading=14, wordWrap = 'CJK'))
+    styles.add(ParagraphStyle(name='asmm_justify', fontName='asmm', fontSize=12, alignment=TA_JUSTIFY, leading=14, wordWrap = 'CJK'))
+    styles.add(ParagraphStyle(name='checkbox_title', fontName='asmm_bold', fontSize=12, leading=14, wordWrap = 'CJK'))
+    styles.add(ParagraphStyle(name='figure_number', fontName='asmm_bold', fontSize=12, alignment=TA_RIGHT, leading=14, wordWrap = 'CJK'))
+    styles.add(ParagraphStyle(name='figure_caption', fontName='asmm_italic', fontSize=12, alignment=TA_LEFT, leading=14, wordWrap = 'CJK'))
 
 
-    ############################
-    # Flight Information
-    ############################
-    title = 'Flight Information'
-    tl = Paragraph(title, styles["asmm_par_tl"])
-    w, h = tl.wrapOn(template, 200, 100)  # @UnusedVariable
-    pos_x_tl1, pos_y_tl1 = 30, pos_y_tl+125
-    tl.drawOn(template, pos_x_tl1, pos_y_tl1)
-    sq = semi_square(-10, 0, -10, -28, page_w-50, 0, 2, 'black')
-    sq.wrapOn(template, 600, 100)
-    sq.drawOn(template, pos_x_tl1, pos_y_tl1+3)
-    template.setFont("Times",10)
-    template.drawString(pos_x_tl1+10, pos_y_tl1+25, 'Project acronym:')
-    p = Paragraph(str(self.projectAcronym_ln.text()), styles["asmm_par_sl"])
-    c, h = p.wrapOn(template, 150, 30)  # @UnusedVariable
-    p.drawOn(template, pos_x_tl1+90, pos_y_tl1 + 25 - h + 10)
-    ptext = 'Date:     %s' % self.date_dt.date().toString(Qt.ISODate)
-    template.drawString(pos_x_tl1+10, pos_y_tl1+55, ptext)
-    ptext = 'Flight Identifier:     %s' % self.flightNumber_ln.text()
-    template.drawString(pos_x_tl1+10, pos_y_tl1+85, ptext)
-    ptext = 'Mission Scientist:     %s' % self.missionSci_ln.text()
-    template.drawString(pos_x_tl1+10, pos_y_tl1+115, ptext)
-    ofx = 280
-    ptext = 'Flight Manager:     %s' % self.flightManager_ln.text()
-    template.drawString(pos_x_tl1+ofx, pos_y_tl1+25, ptext)
-    if self.aircraft_cb.currentText() == "Make a choice...":
-        aircraft = ""
-    elif self.aircraft_cb.currentText() == "Other...":
-        aircraft = self.newAircraft_ln.text()
-    else:
-        aircraft = self.aircraft_cb.currentText()
-    template.drawString(pos_x_tl1+ofx, pos_y_tl1+55, 'Aircraft:')
-    p = Paragraph(str(aircraft), styles["asmm_par_sl"])
-    c, h = p.wrapOn(template, 150, 30)  # @UnusedVariable
-    p.drawOn(template, pos_x_tl1 + ofx + 45, pos_y_tl1 + 55 - h + 10)
-    if self.operator_cb.currentText() == "Make a choice...":
-        operator = ""
-    elif self.operator_cb.currentText() == "Other...":
-        operator = self.newOperator_ln.text()
-    else:
-        operator = self.operator_cb.currentText()
-    template.drawString(pos_x_tl1+ofx, pos_y_tl1+85, 'Operator:')
-    p = Paragraph(str(operator), styles["asmm_par_sl"])
-    c, h = p.wrapOn(template, 200, 30)  # @UnusedVariable
-    p.drawOn(template, pos_x_tl1 + ofx + 55, pos_y_tl1 + 85 - h + 10)
-    if self.location_cb.currentText() == "Make a choice..." or self.detailList.currentText() == "Make a choice...":
-        country = ""
-    else:
-        country = self.detailList.currentText()
-    ptext = 'Country:     %s' % country
-    template.drawString(pos_x_tl1+ofx, pos_y_tl1+115, ptext)
-
+    # title and date
+    story = []
+    story.append(Paragraph(create_date_string(), styles["date"]))
+    story.append(Paragraph('<br/><br/>', styles["asmm"]))
+    story.append(Paragraph('Airborne Science Mission Metadata<br/><br/>Report', styles["report_title"]))
+    sq = square(90, -20, 342, 60, 2, 'black')
+    story.append(sq)
+    story.append(Paragraph('<br/><br/><br/><br/>', styles["asmm"]))
     
-    ###########################
-    # Metadata Contact Info
-    ###########################
-    title = 'Contact Information'
-    tl = Paragraph(title, styles["asmm_par_tl"])
-    w, h = tl.wrapOn(template, 200, 100)  # @UnusedVariable
-    pos_x_tl2, pos_y_tl2 = 30, pos_y_tl1+192
-    if pos_y_tl2+60 >= 800:
-        template.showPage()
-        pos_y_tl2 = 80
-    tl.drawOn(template, pos_x_tl2, pos_y_tl2)
-    sq = semi_square(-10, 0, -10, -28, page_w-50, 0, 2, 'black')
-    sq.wrapOn(template, 600, 100)
-    sq.drawOn(template, pos_x_tl2, pos_y_tl2+2)
-    ptext = 'Name:     %s' % self.contactName_ln.text()
-    template.drawString(pos_x_tl2+10, pos_y_tl2+25, ptext)
-    if self.contact_cb.currentText() != "Make a choice...":
-        ptext = 'Role:     %s' % self.contact_cb.currentText()
+    
+    # flight information
+    proj_acronyme = Paragraph(self.projectAcronym_ln.text(),styles["asmm"])
+    date = Paragraph(self.date_dt.date().toString(Qt.ISODate),styles["asmm"])
+    flight_number = Paragraph(self.flightNumber_ln.text(),styles["asmm"])
+    mission_scientist = Paragraph(self.missionSci_ln.text(),styles["asmm"])
+    flight_manager = Paragraph(self.flightManager_ln.text(),styles["asmm"])
+    if self.aircraft_cb.currentText() == "Make a choice...":
+        aircraft = Paragraph("",styles["asmm"])
+    elif self.aircraft_cb.currentText() == "Other...":
+        aircraft = Paragraph(self.newAircraft_ln.text(),styles["asmm"])
     else:
-        ptext = 'Role:'
-    template.drawString(pos_x_tl2+10, pos_y_tl2+55, ptext)
-    ptext = 'E-mail:     %s' % self.contactEmail_ln.text()
-    template.drawString(pos_x_tl2+10, pos_y_tl2+85, ptext)
-
-
-    ############################
-    # Scientific Aims
-    ############################
-    title = 'Scientific Aims'
-    tl = Paragraph(title, styles["asmm_par_tl"])
-    w, h = tl.wrapOn(template, 200, 100)  # @UnusedVariable
-    pos_x_tl3, pos_y_tl3 = 30, pos_y_tl2+162
-    if pos_y_tl3+160 >= 800:
-        template.showPage()
-        pos_y_tl3 = 80
-    tl.drawOn(template, pos_x_tl3, pos_y_tl3)
-    sq = semi_square(-10, 0, -10, -28, page_w-50, 0, 2, 'black')
-    sq.wrapOn(template, 600, 100)
-    sq.drawOn(template, pos_x_tl3, pos_y_tl3+2)
-    pos_y = [20,40,60,100,120,140,160,20,40,60,80,120,140,160,20,40,60,80,140,160]
-    pos_x = [60,60,60,80,80,80,80,250,270,270,270,250,250,250,430,430,430,430,450,450]
-    box_c = ['Satellite Cal/Val','Aerosol','Radiative properties/impacts (Aerosol)','Cloud microphy'
-             'sical impacts (Aerosol)','Anthropogenic pollution','Mesoscale atmospheric impacts','M'
-             'icrophysics (Cloud)','Dynamics (Cloud)','Radiative properties (Cloud)','Convection dy'
-             'namics (Cloud)','Cloud (Boundary-layer)','Dynamics (Boundary-layer)','Radiation','Atm'
-             'ospheric spectroscopy (Radiation)','Surface properties/retrievals (Radiation)','Other'
-             ' (Radiation)','Gas chemistry','Organics (Gas chemistry)','Oxydants (Gas chemistry)',
-             'Other (Gas chemistry)']
-    name_c = ['Satellite Cal/Val','Anthropogenic pollution','Mesoscale atmospheric impacts','Microp'
-              'hysics','Dynamics','Radiation properties','Convection dynamics','Gas chemistry','Oxy'
-              'dants','Organics','Other','Aerosol','Cloud microphysical impacts','Radiative propert'
-              'ies/impacts','Radiation','Atmospheric spectroscopy','Surf. properties/retrievals','O'
-              'ther','Cloud','Dynamics']
-    check_boxes_loop(pos_x,pos_y,pos_y_tl3,box_c,name_c,self.scientific_aims_check_dict,template)
-    ptext = 'Cloud:'
-    template.drawString(48, pos_y_tl3+80, ptext)
-    ptext = 'Boundary-layer:'
-    template.drawString(418, pos_y_tl3+120, ptext)
-    pos_y = pos_y_tl3 + 180
+        aircraft = Paragraph(self.aircraft_cb.currentText(),styles["asmm"])
+    if self.operator_cb.currentText() == "Make a choice...":
+        operator = Paragraph("",styles["asmm"])
+    elif self.operator_cb.currentText() == "Other...":
+        operator = Paragraph(self.newOperator_ln.text(),styles["asmm"])
+    else:
+        operator = Paragraph(self.operator_cb.currentText(),styles["asmm"])
+    if self.location_cb.currentText() == "Make a choice..." or self.detailList.currentText() == "Make a choice...":
+        country = Paragraph("",styles["asmm"])
+    else:
+        country = Paragraph(self.detailList.currentText(),styles["asmm"])
+    story.append(Paragraph('Flight Information', styles["section_title"]))
+    sq = semi_square(-10, -13, -10, 15, page_w-70, -13, 2, 'black')
+    story.append(sq)
+    story.append(Paragraph('<br/><br/>', styles["asmm"]))
+    data= [[Paragraph('Project acronym:',styles["asmm"]), proj_acronyme, Paragraph('Flight manager:',styles["asmm"]), flight_manager],
+           [Paragraph('Date:',styles["asmm"]), date, Paragraph('Aircraft:',styles["asmm"]), aircraft],
+           [Paragraph('Flight number:',styles["asmm"]), flight_number, Paragraph('Operator:',styles["asmm"]), operator],
+           [Paragraph('Mission scientist:',styles["asmm"]), mission_scientist, Paragraph('Location:',styles["asmm"]), country]]
+    table=Table(data, colWidths=[95, 170, 90, 170], rowHeights=30)
+    table.setStyle(TableStyle([('ALIGN',(0,0),(3,3),'LEFT'),
+                               ('VALIGN',(0,0),(3,3),'TOP'),
+                               ('LEFTPADDING',(0,0),(0,3),5)]))
+    story.append(table)
+    story.append(Paragraph('<br/><br/>', styles["asmm"]))
+    
+    
+    # contact information
+    story.append(Paragraph('Contact Information', styles["section_title"]))
+    sq = semi_square(-10, -13, -10, 15, page_w-70, -13, 2, 'black')
+    story.append(sq)
+    story.append(Paragraph('<br/><br/>', styles["asmm"]))
+    contact_name = Paragraph(self.contactName_ln.text(), styles["asmm"])
+    if self.contact_cb.currentText() != "Make a choice...":
+        contact_role = Paragraph(self.contact_cb.currentText(), styles["asmm"])
+    else:
+        contact_role = Paragraph('', styles["asmm"])
+    contact_email = Paragraph(self.contactEmail_ln.text(), styles["asmm"])
+    data = [[Paragraph('Name:', styles["asmm"]), contact_name, Paragraph('Email:', styles["asmm"]), contact_email], 
+            [Paragraph('Role:', styles["asmm"]), contact_role]]
+    table=Table(data, colWidths=[43, 219, 43, 220], rowHeights=30) # 525
+    table.setStyle(TableStyle([('ALIGN',(0,0),(3,1),'LEFT'),
+                               ('VALIGN',(0,0),(3,1),'TOP'),
+                               ('LEFTPADDING',(0,0),(0,1),5)]))
+    story.append(table)
+    story.append(Paragraph('<br/><br/>', styles["asmm"]))
+    
+    # scientific aims
+    story.append(Paragraph('Scientific Aims', styles["section_title"]))
+    sq = semi_square(-10, -13, -10, 15, page_w-70, -13, 2, 'black')
+    story.append(sq)
+    story.append(Paragraph('<br/><br/>', styles["asmm"]))
+    data = [[check_boxes(self.satelliteCalValCheck),Paragraph('Satellite Cal/Var',styles["asmm"]),
+             check_boxes(self.gasChemCheck),Paragraph('Gas Chemistry',styles["asmm"]),
+             check_boxes(self.radiationCheck),Paragraph('Radiation',styles["asmm"])],
+            [check_boxes(self.anthroPollutionCheck),Paragraph('Anthropogenic poullution',styles["asmm"]),
+             check_boxes(self.gasChemOxidantsCheck),Paragraph('Oxydants',styles["asmm"]),
+             check_boxes(self.radiationAtmosSpectroscopyCheck),Paragraph('Atmospheric spectroscopy',styles["asmm"])],
+            [check_boxes(self.mesoscaleImpactsCheck),Paragraph('Mesoscale atmospheric impacts',styles["asmm"]),
+             check_boxes(self.gasChemOrganicsCheck),Paragraph('Organics',styles["asmm"]),
+             check_boxes(self.radiationSurfPropertiesCheck),Paragraph('Surf. properties/retrievals',styles["asmm"])],
+            [None, Paragraph('<u>Cloud:</u>',styles["checkbox_title"]),
+             check_boxes(self.gasChemOtherCheck),Paragraph('Other',styles["asmm"]),
+             check_boxes(self.radiationOtherCheck),Paragraph('Other',styles["asmm"])],
+            [check_boxes(self.cloudMicrophysicsCheck),Paragraph('Microphysics',styles["asmm"]),
+             None,None,
+             None,None],
+            [check_boxes(self.cloudDynamicsCheck),Paragraph('Dynamics',styles["asmm"]),
+             check_boxes(self.aerosolCheck),Paragraph('Aerosol',styles["asmm"]),
+             None,Paragraph('<u>Boundary-layer:</u>',styles["checkbox_title"])],
+            [check_boxes(self.cloudRadiativeCheck),Paragraph('Radiative properties',styles["asmm"]),
+             check_boxes(self.aerosolMicrophysicalCheck),Paragraph('Cloud microphysical impacts',styles["asmm"]),
+             check_boxes(self.blCloudCheck),Paragraph('Cloud',styles["asmm"])],
+            [check_boxes(self.cloudConvectionCheck),Paragraph('Convection dynamics',styles["asmm"]),
+             check_boxes(self.aerosolRadiativeCheck),Paragraph('Radiative properties/impacts',styles["asmm"]),
+             check_boxes(self.blDynamicsCheck),Paragraph('Dynamics',styles["asmm"])]]
+    table=Table(data, colWidths=[14, 175, 14, 175, 14, 160], rowHeights=20) # 525
+    table.setStyle(TableStyle([('LEFTPADDING',(2,1),(3,3),20),
+                               ('LEFTPADDING',(0,4),(1,7),20),
+                               ('LEFTPADDING',(4,1),(5,3),20),
+                               ('LEFTPADDING',(2,6),(3,7),20),
+                               ('LEFTPADDING',(4,6),(5,7),20)]))
+    story.append(table)
+    story.append(Paragraph('<br/><br/>', styles["asmm"]))
+    
     if self.sa_ck_list:
-        if pos_y + 40 >= 800:
-            template.showPage()
-            pos_y = 80
-        template.setFont("Times",12)
-        ptext = 'User-defined:'
-        template.drawString(pos_x_tl3 + 18, pos_y, ptext)
-        ln = line(0,0,68,0, 'black')
-        ln.wrapOn(template, 200, 100)
-        ln.drawOn(template, pos_x_tl3 + 18, pos_y + 3)
-        template.setFont("Times",10)
-        pos_x = 80
-        pos_y += 20
-        off_pos_y = 0
+        story.append(Paragraph('<u>User-defined:</u>', styles["checkbox_title"]))
+        data = [[None, None, None, None, None, None],
+                [None, None, None, None, None, None],
+                [None, None, None, None, None, None],
+                [None, None, None, None, None, None]]
+        col = 0
+        row = 0
         for i in range(self.gridLayout_5.count()):
             if isinstance(self.gridLayout_5.itemAt(i).widget(), QCheckBox):
                 if self.gridLayout_5.itemAt(i).widget().isChecked():
-                    template.setFont("Times",10)
-                    p = Paragraph(str(self.gridLayout_5.itemAt(i).widget().text()), styles["asmm_par"])
-                    c, h = p.wrapOn(template, 110, 30)  # @UnusedVariable
-                    if pos_y + h >= 800:
-                        template.showPage()
-                        pos_y = 80
-                    p.drawOn(template, pos_x, pos_y - h + 10)
-                    t = tick(0,0,8,1,1.5,'red')
-                    t.wrapOn(template, 50, 50)
-                    t.drawOn(template, pos_x-12, pos_y)
-                    pos_x += 130
-                    if off_pos_y < h:
-                        off_pos_y = h
-                    if i == 4 or i == 8:
-                        pos_x = 80
-                        pos_y += off_pos_y + 10
-                        off_pos_y = 0
-        pos_y += 20
+                    data[row][col] = check_boxes(self.gridLayout_5.itemAt(i).widget())
+                    data[row][col + 1] = Paragraph(str(self.gridLayout_5.itemAt(i).widget().text()), styles["asmm"])
+                    col += 2
+                    if col > 5:
+                        row +=1
+                        col = 0
+        table=Table(data, colWidths=[14, 170, 14, 170, 14, 170], rowHeights=20)
+        table.setStyle(TableStyle([('VALIGN',(1,0),(1,3),'TOP'),
+                                   ('VALIGN',(3,0),(3,3),'TOP'),
+                                   ('VALIGN',(5,0),(5,3),'TOP')]))
+        story.append(table)
+        story.append(Paragraph('<br/><br/>', styles["asmm"]))
+    story.append(Paragraph('<u>Comments:</u>',styles["checkbox_title"]))
     if self.SAOtherTextBox.toPlainText():
-        p = Paragraph(self.SAOtherTextBox.toPlainText(), styles["asmm_par_sl"])
-        c, h1 = p.wrapOn(template, 500, 500)  # @UnusedVariable
+        story.append(Paragraph(self.SAOtherTextBox.toPlainText(),styles["asmm_justify"]))
+        story.append(Paragraph('<br/><br/><br/>', styles["asmm"]))
     else:
-        ptext = 'No comment'
-        p = Paragraph(ptext, styles["asmm_par_sl"])
-        c, h1 = p.wrapOn(template, 100, 100)  # @UnusedVariable
-    if pos_y + h1 >= 800:
-        template.showPage()
-        pos_y = 80
-        deb_page = 0
-    pos_y_tl3 = pos_y
-    template.setFont("Times",12)
-    ptext = 'Comments:'
-    template.drawString(pos_x_tl3 + 18, pos_y_tl3, ptext)
-    template.setFont("Times",10)
-    ln = line(0,0,58,0, 'black')
-    ln.wrapOn(template, 200, 100)
-    ln.drawOn(template, pos_x_tl3 + 18, pos_y_tl3 + 3)
-    pos_y = pos_y_tl3 - h1 + 30
-    p.drawOn(template, 60, pos_y)
-
-
-    ############################
-    # Geographical Region
-    ############################
-    title = 'Geographical Region'
-    tl = Paragraph(title, styles["asmm_par_tl"])
-    w, h = tl.wrapOn(template, 200, 100)
-    if pos_y_tl3 == 80 and deb_page == 0:
-        pos_x_tl4, pos_y_tl4 = 30, pos_y_tl3 + h + 70 +  h1
+        story.append(Paragraph('No comment',styles["asmm"]))
+        story.append(Paragraph('<br/><br/><br/>', styles["asmm"]))
+    
+    
+    # geographical region
+    story.append(Paragraph('Geographical Region', styles["section_title"]))
+    sq = semi_square(-10, -13, -10, 15, page_w-70, -13, 2, 'black')
+    story.append(sq)
+    story.append(Paragraph('<br/><br/>', styles["asmm"]))
+    story.append(Paragraph('<u>Geographic Bounding Box:</u>',styles["checkbox_title"]))
+    try:
+        if float(self.northBoundLatitudeLine.text()) < 0:
+            north = self.northBoundLatitudeLine.text()[1:] + '°S'
+        else:
+            north = self.northBoundLatitudeLine.text() + '°N'
+    except ValueError:
+        north = '' 
+    try:
+        if float(self.southBoundLatitudeLine.text()) < 0:
+            south = self.southBoundLatitudeLine.text()[1:] + '°S'
+        else:
+            south = self.southBoundLatitudeLine.text() + '°N'
+    except ValueError:
+        south = '' 
+    try:
+            if float(self.eastBoundLongitudeLine.text()) < 0:
+                east = self.eastBoundLongitudeLine.text()[1:] + '°W'
+            else:
+                east = self.eastBoundLongitudeLine.text() + '°E'
+    except ValueError:
+        east = '' 
+    try:
+        if float(self.westBoundLongitudeLine.text()) < 0:
+            west = self.westBoundLongitudeLine.text()[1:] + '°W'
+        else:
+            west = self.westBoundLongitudeLine.text() + '°E'
+    except ValueError:
+        west = '' 
+    if self.minAltitudeLine.text():
+        min_alt = self.minAltitudeLine.text() + 'm'
     else:
-        pos_x_tl4, pos_y_tl4 = 30, pos_y_tl3 + h + 220 + h1
-    if pos_y_tl4+90 >= 800:
-        template.showPage()
-        pos_y_tl4 = 80
-        deb_page = 1
-    tl.drawOn(template, pos_x_tl4, pos_y_tl4)
-    sq = semi_square(-10, 0, -10, -28, page_w-50, 0, 2, 'black')
-    sq.wrapOn(template, 600, 100)
-    sq.drawOn(template, pos_x_tl4, pos_y_tl4+3)
-    template.setFont("Times",12)
-    ptext = 'Geographic Bounding Box:'
-    template.drawString(pos_x_tl4+18, pos_y_tl4+25, ptext)
-    ln = line(0,0,143,0, 'black')
-    ln.wrapOn(template, 200, 100)
-    ln.drawOn(template, pos_x_tl4+18, pos_y_tl4+25+3)
-    template.setFont("Times",10)
-    ptext = 'North/South latitudes:     %s / %s' % (self.northBoundLatitudeLine.text(), self.
-                                                    southBoundLatitudeLine.text())
-    template.drawString(pos_x_tl4+40, pos_y_tl4+45, ptext)
-    ptext = 'West/East longitudes:     %s / %s' % (self.westBoundLongitudeLine.text(), self.
-                                                   eastBoundLongitudeLine.text())
-    template.drawString(pos_x_tl4+40, pos_y_tl4+65, ptext)
-    ptext = 'Min/Max altitudes (m):     %s / %s' % (self.minAltitudeLine.text(), self.
-                                                    maxAltitudeLine.text())
-    template.drawString(pos_x_tl4+300, pos_y_tl4+45, ptext)
-    template.setFont("Times",12)
-    ptext = 'Geographic Situation:'
-    template.drawString(pos_x_tl4+18, pos_y_tl4+95, ptext)
-    template.setFont("Times",10)
-    ln = line(0,0,116,0, 'black')
-    ln.wrapOn(template, 200, 100)
-    ln.drawOn(template, pos_x_tl4+18, pos_y_tl4+95+3)
-    pos_y = [115,115,115,115,135,135,135,135]
-    pos_x = [80,210,340,470,80,210,340,470]
-    box_c = ['Polar','Mid-latitudes','Sub-tropical','Tropical','Maritime','Continental','Oceanic islan'
-             'ds','Other (Geographical region)']
-    name_c = ['Polar','Mid-latitudes','Sub-tropical','Tropical','Maritime','Continental','Oceanic I'
-              'slands','Other']
-    check_boxes_loop(pos_x,pos_y,pos_y_tl4,box_c,name_c,self.geographical_region_check_dict,template)
-    pos_y = pos_y_tl4 + 160
+        min_alt = ''
+    if self.maxAltitudeLine.text():
+        max_alt = self.maxAltitudeLine.text() + 'm'
+    else:
+        max_alt = ''
+    data = [[Paragraph('North/South latitudes:',styles["asmm"]),
+             Paragraph(north + ' / ' + south,styles["asmm"]),
+             Paragraph('Min/Max altitudes:',styles["asmm"]),
+             Paragraph(min_alt + ' / ' + max_alt,styles["asmm"])],
+            [Paragraph('West/East longitudes:',styles["asmm"]),
+             Paragraph(west + ' / ' + east,styles["asmm"]),
+             None,
+             None]]
+    table=Table(data, colWidths=[125, 130, 105, 140], rowHeights=20)
+    table.setStyle(TableStyle([('ALIGN',(0,0),(3,1),'LEFT'),
+                               ('VALIGN',(0,0),(3,1),'TOP')]))
+    story.append(table)
+    story.append(Paragraph('<br/><br/>', styles["asmm"]))
+    story.append(Paragraph('<u>Geographic Situation:</u>',styles["checkbox_title"]))
+    data = [[check_boxes(self.polarCheck),Paragraph('Polar',styles["asmm"]),
+             check_boxes(self.subTropicalCheck),Paragraph('Sub-tropical',styles["asmm"]),
+             check_boxes(self.maritimeCheck),Paragraph('Maritime',styles["asmm"]),
+             check_boxes(self.oceanicIslandsCheck),Paragraph('Oceanic islands',styles["asmm"])],
+            [check_boxes(self.midLatitudesCheck),Paragraph('Mid-latitudes',styles["asmm"]),
+             check_boxes(self.tropicalCheck),Paragraph('Tropical',styles["asmm"]),
+             check_boxes(self.continentalCheck),Paragraph('Continental',styles["asmm"]),
+             check_boxes(self.geogOtherCheck),Paragraph('Other',styles["asmm"])]]
+    table=Table(data, colWidths=[14, 120, 14, 120, 14, 120, 14, 120], rowHeights=20) # 525
+    story.append(table)
+    story.append(Paragraph('<br/><br/>', styles["asmm"]))
+    
     if self.gr_ck_list:
-        if pos_y + 40 >= 800:
-            template.showPage()
-            pos_y = 80
-        template.setFont("Times",12)
-        ptext = 'User-defined:'
-        template.drawString(pos_x_tl4 + 18, pos_y, ptext)
-        ln = line(0,0,68,0, 'black')
-        ln.wrapOn(template, 200, 100)
-        ln.drawOn(template, pos_x_tl4 + 18, pos_y + 3)
-        template.setFont("Times",10)
-        pos_x = 80
-        pos_y += 20
-        off_pos_y = 0
+        story.append(Paragraph('<u>User-defined:</u>', styles["checkbox_title"]))
+        data = [[None, None, None, None, None, None],
+                [None, None, None, None, None, None],
+                [None, None, None, None, None, None],
+                [None, None, None, None, None, None]]
+        col = 0
+        row = 0
         for i in range(self.gridLayout_8.count()):
             if isinstance(self.gridLayout_8.itemAt(i).widget(), QCheckBox):
                 if self.gridLayout_8.itemAt(i).widget().isChecked():
-                    template.setFont("Times",10)
-                    p = Paragraph(str(self.gridLayout_8.itemAt(i).widget().text()), styles["asmm_par"])
-                    c, h = p.wrapOn(template, 110, 30)  # @UnusedVariable
-                    if pos_y + h >= 800:
-                        template.showPage()
-                        pos_y = 80
-                    p.drawOn(template, pos_x, pos_y - h + 10)
-                    t = tick(0,0,8,1,1.5,'red')
-                    t.wrapOn(template, 50, 50)
-                    t.drawOn(template, pos_x-12, pos_y)
-                    pos_x += 130
-                    if off_pos_y < h:
-                        off_pos_y = h
-                    if i == 4 or i == 8:
-                        pos_x = 80
-                        pos_y += off_pos_y + 10
-                        off_pos_y = 0
-        pos_y += 20
+                    data[row][col] = check_boxes(self.gridLayout_8.itemAt(i).widget())
+                    data[row][col + 1] = Paragraph(str(self.gridLayout_8.itemAt(i).widget().text()), styles["asmm"])
+                    col += 2
+                    if col > 5:
+                        row +=1
+                        col = 0
+        table=Table(data, colWidths=[14, 170, 14, 170, 14, 170], rowHeights=20)
+        table.setStyle(TableStyle([('VALIGN',(1,0),(1,3),'TOP'),
+                                   ('VALIGN',(3,0),(3,3),'TOP'),
+                                   ('VALIGN',(5,0),(5,3),'TOP')]))
+        story.append(table)
+        story.append(Paragraph('<br/><br/>', styles["asmm"]))
+    story.append(Paragraph('<u>Comments:</u>',styles["checkbox_title"]))
     if self.GROtherTextBox.toPlainText():
-        p = Paragraph(self.GROtherTextBox.toPlainText(), styles["asmm_par_sl"])
-        c, h2 = p.wrapOn(template, 500, 500)  # @UnusedVariable
+        story.append(Paragraph(self.GROtherTextBox.toPlainText(),styles["asmm_justify"]))
+        story.append(Paragraph('<br/><br/><br/>', styles["asmm"]))
     else:
-        ptext = 'No comment'
-        p = Paragraph(ptext, styles["asmm_par_sl"])
-        c, h2 = p.wrapOn(template, 100, 100)  # @UnusedVariable
-    pos_y_tl4 = pos_y
-    if pos_y_tl4 + h2 >= 800:
-        template.showPage()
-        pos_y_tl4 = 80
-        deb_page = 0
-    template.setFont("Times",12)
-    ptext = 'Comments:'
-    template.drawString(pos_x_tl4 + 18, pos_y_tl4, ptext)
-    template.setFont("Times",10)
-    ln = line(0,0,58,0, 'black')
-    ln.wrapOn(template, 200, 100)
-    ln.drawOn(template, pos_x_tl4 + 18, pos_y_tl4 + 3)
-    pos_y = pos_y_tl4 - h2 + 30
-    p.drawOn(template, 60, pos_y)
+        story.append(Paragraph('No comment',styles["asmm"]))
+        story.append(Paragraph('<br/><br/><br/>', styles["asmm"]))
     
     
-    ############################
-    # Atmospheric Features
-    ############################
-    title = 'Atmospheric Synoptic Features'
-    tl = Paragraph(title, styles["asmm_par_tl"])
-    w, h = tl.wrapOn(template, 300, 100)
-    if pos_y_tl4 == 80 and deb_page == 0:
-        pos_x_tl5, pos_y_tl5 = 30, pos_y_tl4 + h + 70 + h2
-    else:
-        pos_x_tl5, pos_y_tl5 = 30, pos_y_tl4 + h + 70 + h2
-    if pos_y_tl5 + 120 >= 800:
-        template.showPage()
-        pos_y_tl5 = 80
-        deb_page = 1
-    tl.drawOn(template, pos_x_tl5, pos_y_tl5)
-    sq = semi_square(-10, 0, -10, -28, page_w-50, 0, 2, 'black')
-    sq.wrapOn(template, 600, 100)
-    sq.drawOn(template, pos_x_tl5, pos_y_tl5+3)
-    pos_y = [20,40,60,80,100,120,20,40,60,80,100,120,20,40,60,80,100,120]
-    pos_x = [60,80,80,60,60,60,240,240,240,240,240,240,420,420,420,420,420,420]
-    box_c = ['Stationary','Stationary anticyclonic','Stationary cyclonic','Warm front','Warm convey'
-             'or belt','Cold front','Occluded front','Warm sector','Post-cold-frontal air-mass','Ar'
-             'ctic cold-air outbreak','Orographic influence','Sea-breeze front','Stratospheric fold'
-             '/intrusion','Extended convergence line','Easterly wave','Equatorial wave','Tropical c'
-             'yclone','Mesoscale organized convection']
-    name_c = ['Stationary','Anticyclonic','Cyclonic','Warm front','Warm conveyor belt','Cold front',
-              'Occluded front','Warm sector','Post-cold-frontal air mass','Arctic cold-air outbreak',
-              'Orographic influence','Sea-breeze front','Stratospheric fold / intrusion','Extended '
-              'convergence line','Easterly wave','Equatorial wave','Tropical cyclone','Mesoscale or'
-              'ganized convection']
-    check_boxes_loop(pos_x,pos_y,pos_y_tl5,box_c,name_c,self.atmospheric_features_check_dict,template)
-    pos_y = pos_y_tl5 + 145
+    # atmospheric features
+    story.append(Paragraph('Atmospheric Synoptic Features', styles["section_title"]))
+    sq = semi_square(-10, -13, -10, 15, page_w-70, -13, 2, 'black')
+    story.append(sq)
+    story.append(Paragraph('<br/><br/>', styles["asmm"]))
+    data = [[check_boxes(self.stationaryCheck),Paragraph('Stationary',styles["asmm"]),
+             check_boxes(self.coldFrontCheck),Paragraph('Cold front',styles["asmm"]),
+             check_boxes(self.orographicInfluenceCheck),Paragraph('Orographic influence',styles["asmm"])],
+            [check_boxes(self.stationaryAnticyclonicCheck),Paragraph('Anticyclonic',styles["asmm"]),
+             check_boxes(self.occludedFrontCheck),Paragraph('Occluded front',styles["asmm"]),
+             check_boxes(self.seaBreezeFrontCheck),Paragraph('Sea-breeze front',styles["asmm"])],
+            [check_boxes(self.stationaryCyclonicCheck),Paragraph('Cyclonic',styles["asmm"]),
+             check_boxes(self.warmSectorCheck),Paragraph('Warm sector',styles["asmm"]),
+             check_boxes(self.stratosphericFoldCheck),Paragraph('Stratospheric fold/intrusion',styles["asmm"])],
+            [check_boxes(self.warmFrontCheck),Paragraph('Warm front',styles["asmm"]),
+             check_boxes(self.postColdFrontalAirMassCheck),Paragraph('Post-cold-frontal air-mass',styles["asmm"]),
+             check_boxes(self.extendedConvergenceLineCheck),Paragraph('Extended convergence line',styles["asmm"])],
+            [check_boxes(self.warmConveyorBeltCheck),Paragraph('Warm conveyor belt',styles["asmm"]),
+             check_boxes(self.arcticColdAirOutbreakCheck),Paragraph('Arctic cold-air outbreak',styles["asmm"]),
+             check_boxes(self.easterlyWaveCheck),Paragraph('Easterly wave',styles["asmm"])],
+            [check_boxes(self.equatorialWaveCheck),Paragraph('Equatorial wave',styles["asmm"]),
+             check_boxes(self.tropicalCycloneCheck),Paragraph('Tropical cyclone',styles["asmm"]),
+             check_boxes(self.mesoscaleOrganizedConvectionCheck),Paragraph('Mesoscale organized convection',styles["asmm"])]]
+    table=Table(data, colWidths=[14, 160, 14, 160, 14, 180], rowHeights=20)
+    table.setStyle(TableStyle([('LEFTPADDING',(0,1),(1,2),20)]))
+    story.append(table)
+    story.append(Paragraph('<br/><br/>', styles["asmm"]))
+    
     if self.af_ck_list:
-        if pos_y + 40 >= 800:
-            template.showPage()
-            pos_y = 80
-        template.setFont("Times",12)
-        ptext = 'User-defined:'
-        template.drawString(pos_x_tl5 + 18, pos_y, ptext)
-        ln = line(0,0,68,0, 'black')
-        ln.wrapOn(template, 200, 100)
-        ln.drawOn(template, pos_x_tl5 + 18, pos_y + 3)
-        template.setFont("Times",10)
-        pos_x = 80
-        pos_y += 20
-        off_pos_y = 0
+        story.append(Paragraph('<u>User-defined:</u>', styles["checkbox_title"]))
+        data = [[None, None, None, None, None, None],
+                [None, None, None, None, None, None],
+                [None, None, None, None, None, None],
+                [None, None, None, None, None, None]]
+        col = 0
+        row = 0
         for i in range(self.gridLayout_9.count()):
             if isinstance(self.gridLayout_9.itemAt(i).widget(), QCheckBox):
                 if self.gridLayout_9.itemAt(i).widget().isChecked():
-                    template.setFont("Times",10)
-                    p = Paragraph(str(self.gridLayout_9.itemAt(i).widget().text()), styles["asmm_par"])
-                    c, h = p.wrapOn(template, 110, 30)  # @UnusedVariable
-                    if pos_y + h >= 800:
-                        template.showPage()
-                        pos_y = 80
-                    p.drawOn(template, pos_x, pos_y - h + 10)
-                    t = tick(0,0,8,1,1.5,'red')
-                    t.wrapOn(template, 50, 50)
-                    t.drawOn(template, pos_x-12, pos_y)
-                    pos_x += 130
-                    if off_pos_y < h:
-                        off_pos_y = h
-                    if i == 4 or i == 8:
-                        pos_x = 80
-                        pos_y += off_pos_y + 10
-                        off_pos_y = 0
-        pos_y += 20
+                    data[row][col] = check_boxes(self.gridLayout_9.itemAt(i).widget())
+                    data[row][col + 1] = Paragraph(str(self.gridLayout_9.itemAt(i).widget().text()), styles["asmm"])
+                    col += 2
+                    if col > 5:
+                        row +=1
+                        col = 0
+        table=Table(data, colWidths=[14, 170, 14, 170, 14, 170], rowHeights=20)
+        table.setStyle(TableStyle([('VALIGN',(1,0),(1,3),'TOP'),
+                                   ('VALIGN',(3,0),(3,3),'TOP'),
+                                   ('VALIGN',(5,0),(5,3),'TOP')]))
+        story.append(table)
+        story.append(Paragraph('<br/><br/>', styles["asmm"]))
+    story.append(Paragraph('<u>Comments:</u>',styles["checkbox_title"]))
     if self.AFOtherTextBox.toPlainText():
-        p = Paragraph(self.AFOtherTextBox.toPlainText(), styles["asmm_par_sl"])
-        c, h3 = p.wrapOn(template, 500, 500)  # @UnusedVariable
+        story.append(Paragraph(self.AFOtherTextBox.toPlainText(),styles["asmm_justify"]))
+        story.append(Paragraph('<br/><br/><br/>', styles["asmm"]))
     else:
-        ptext = 'No comment'
-        p = Paragraph(ptext, styles["asmm_par_sl"])
-        c, h3 = p.wrapOn(template, 100, 100)  # @UnusedVariable
-    pos_y_tl5 = pos_y
-    if pos_y_tl5 + h3 >= 800:
-        template.showPage()
-        pos_y_tl5 = 80
-        deb_page = 0
-    template.setFont("Times",12)
-    ptext = 'Comments:'
-    template.drawString(pos_x_tl5 + 18, pos_y_tl5, ptext)
-    template.setFont("Times",10)
-    ln = line(0,0,58,0, 'black')
-    ln.wrapOn(template, 200, 100)
-    ln.drawOn(template, pos_x_tl5 + 18, pos_y_tl5 + 3)
-    pos_y = pos_y_tl5 - h3 + 30
-    p.drawOn(template, 60, pos_y)
+        story.append(Paragraph('No comment',styles["asmm"]))
+        story.append(Paragraph('<br/><br/><br/>', styles["asmm"]))
     
     
-    ############################
-    # Cloud Types
-    ############################
-    title = 'Cloud Types and Forms Sampled During Flight'
-    tl = Paragraph(title, styles["asmm_par_tl"])
-    w, h = tl.wrapOn(template, 500, 100)
-    if pos_y_tl5 == 80 and deb_page == 0:
-        pos_x_tl6, pos_y_tl6 = 30, pos_y_tl5 + h + 70 +  h3
-    else:
-        pos_x_tl6, pos_y_tl6 = 30, pos_y_tl5 + h + 70 + h3
-    if pos_y_tl6 + 120 >= 800:
-        template.showPage()
-        pos_y_tl6 = 80
-        deb_page = 1
-    tl.drawOn(template, pos_x_tl6, pos_y_tl6)
-    sq = semi_square(-10, 0, -10, -28, page_w-50, 0, 2, 'black')
-    sq.wrapOn(template, 600, 100)
-    sq.drawOn(template, pos_x_tl6, pos_y_tl6+3)
-    pos_y = [20,40,60,80,100,20,40,60,80,100,20,40,60,80]
-    pos_x = [60,60,60,60,60,220,220,220,220,220,420,420,420,420]
-    box_c = ['Water clouds','Mixed-phase clouds','Ice clouds','Cirrus','Contrails','Stratocumulus',
-             'Shallow cumulus','Cumulus congestus','Cumulonimbus/towering cumulus','Altostratus/alt'
-             'ocumulus','Wave clouds','Deep frontal statiform clouds','Cloud-free above aircraft',
-             'Cloud-free below aircraft']
-    name_c = ['Water clouds','Mixed-phase clouds','Ice clouds','Cirrus','Contrails','Stratocumulus',
-              'Shallow cumulus','Cumulus congestus','Cumulonimbus / towering cumulus','Altostratus '
-              '/ altocumulus','Wave clouds','Deep frontal statiform clounds','Cloud-free above airc'
-              'raft','Cloud-free below aircraft']
-    check_boxes_loop(pos_x,pos_y,pos_y_tl6,box_c,name_c,self.cloud_types_check_dict,template)
-    pos_y = pos_y_tl6 + 125
+    # cloud types
+    story.append(Paragraph('Cloud Types and Forms sampled during flight', styles["section_title"]))
+    sq = semi_square(-10, -13, -10, 15, page_w-70, -13, 2, 'black')
+    story.append(sq)
+    story.append(Paragraph('<br/><br/>', styles["asmm"]))
+    data = [[check_boxes(self.waterCloudsCheck),Paragraph('Water clouds',styles["asmm"]),
+             check_boxes(self.contrailsCheck),Paragraph('Contrails',styles["asmm"]),
+             check_boxes(self.altostratusAltocumulusCheck),Paragraph('Altostratus/Altocumulus',styles["asmm"])],
+            [check_boxes(self.cloudFreeAboveAircraftCheck),Paragraph('Cloud-free above aircraft',styles["asmm"]),
+             check_boxes(self.mixedPhaseCloudsCheck),Paragraph('Mixed-phase clouds',styles["asmm"]),
+             check_boxes(self.stratocumulusCheck),Paragraph('Stratocumulus',styles["asmm"])],
+            [check_boxes(self.waveCloudsCheck),Paragraph('Wave clouds',styles["asmm"]),
+             check_boxes(self.cloudFreeBelowAircraftCheck),Paragraph('Cloud-free below aircraft',styles["asmm"]),
+             check_boxes(self.iceCloudsCheck),Paragraph('Ice clouds',styles["asmm"])],
+            [check_boxes(self.shallowCumulusCheck),Paragraph('Shallow cumulus',styles["asmm"]),
+             check_boxes(self.cumulonimbusToweringCumulusCheck),Paragraph('Cumulonimbus/towering cumulus',styles["asmm"]),
+             check_boxes(self.deepFrontalStratiformCloudsCheck),Paragraph('Deep frontal statiform clouds',styles["asmm"])],
+            [check_boxes(self.cirrusCheck),Paragraph('Cirrus',styles["asmm"]),
+             check_boxes(self.cumulusCongestusCheck),Paragraph('Cumulus congestus',styles["asmm"]),
+             None,None]]
+    table=Table(data, colWidths=[14, 150, 14, 190, 14, 160], rowHeights=20)
+    story.append(table)
+    story.append(Paragraph('<br/><br/>', styles["asmm"]))
+    
     if self.ct_ck_list:
-        if pos_y + 40 >= 800:
-            template.showPage()
-            pos_y = 80
-        template.setFont("Times",12)
-        ptext = 'User-defined:'
-        template.drawString(pos_x_tl6 + 18, pos_y, ptext)
-        ln = line(0,0,68,0, 'black')
-        ln.wrapOn(template, 200, 100)
-        ln.drawOn(template, pos_x_tl6 + 18, pos_y + 3)
-        template.setFont("Times",10)
-        pos_x = 80
-        pos_y += 20
-        off_pos_y = 0
+        story.append(Paragraph('<u>User-defined:</u>', styles["checkbox_title"]))
+        data = [[None, None, None, None, None, None],
+                [None, None, None, None, None, None],
+                [None, None, None, None, None, None],
+                [None, None, None, None, None, None]]
+        col = 0
+        row = 0
         for i in range(self.gridLayout_10.count()):
             if isinstance(self.gridLayout_10.itemAt(i).widget(), QCheckBox):
                 if self.gridLayout_10.itemAt(i).widget().isChecked():
-                    template.setFont("Times",10)
-                    p = Paragraph(str(self.gridLayout_10.itemAt(i).widget().text()), styles["asmm_par"])
-                    c, h = p.wrapOn(template, 110, 30)  # @UnusedVariable
-                    if pos_y + h >= 800:
-                        template.showPage()
-                        pos_y = 80
-                    p.drawOn(template, pos_x, pos_y - h + 10)
-                    t = tick(0,0,8,1,1.5,'red')
-                    t.wrapOn(template, 50, 50)
-                    t.drawOn(template, pos_x-12, pos_y)
-                    pos_x += 130
-                    if off_pos_y < h:
-                        off_pos_y = h
-                    if i == 4 or i == 8:
-                        pos_x = 80
-                        pos_y += off_pos_y + 10
-                        off_pos_y = 0
-        pos_y += 20
+                    data[row][col] = check_boxes(self.gridLayout_10.itemAt(i).widget())
+                    data[row][col + 1] = Paragraph(str(self.gridLayout_10.itemAt(i).widget().text()), styles["asmm"])
+                    col += 2
+                    if col > 5:
+                        row +=1
+                        col = 0
+        table=Table(data, colWidths=[14, 170, 14, 170, 14, 170], rowHeights=20)
+        table.setStyle(TableStyle([('VALIGN',(1,0),(1,3),'TOP'),
+                                   ('VALIGN',(3,0),(3,3),'TOP'),
+                                   ('VALIGN',(5,0),(5,3),'TOP')]))
+        story.append(table)
+        story.append(Paragraph('<br/><br/>', styles["asmm"]))
+    story.append(Paragraph('<u>Comments:</u>',styles["checkbox_title"]))
     if self.CTOtherTextBox.toPlainText():
-        p = Paragraph(self.CTOtherTextBox.toPlainText(), styles["asmm_par_sl"])
-        c, h4 = p.wrapOn(template, 500, 500)  # @UnusedVariable
+        story.append(Paragraph(self.CTOtherTextBox.toPlainText(),styles["asmm_justify"]))
+        story.append(Paragraph('<br/><br/><br/>', styles["asmm"]))
     else:
-        ptext = 'No comment'
-        p = Paragraph(ptext, styles["asmm_par_sl"])
-        c, h4 = p.wrapOn(template, 100, 100)  # @UnusedVariable
-    pos_y_tl6 = pos_y
-    if pos_y_tl6 + h4 >= 800:
-        template.showPage()
-        pos_y_tl6 = 80
-        deb_page = 0
-    template.setFont("Times",12)
-    ptext = 'Comments:'
-    template.drawString(pos_x_tl6 + 18, pos_y_tl6, ptext)
-    template.setFont("Times",10)
-    ln = line(0,0,58,0, 'black')
-    ln.wrapOn(template, 200, 100)
-    ln.drawOn(template, pos_x_tl6 + 18, pos_y_tl6 + 3)
-    pos_y = pos_y_tl6 - h4 + 30
-    p.drawOn(template, 60, pos_y)
+        story.append(Paragraph('No comment',styles["asmm"]))
+        story.append(Paragraph('<br/><br/><br/>', styles["asmm"]))
     
     
-    ############################
-    # Particles Sampled
-    ############################
-    title = 'Cloud, Precipitation and Aerosol Particles Sampled'
-    tl = Paragraph(title, styles["asmm_par_tl"])
-    w, h = tl.wrapOn(template, 500, 100)
-    if pos_y_tl6 == 80 and deb_page == 0:
-        pos_x_tl7, pos_y_tl7 = 30, pos_y_tl6 + h + 70 + h4
-    else:
-        pos_x_tl7, pos_y_tl7 = 30, pos_y_tl6 + h + 70 + h4
-    if pos_y_tl7 + 100 >= 800:
-        template.showPage()
-        pos_y_tl7 = 80
-        deb_page = 1
-    tl.drawOn(template, pos_x_tl7, pos_y_tl7)
-    sq = semi_square(-10, 0, -10, -28, page_w-50, 0, 2, 'black')
-    sq.wrapOn(template, 600, 100)
-    sq.drawOn(template, pos_x_tl7, pos_y_tl7+3)
-    pos_y = [20,40,60,80,20,40,60,80,20,40,60,80]
-    pos_x = [60,60,60,60,240,240,240,240,420,420,420,420]
-    box_c = ['Rain','Drizzle','Droplets (Liquid)','Pristine ice crystals','Snow/aggregates','Graupe'
-             'l/hail','Sea-salt aerosol','Continental aerosol','Urban plume','Biomass burning','Des'
-             'ert/mineral dust','Volcanic ash']
-    name_c = ['Rain','Drizzle','Droplets (liquid)','Pristine ice crystals','Snow / aggregates','Gra'
-              'upel / hail','Sea-salt aerosol','Continental aerosol','Urban plume','Biomass burning',
-              'Desert / mineral dust','Volcanic ashes']
-    check_boxes_loop(pos_x,pos_y,pos_y_tl7,box_c,name_c,self.particles_sampled_check_dict,template)
-    pos_y = pos_y_tl7 + 105
+    # particles sampled
+    story.append(Paragraph('Cloud, Precipitation and Aerosoft Particles Sampled', styles["section_title"]))
+    sq = semi_square(-10, -13, -10, 15, page_w-70, -13, 2, 'black')
+    story.append(sq)
+    story.append(Paragraph('<br/><br/>', styles["asmm"]))
+    data = [[check_boxes(self.rainCheck),Paragraph('Rain',styles["asmm"]),
+             check_boxes(self.pristineIceCrystalsCheck),Paragraph('Pristine ice crystals',styles["asmm"]),
+             check_boxes(self.seaSaltAerosolCheck),Paragraph('Sea-salt aerosol',styles["asmm"])],
+            [check_boxes(self.biomassBurningCheck),Paragraph('Biomass burning',styles["asmm"]),
+             check_boxes(self.drizzleCheck),Paragraph('Drizzle',styles["asmm"]),
+             check_boxes(self.snowOrAggregatesCheck),Paragraph('Snow/aggregates',styles["asmm"])],
+            [check_boxes(self.continentalAerosolCheck),Paragraph('Continental aerosol',styles["asmm"]),
+             check_boxes(self.desertOrMineralDustCheck),Paragraph('Desert/mineral dust',styles["asmm"]),
+             check_boxes(self.dropletsCheck),Paragraph('Droplets (Liquid)',styles["asmm"])],
+            [check_boxes(self.graupelOrHailCheck),Paragraph('Graupel/Hail',styles["asmm"]),
+             check_boxes(self.urbanPlumeCheck),Paragraph('Urban plume',styles["asmm"]),
+             check_boxes(self.volcanicAshCheck),Paragraph('Volcanic ash',styles["asmm"])]]
+    table=Table(data, colWidths=[14, 165, 14, 165, 14, 165], rowHeights=20)
+    story.append(table)
+    story.append(Paragraph('<br/><br/>', styles["asmm"]))
+    
     if self.ps_ck_list:
-        if pos_y + 40 >= 800:
-            template.showPage()
-            pos_y = 80
-        template.setFont("Times",12)
-        ptext = 'User-defined:'
-        template.drawString(pos_x_tl7 + 18, pos_y, ptext)
-        ln = line(0,0,68,0, 'black')
-        ln.wrapOn(template, 200, 100)
-        ln.drawOn(template, pos_x_tl7 + 18, pos_y + 3)
-        template.setFont("Times",10)
-        pos_x = 80
-        pos_y += 20
-        off_pos_y = 0
+        story.append(Paragraph('<u>User-defined:</u>', styles["checkbox_title"]))
+        data = [[None, None, None, None, None, None],
+                [None, None, None, None, None, None],
+                [None, None, None, None, None, None],
+                [None, None, None, None, None, None]]
+        col = 0
+        row = 0
         for i in range(self.gridLayout_11.count()):
             if isinstance(self.gridLayout_11.itemAt(i).widget(), QCheckBox):
                 if self.gridLayout_11.itemAt(i).widget().isChecked():
-                    template.setFont("Times",10)
-                    p = Paragraph(str(self.gridLayout_11.itemAt(i).widget().text()), styles["asmm_par"])
-                    c, h = p.wrapOn(template, 110, 30)  # @UnusedVariable
-                    if pos_y + h >= 800:
-                        template.showPage()
-                        pos_y = 80
-                    p.drawOn(template, pos_x, pos_y - h + 10)
-                    t = tick(0,0,8,1,1.5,'red')
-                    t.wrapOn(template, 50, 50)
-                    t.drawOn(template, pos_x-12, pos_y)
-                    pos_x += 130
-                    if off_pos_y < h:
-                        off_pos_y = h
-                    if i == 4 or i == 8:
-                        pos_x = 80
-                        pos_y += off_pos_y + 10
-                        off_pos_y = 0
-        pos_y += 20
+                    data[row][col] = check_boxes(self.gridLayout_11.itemAt(i).widget())
+                    data[row][col + 1] = Paragraph(str(self.gridLayout_11.itemAt(i).widget().text()), styles["asmm"])
+                    col += 2
+                    if col > 5:
+                        row +=1
+                        col = 0
+        table=Table(data, colWidths=[14, 170, 14, 170, 14, 170], rowHeights=20)
+        table.setStyle(TableStyle([('VALIGN',(1,0),(1,3),'TOP'),
+                                   ('VALIGN',(3,0),(3,3),'TOP'),
+                                   ('VALIGN',(5,0),(5,3),'TOP')]))
+        story.append(table)
+        story.append(Paragraph('<br/><br/>', styles["asmm"]))
+    story.append(Paragraph('<u>Comments:</u>',styles["checkbox_title"]))
     if self.PSOtherTextBox.toPlainText():
-        p = Paragraph(self.PSOtherTextBox.toPlainText(), styles["asmm_par_sl"])
-        c, h5 = p.wrapOn(template, 500, 500)  # @UnusedVariable
+        story.append(Paragraph(self.PSOtherTextBox.toPlainText(),styles["asmm_justify"]))
+        story.append(Paragraph('<br/><br/><br/>', styles["asmm"]))
     else:
-        ptext = 'No comment'
-        p = Paragraph(ptext, styles["asmm_par_sl"])
-        c, h5 = p.wrapOn(template, 100, 100)  # @UnusedVariable
-    pos_y_tl7 = pos_y
-    if pos_y_tl7 + h5 >= 800:
-        template.showPage()
-        pos_y_tl7 = 80
-        deb_page = 0
-    template.setFont("Times",12)
-    ptext = 'Comments:'
-    template.drawString(pos_x_tl7 + 18, pos_y_tl7, ptext)
-    template.setFont("Times",10)
-    ln = line(0,0,58,0, 'black')
-    ln.wrapOn(template, 200, 100)
-    ln.drawOn(template, pos_x_tl7 + 18, pos_y_tl7 + 3)
-    pos_y = pos_y_tl7 - h5 + 30
-    p.drawOn(template, 60, pos_y)
- 
-
-    ############################
-    # Surfaces Overflown
-    ############################
-    title = 'Land or Ocean Surfaces Overflown'
-    tl = Paragraph(title, styles["asmm_par_tl"])
-    w, h = tl.wrapOn(template, 500, 100)
-    if pos_y_tl7 == 80 and deb_page == 0:
-        pos_x_tl8, pos_y_tl8 = 30, pos_y_tl7 + h + 70 + h5
-    else:
-        pos_x_tl8, pos_y_tl8 = 30, pos_y_tl7 + h + 70 + h5
-    if pos_y_tl8 + 100 >= 800:
-        pos_y_tl8 = 80
-        deb_page = 1
-    tl.drawOn(template, pos_x_tl8, pos_y_tl8)
-    sq = semi_square(-10, 0, -10, -28, page_w-50, 0, 2, 'black')
-    sq.wrapOn(template, 600, 100)
-    sq.drawOn(template, pos_x_tl8, pos_y_tl8+3)
-    pos_y = [20,40,60,20,40,60,20,40,60,20,40,60]
-    pos_x = [60,60,60,200,200,200,340,340,340,480,480,480]    
-    box_c = ['Ocean','Semi-arid','Sea-ice','Desert','Snow','Urban','Lake-ice','Mountainous','Vegeta'
-             'tion','Hilly','Forest','Flat']
-    name_c = ['Ocean','Semi-arid','Sea-ice','Desert','Snow','Urban','Lake-ice','Forest','Vegetation',
-              'Mountainous','Hilly','Flat']
-    check_boxes_loop(pos_x,pos_y,pos_y_tl8,box_c,name_c,self.surfaces_overflown_check_dict,template)
-    pos_y = pos_y_tl8 + 85
+        story.append(Paragraph('No comment',styles["asmm"]))
+        story.append(Paragraph('<br/><br/><br/>', styles["asmm"]))
+    
+    
+    # surfaces overflown
+    story.append(Paragraph('Land or Oceans Surfaces Overflown', styles["section_title"]))
+    sq = semi_square(-10, -13, -10, 15, page_w-70, -13, 2, 'black')
+    story.append(sq)
+    story.append(Paragraph('<br/><br/>', styles["asmm"]))
+    data = [[check_boxes(self.oceanCheck),Paragraph('Ocean',styles["asmm"]),
+             check_boxes(self.desertCheck),Paragraph('Desert',styles["asmm"]),
+             check_boxes(self.lakeIceCheck),Paragraph('Lake-ice',styles["asmm"]),
+             check_boxes(self.hillyCheck),Paragraph('Hilly',styles["asmm"])],
+            [check_boxes(self.semiAridCheck),Paragraph('Semi-arid',styles["asmm"]),
+             check_boxes(self.snowCheck),Paragraph('Snow',styles["asmm"]),
+             check_boxes(self.mountainousCheck),Paragraph('Mountainous',styles["asmm"]),
+             check_boxes(self.forestCheck),Paragraph('Forest',styles["asmm"])],
+            [check_boxes(self.seaIceCheck),Paragraph('Sea-ice',styles["asmm"]),
+             check_boxes(self.urbanCheck),Paragraph('Urban',styles["asmm"]),
+             check_boxes(self.vegetationCheck),Paragraph('Vegetation',styles["asmm"]),
+             check_boxes(self.flatCheck),Paragraph('Flat',styles["asmm"])]]
+    table=Table(data, colWidths=[14, 120, 14, 120, 14, 120, 14, 120], rowHeights=20)
+    story.append(table)
+    story.append(Paragraph('<br/><br/>', styles["asmm"]))
+    
     if self.so_ck_list:
-        if pos_y + 40 >= 800:
-            template.showPage()
-            pos_y = 80
-        template.setFont("Times",12)
-        ptext = 'User-defined:'
-        template.drawString(pos_x_tl8 + 18, pos_y, ptext)
-        ln = line(0,0,68,0, 'black')
-        ln.wrapOn(template, 200, 100)
-        ln.drawOn(template, pos_x_tl8 + 18, pos_y + 3)
-        template.setFont("Times",10)
-        pos_x = 80
-        pos_y += 20
-        off_pos_y = 0
-        for i in range(self.gridLayout_13.count()):
-            if isinstance(self.gridLayout_13.itemAt(i).widget(), QCheckBox):
-                if self.gridLayout_13.itemAt(i).widget().isChecked():
-                    template.setFont("Times",10)
-                    p = Paragraph(str(self.gridLayout_13.itemAt(i).widget().text()), styles["asmm_par"])
-                    c, h = p.wrapOn(template, 110, 30)  # @UnusedVariable
-                    if pos_y + h >= 800:
-                        template.showPage()
-                        pos_y = 80
-                    p.drawOn(template, pos_x, pos_y - h + 10)
-                    t = tick(0,0,8,1,1.5,'red')
-                    t.wrapOn(template, 50, 50)
-                    t.drawOn(template, pos_x-12, pos_y)
-                    pos_x += 130
-                    if off_pos_y < h:
-                        off_pos_y = h
-                    if i == 4 or i == 8:
-                        pos_x = 80
-                        pos_y += off_pos_y + 10
-                        off_pos_y = 0
-        pos_y += 20
+        story.append(Paragraph('<u>User-defined:</u>', styles["checkbox_title"]))
+        data = [[None, None, None, None, None, None],
+                [None, None, None, None, None, None],
+                [None, None, None, None, None, None],
+                [None, None, None, None, None, None]]
+        col = 0
+        row = 0
+        for i in range(self.gridLayout_16.count()):
+            if isinstance(self.gridLayout_16.itemAt(i).widget(), QCheckBox):
+                if self.gridLayout_16.itemAt(i).widget().isChecked():
+                    data[row][col] = check_boxes(self.gridLayout_16.itemAt(i).widget())
+                    data[row][col + 1] = Paragraph(str(self.gridLayout_16.itemAt(i).widget().text()), styles["asmm"])
+                    col += 2
+                    if col > 5:
+                        row +=1
+                        col = 0
+        table=Table(data, colWidths=[14, 170, 14, 170, 14, 170], rowHeights=20)
+        table.setStyle(TableStyle([('VALIGN',(1,0),(1,3),'TOP'),
+                                   ('VALIGN',(3,0),(3,3),'TOP'),
+                                   ('VALIGN',(5,0),(5,3),'TOP')]))
+        story.append(table)
+        story.append(Paragraph('<br/><br/>', styles["asmm"]))
+    story.append(Paragraph('<u>Comments:</u>',styles["checkbox_title"]))
     if self.SOOtherTextBox.toPlainText():
-        p = Paragraph(self.SOOtherTextBox.toPlainText(), styles["asmm_par_sl"])
-        c, h6 = p.wrapOn(template, 500, 500)  # @UnusedVariable
+        story.append(Paragraph(self.SOOtherTextBox.toPlainText(),styles["asmm_justify"]))
+        story.append(Paragraph('<br/><br/><br/>', styles["asmm"]))
     else:
-        ptext = 'No comment'
-        p = Paragraph(ptext, styles["asmm_par_sl"])
-        c, h6 = p.wrapOn(template, 100, 100)  # @UnusedVariable
-    pos_y_tl8 = pos_y
-    if pos_y_tl8 + h6 >= 800:
-        template.showPage()
-        pos_y_tl8 = 80
-        deb_page = 0
-    template.setFont("Times",12)
-    ptext = 'Comments:'
-    template.drawString(pos_x_tl8 + 18, pos_y_tl8, ptext)
-    template.setFont("Times",10)
-    ln = line(0,0,58,0, 'black')
-    ln.wrapOn(template, 200, 100)
-    ln.drawOn(template, pos_x_tl8 + 18, pos_y_tl8 + 3)
-    pos_y = pos_y_tl8 - h6 + 30
-    p.drawOn(template, 60, pos_y)
+        story.append(Paragraph('No comment',styles["asmm"]))
+        story.append(Paragraph('<br/><br/><br/>', styles["asmm"]))
     
     
-    ############################
-    # Altitude Ranges
-    ############################
-    title = 'Altitude Ranges of Measurement'
-    tl = Paragraph(title, styles["asmm_par_tl"])
-    w, h = tl.wrapOn(template, 500, 100)
-    if pos_y_tl8 == 80 and deb_page == 0:
-        pos_x_tl9, pos_y_tl9 = 30, pos_y_tl8 + h + 70 + h6
-    else:
-        pos_x_tl9, pos_y_tl9 = 30, pos_y_tl8 + h + 70 + h6
-    if pos_y_tl9 + 100 >= 800:
-        template.showPage()
-        pos_y_tl9 = 80
-        deb_page = 1
-    tl.drawOn(template, pos_x_tl9, pos_y_tl9)
-    sq = semi_square(-10, 0, -10, -28, page_w-50, 0, 2, 'black')
-    sq.wrapOn(template, 600, 100)
-    sq.drawOn(template, pos_x_tl9, pos_y_tl9+3)
-    pos_y = [20,40,60,80,20,40,20,40]
-    pos_x = [60,80,80,80,240,240,420,420]    
-    box_c = ['Boundary-layer','Near-surface (Boundary-layer)','Sub-cloud (Boundary-layer)','In-clou'
-             'd (Boundary-layer)','Lower troposphere','Mid troposphere','Upper troposphere','Lower '
-             'stratosphere']
-    name_c = ['Boundary-layer','near-surface','sub-cloud','in-cloud','Lower troposphere','Mid tropo'
-              'sphere','Upper troposphere','Lower stratosphere']
-    check_boxes_loop(pos_x,pos_y,pos_y_tl9,box_c,name_c,self.altitude_ranges_check_dict,template)
-    pos_y = pos_y_tl9 + 105
+    # surfaces overflown
+    story.append(Paragraph('Altitude Range of Measurement', styles["section_title"]))
+    sq = semi_square(-10, -13, -10, 15, page_w-70, -13, 2, 'black')
+    story.append(sq)
+    story.append(Paragraph('<br/><br/>', styles["asmm"]))
+    data = [[check_boxes(self.boundaryLayerCheck),Paragraph('Boundary-layer',styles["asmm"]),
+             check_boxes(self.lowerTroposphereCheck),Paragraph('Lower troposphere',styles["asmm"]),
+             check_boxes(self.upperTroposphereCheck),Paragraph('Upper troposphere',styles["asmm"])],
+            [check_boxes(self.blNearSurfaceCheck),Paragraph('near-surface',styles["asmm"]),
+             check_boxes(self.midTroposphereCheck),Paragraph('Mid troposphere',styles["asmm"]),
+             check_boxes(self.lowerStratosphereCheck),Paragraph('Lower stratosphere',styles["asmm"])],
+            [check_boxes(self.blSubCloudCheck),Paragraph('sub-cloud',styles["asmm"]),
+             None,None],
+            [check_boxes(self.blInCloudCheck),Paragraph('in-cloud',styles["asmm"]),
+             None,None]]
+    table=Table(data, colWidths=[14, 165, 14, 165, 14, 165], rowHeights=20)
+    table.setStyle(TableStyle([('LEFTPADDING',(0,1),(1,3),20)]))
+    story.append(table)
+    story.append(Paragraph('<br/><br/>', styles["asmm"]))
+    
     if self.ar_ck_list:
-        if pos_y + 40 >= 800:
-            template.showPage()
-            pos_y = 80
-        template.setFont("Times",12)
-        ptext = 'User-defined:'
-        template.drawString(pos_x_tl9 + 18, pos_y, ptext)
-        ln = line(0,0,68,0, 'black')
-        ln.wrapOn(template, 200, 100)
-        ln.drawOn(template, pos_x_tl9 + 18, pos_y + 3)
-        template.setFont("Times",10)
-        pos_x = 80
-        pos_y += 20
-        off_pos_y = 0
+        story.append(Paragraph('<u>User-defined:</u>', styles["checkbox_title"]))
+        data = [[None, None, None, None, None, None],
+                [None, None, None, None, None, None],
+                [None, None, None, None, None, None],
+                [None, None, None, None, None, None]]
+        col = 0
+        row = 0
         for i in range(self.gridLayout_14.count()):
             if isinstance(self.gridLayout_14.itemAt(i).widget(), QCheckBox):
                 if self.gridLayout_14.itemAt(i).widget().isChecked():
-                    template.setFont("Times",10)
-                    p = Paragraph(str(self.gridLayout_14.itemAt(i).widget().text()), styles["asmm_par"])
-                    c, h = p.wrapOn(template, 110, 30)  # @UnusedVariable
-                    if pos_y + h >= 800:
-                        template.showPage()
-                        pos_y = 80
-                    p.drawOn(template, pos_x, pos_y - h + 10)
-                    t = tick(0,0,8,1,1.5,'red')
-                    t.wrapOn(template, 50, 50)
-                    t.drawOn(template, pos_x-12, pos_y)
-                    pos_x += 130
-                    if off_pos_y < h:
-                        off_pos_y = h
-                    if i == 4 or i == 8:
-                        pos_x = 80
-                        pos_y += off_pos_y + 10
-                        off_pos_y = 0
-        pos_y += 20
+                    data[row][col] = check_boxes(self.gridLayout_14.itemAt(i).widget())
+                    data[row][col + 1] = Paragraph(str(self.gridLayout_14.itemAt(i).widget().text()), styles["asmm"])
+                    col += 2
+                    if col > 5:
+                        row +=1
+                        col = 0
+        table=Table(data, colWidths=[14, 170, 14, 170, 14, 170], rowHeights=20)
+        table.setStyle(TableStyle([('VALIGN',(1,0),(1,3),'TOP'),
+                                   ('VALIGN',(3,0),(3,3),'TOP'),
+                                   ('VALIGN',(5,0),(5,3),'TOP')]))
+        story.append(table)
+        story.append(Paragraph('<br/><br/>', styles["asmm"]))
+    story.append(Paragraph('<u>Comments:</u>',styles["checkbox_title"]))
     if self.AROtherTextBox.toPlainText():
-        p = Paragraph(self.AROtherTextBox.toPlainText(), styles["asmm_par_sl"])
-        c, h7 = p.wrapOn(template, 500, 500)  # @UnusedVariable
+        story.append(Paragraph(self.AROtherTextBox.toPlainText(),styles["asmm_justify"]))
+        story.append(Paragraph('<br/><br/><br/>', styles["asmm"]))
     else:
-        ptext = 'No comment'
-        p = Paragraph(ptext, styles["asmm_par_sl"])
-        c, h7 = p.wrapOn(template, 100, 100)  # @UnusedVariable
-    pos_y_tl9 = pos_y
-    if pos_y_tl9 + h7 >= 800:
-        template.showPage()
-        pos_y_tl9 = 80
-        deb_page = 0
-    template.setFont("Times",12)
-    ptext = 'Comments:'
-    template.drawString(pos_x_tl9 + 18, pos_y_tl9, ptext)
-    template.setFont("Times",10)
-    ln = line(0,0,58,0, 'black')
-    ln.wrapOn(template, 200, 100)
-    ln.drawOn(template, pos_x_tl9 + 18, pos_y_tl9 + 3)
-    pos_y = pos_y_tl9 - h7 + 30
-    p.drawOn(template, 60, pos_y)
+        story.append(Paragraph('No comment',styles["asmm"]))
+        story.append(Paragraph('<br/><br/><br/>', styles["asmm"]))
     
     
-    ############################
-    # Flight Types
-    ############################
-    title = 'Types of Flight Manoeuvre'
-    tl = Paragraph(title, styles["asmm_par_tl"])
-    w, h = tl.wrapOn(template, 500, 100)
-    if pos_y_tl9 == 80 and deb_page == 0:
-        pos_x_tl10, pos_y_tl10 = 30, pos_y_tl9 + h + 70 +  h7
-    else:
-        pos_x_tl10, pos_y_tl10 = 30, pos_y_tl9 + h + 70 + h7
-    if pos_y_tl10 + 80 >= 800:
-        template.showPage()
-        template.setFont("Arial",10)
-        template.setFont("Arial",12)
-        pos_y_tl10 = 80
-        deb_page = 1
-    tl.drawOn(template, pos_x_tl10, pos_y_tl10)
-    sq = semi_square(-10, 0, -10, -28, page_w-50, 0, 2, 'black')
-    sq.wrapOn(template, 600, 100)
-    sq.drawOn(template, pos_x_tl10, pos_y_tl10+3)
-    pos_y = [20,40,60,20,40,60,20,40,60]
-    pos_x = [60,80,80,240,240,240,420,420,420]      
-    box_c = ['Straight/level runs','Stacked (Straight/level runs)','Separated (Straight/level runs)'
-             ,'Racetracks','Orbits','Lagrangian descents','Deep profile ascents/descents','Dropsond'
-             'e deployed','Self-calibration']
-    name_c = ['Straight / level runs','stacked','separated','Racetracks','Orbits','Lagrangian desce'
-              'nts','Deep profile ascents / descents','Dropsonde deployed','Self-calibration']
-    check_boxes_loop(pos_x,pos_y,pos_y_tl10,box_c,name_c,self.flight_types_check_dict,template)
-    pos_y = pos_y_tl10 + 85
+    # flight manoeuvre
+    story.append(Paragraph('Types of Flight Manoeuvre', styles["section_title"]))
+    sq = semi_square(-10, -13, -10, 15, page_w-70, -13, 2, 'black')
+    story.append(sq)
+    story.append(Paragraph('<br/><br/>', styles["asmm"]))
+    data = [[check_boxes(self.straightLevelRunsCheck),Paragraph('Straight/level runs',styles["asmm"]),
+             check_boxes(self.racetracksCheck),Paragraph('Racetracks',styles["asmm"]),
+             check_boxes(self.lagrangianDescentsCheck),Paragraph('Lagrangian descents',styles["asmm"]),
+             check_boxes(self.dropsondeDeployedCheck),Paragraph('Dropsonde deployed',styles["asmm"])],
+            [check_boxes(self.stackedStraightLevelRunsCheck),Paragraph('stacked',styles["asmm"]),
+             check_boxes(self.orbitsCheck),Paragraph('Orbits',styles["asmm"]),
+             check_boxes(self.deepProfileAscentDescentsCheck),Paragraph('Deep profile ascents/descents',styles["asmm"]),
+             check_boxes(self.selfCalibrationCheck),Paragraph('Self-calibration',styles["asmm"])],
+            [check_boxes(self.separatedStraightLevelRuns),Paragraph('separated',styles["asmm"]),
+             None,None,None,None,None,None,]]
+    table=Table(data, colWidths=[14, 110, 14, 80, 14, 165, 14, 130], rowHeights=20)
+    table.setStyle(TableStyle([('LEFTPADDING',(0,1),(1,2),20)]))
+    story.append(table)
+    story.append(Paragraph('<br/><br/>', styles["asmm"]))
+    
     if self.fm_ck_list:
-        if pos_y + 40 >= 800:
-            template.showPage()
-            pos_y = 80
-        template.setFont("Times",12)
-        ptext = 'User-defined:'
-        template.drawString(pos_x_tl10 + 18, pos_y, ptext)
-        ln = line(0,0,68,0, 'black')
-        ln.wrapOn(template, 200, 100)
-        ln.drawOn(template, pos_x_tl10 + 18, pos_y + 3)
-        template.setFont("Times",10)
-        pos_x = 80
-        pos_y += 20
-        off_pos_y = 0
+        story.append(Paragraph('<u>User-defined:</u>', styles["checkbox_title"]))
+        data = [[None, None, None, None, None, None],
+                [None, None, None, None, None, None],
+                [None, None, None, None, None, None],
+                [None, None, None, None, None, None]]
+        col = 0
+        row = 0
         for i in range(self.gridLayout_15.count()):
             if isinstance(self.gridLayout_15.itemAt(i).widget(), QCheckBox):
                 if self.gridLayout_15.itemAt(i).widget().isChecked():
-                    template.setFont("Times",10)
-                    p = Paragraph(str(self.gridLayout_15.itemAt(i).widget().text()), styles["asmm_par"])
-                    c, h = p.wrapOn(template, 110, 30)  # @UnusedVariable
-                    if pos_y + h >= 800:
-                        template.showPage()
-                        pos_y = 80
-                    p.drawOn(template, pos_x, pos_y - h + 10)
-                    t = tick(0,0,8,1,1.5,'red')
-                    t.wrapOn(template, 50, 50)
-                    t.drawOn(template, pos_x-12, pos_y)
-                    pos_x += 130
-                    if off_pos_y < h:
-                        off_pos_y = h
-                    if i == 4 or i == 8:
-                        pos_x = 80
-                        pos_y += off_pos_y + 10
-                        off_pos_y = 0
-        pos_y += 20
+                    data[row][col] = check_boxes(self.gridLayout_15.itemAt(i).widget())
+                    data[row][col + 1] = Paragraph(str(self.gridLayout_15.itemAt(i).widget().text()), styles["asmm"])
+                    col += 2
+                    if col > 5:
+                        row +=1
+                        col = 0
+        table=Table(data, colWidths=[14, 170, 14, 170, 14, 170], rowHeights=20)
+        table.setStyle(TableStyle([('VALIGN',(1,0),(1,3),'TOP'),
+                                   ('VALIGN',(3,0),(3,3),'TOP'),
+                                   ('VALIGN',(5,0),(5,3),'TOP')]))
+        story.append(table)
+        story.append(Paragraph('<br/><br/>', styles["asmm"]))
+    story.append(Paragraph('<u>Comments:</u>',styles["checkbox_title"]))
     if self.FTOtherTextBox.toPlainText():
-        p = Paragraph(self.FTOtherTextBox.toPlainText(), styles["asmm_par_sl"])
-        c, h8 = p.wrapOn(template, 500, 500)  # @UnusedVariable
+        story.append(Paragraph(self.FTOtherTextBox.toPlainText(),styles["asmm_justify"]))
+        story.append(Paragraph('<br/><br/><br/>', styles["asmm"]))
     else:
-        ptext = 'No comment'
-        p = Paragraph(ptext, styles["asmm_par_sl"])
-        c, h8 = p.wrapOn(template, 100, 100)  # @UnusedVariable
-    pos_y_tl10 = pos_y
-    if pos_y_tl10 + h8 >= 800:
-        template.showPage()
-        pos_y_tl10 = 80
-        deb_page = 0
-    template.setFont("Times",12)
-    ptext = 'Comments:'
-    template.drawString(pos_x_tl10 + 18, pos_y_tl10, ptext)
-    template.setFont("Times",10)
-    ln = line(0,0,58,0, 'black')
-    ln.wrapOn(template, 200, 100)
-    ln.drawOn(template, pos_x_tl10 + 18, pos_y_tl10 + 3)
-    pos_y = pos_y_tl10 - h8 + 30
-    p.drawOn(template, 60, pos_y)
+        story.append(Paragraph('No comment',styles["asmm"]))
+        story.append(Paragraph('<br/><br/><br/>', styles["asmm"]))
     
-
-    ############################
-    # Satellite coordination
-    ############################
-    title = 'Satellite Coordination'
-    tl = Paragraph(title, styles["asmm_par_tl"])
-    w, h = tl.wrapOn(template, 500, 100)
-    if pos_y_tl10 == 80 and deb_page == 0:
-        pos_x_tl11, pos_y_tl11 = 30, pos_y_tl10 + h + 70 +  h8
-    else:
-        pos_x_tl11, pos_y_tl11 = 30, pos_y_tl10 + h + 70 + h8
-    if pos_y_tl11+100 >= 800:
-        template.showPage()
-        pos_y_tl11 = 80
-        deb_page = 1
-    tl.drawOn(template, pos_x_tl11, pos_y_tl11)
-    sq = semi_square(-10, 0, -10, -28, page_w-50, 0, 2, 'black')
-    sq.wrapOn(template, 600, 100)
-    sq.drawOn(template, pos_x_tl11, pos_y_tl11+3)
-    pos_y = [40,60,80,100,40,60,20,40,60,80,20,40,60]
-    pos_x = [80,80,80,80,200,200,320,320,320,320,440,440,440]      
-    box_c = ['METOP (Polar)','NPOESS (Polar)','A-train (Polar)','Other (Polar)','MSG (Geosynch)','O'
-             'ther (Geosynch)','MODIS','Cloudsat','CALIOP','IASI','AIRS','CriS','AMSU/MHS']
-    name_c = ['METOP','NPOESS','A-train','Other','MSG','Other','MODIS','Cloudsat','CALIOP','IASI',
-              'AIRS','CriS','AMSU / MHS']
-    check_boxes_loop(pos_x,pos_y,pos_y_tl11,box_c,name_c,self.satellite_coordination_check_dict,template)
-    ptext = 'Polar:'
-    template.drawString(48, pos_y_tl11+20, ptext)
-    ptext = 'Geosynch:'
-    template.drawString(168, pos_y_tl11+20, ptext)
-    pos_y = pos_y_tl11 + 125
+    
+    # satellite coordination
+    story.append(Paragraph('Satellite Coordination', styles["section_title"]))
+    sq = semi_square(-10, -13, -10, 15, page_w-70, -13, 2, 'black')
+    story.append(sq)
+    story.append(Paragraph('<br/><br/>', styles["asmm"]))
+    data = [[None,Paragraph('<u>Polar:</u>',styles["checkbox_title"]),
+             None,Paragraph('<u>Geosynch:</u>',styles["checkbox_title"]),
+             check_boxes(self.modisCheck),Paragraph('MODIS',styles["asmm"]),
+             check_boxes(self.airsCheck),Paragraph('AIRS',styles["asmm"])],
+            [check_boxes(self.polarMetopCheck),Paragraph('METOP',styles["asmm"]),
+             check_boxes(self.geosynchMsgCheck),Paragraph('MSG',styles["asmm"]),
+             check_boxes(self.cloudsatCheck),Paragraph('Cloudsat',styles["asmm"]),
+             check_boxes(self.crisCheck),Paragraph('CriS',styles["asmm"])],
+            [check_boxes(self.polarNpoessCheck),Paragraph('NPOESS',styles["asmm"]),
+             check_boxes(self.geosynchOtherCheck),Paragraph('Other',styles["asmm"]),
+             check_boxes(self.caliopCheck),Paragraph('CALIOP',styles["asmm"]),
+             check_boxes(self.amsuMhsCheck),Paragraph('AMSU/MHS',styles["asmm"])],
+            [check_boxes(self.polarAtrainCheck),Paragraph('A-train',styles["asmm"]),
+             None,None,
+             check_boxes(self.iasiCheck),Paragraph('IASI',styles["asmm"]),
+             None, None],
+            [check_boxes(self.polarOtherCheck),Paragraph('Other',styles["asmm"]),
+             None, None,None, None,None, None]]
+    table=Table(data, colWidths=[14, 125, 14, 125, 14, 125, 14, 125], rowHeights=20)
+    table.setStyle(TableStyle([('LEFTPADDING',(0,1),(1,4),20),
+                               ('LEFTPADDING',(2,1),(3,2),20)]))
+    story.append(table)
+    story.append(Paragraph('<br/><br/>', styles["asmm"]))
+    
     if self.sc_ck_list:
-        if pos_y + 40 >= 800:
-            template.showPage()
-            pos_y = 80
-        template.setFont("Times",12)
-        ptext = 'User-defined:'
-        template.drawString(pos_x_tl11 + 18, pos_y, ptext)
-        ln = line(0,0,68,0, 'black')
-        ln.wrapOn(template, 200, 100)
-        ln.drawOn(template, pos_x_tl11 + 18, pos_y + 3)
-        template.setFont("Times",10)
-        pos_x = 80
-        pos_y += 20
-        off_pos_y = 0
+        story.append(Paragraph('<u>User-defined:</u>', styles["checkbox_title"]))
+        data = [[None, None, None, None, None, None],
+                [None, None, None, None, None, None],
+                [None, None, None, None, None, None],
+                [None, None, None, None, None, None]]
+        col = 0
+        row = 0
         for i in range(self.gridLayout_25.count()):
             if isinstance(self.gridLayout_25.itemAt(i).widget(), QCheckBox):
                 if self.gridLayout_25.itemAt(i).widget().isChecked():
-                    template.setFont("Times",10)
-                    p = Paragraph(str(self.gridLayout_25.itemAt(i).widget().text()), styles["asmm_par"])
-                    c, h = p.wrapOn(template, 110, 30)  # @UnusedVariable
-                    if pos_y + h >= 800:
-                        template.showPage()
-                        pos_y = 80
-                    p.drawOn(template, pos_x, pos_y - h + 10)
-                    t = tick(0,0,8,1,1.5,'red')
-                    t.wrapOn(template, 50, 50)
-                    t.drawOn(template, pos_x-12, pos_y)
-                    pos_x += 130
-                    if off_pos_y < h:
-                        off_pos_y = h
-                    if i == 4 or i == 8:
-                        pos_x = 80
-                        pos_y += off_pos_y + 10
-                        off_pos_y = 0
-        pos_y += 20
+                    data[row][col] = check_boxes(self.gridLayout_25.itemAt(i).widget())
+                    data[row][col + 1] = Paragraph(str(self.gridLayout_25.itemAt(i).widget().text()), styles["asmm"])
+                    col += 2
+                    if col > 5:
+                        row +=1
+                        col = 0
+        table=Table(data, colWidths=[14, 170, 14, 170, 14, 170], rowHeights=20)
+        table.setStyle(TableStyle([('VALIGN',(1,0),(1,3),'TOP'),
+                                   ('VALIGN',(3,0),(3,3),'TOP'),
+                                   ('VALIGN',(5,0),(5,3),'TOP')]))
+        story.append(table)
+        story.append(Paragraph('<br/><br/>', styles["asmm"]))
+    story.append(Paragraph('<u>Comments:</u>',styles["checkbox_title"]))
     if self.SCOtherTextBox.toPlainText():
-        p = Paragraph(self.SCOtherTextBox.toPlainText(), styles["asmm_par_sl"])
-        c, h9 = p.wrapOn(template, 500, 500)  # @UnusedVariable
+        story.append(Paragraph(self.SCOtherTextBox.toPlainText(),styles["asmm_justify"]))
+        story.append(Paragraph('<br/><br/><br/>', styles["asmm"]))
     else:
-        ptext = 'No comment'
-        p = Paragraph(ptext, styles["asmm_par_sl"])
-        c, h9 = p.wrapOn(template, 100, 100)  # @UnusedVariable
-    pos_y_tl11 = pos_y
-    if pos_y_tl11 + h9 >= 800:
-        template.showPage()
-        pos_y_tl11 = 80
-        deb_page = 0
-    template.setFont("Times",12)
-    ptext = 'Comments:'
-    template.drawString(pos_x_tl11 + 18, pos_y_tl11, ptext)
-    template.setFont("Times",10)
-    ln = line(0,0,58,0, 'black')
-    ln.wrapOn(template, 200, 100)
-    ln.drawOn(template, pos_x_tl11 + 18, pos_y_tl11 + 3)
-    pos_y = pos_y_tl11 - h9 + 30
-    p.drawOn(template, 60, pos_y)
- 
+        story.append(Paragraph('No comment',styles["asmm"]))
+        story.append(Paragraph('<br/><br/><br/>', styles["asmm"]))
     
-    ############################
-    # Surface Observations
-    ############################
-    title = 'Supporting Surface-Based Observations'
-    tl = Paragraph(title, styles["asmm_par_tl"])
-    w, h = tl.wrapOn(template, 500, 100)
-    if pos_y_tl11 == 80 and deb_page == 0:
-        pos_x_tl12, pos_y_tl12 = 30, pos_y_tl11 + h + 70 + h9
-    else:
-        pos_x_tl12, pos_y_tl12 = 30, pos_y_tl11 + h + 70 + h9
-    if (len(self.ground_site_list) * 20 + 40 + pos_y_tl12) >= 800:
-        template.showPage()
-        pos_y_tl12 = 80
-        deb_page = 1
-    tl.drawOn(template, pos_x_tl12, pos_y_tl12)
-    sq = semi_square(-10, 0, -10, -28, page_w-50, 0, 2, 'black')
-    sq.wrapOn(template, 600, 100)
-    sq.drawOn(template, pos_x_tl12, pos_y_tl12+3)
-    template.setFont("Times",12)
-    ptext = 'Ground Sites:'
-    template.drawString(60, pos_y_tl12+20, ptext)
-    template.setFont("Times",10)
-    offset_tmp1 = pos_y_tl12 + 40
-    i1 = 0
-    for item in self.ground_site_list:
-        template.drawString(80, offset_tmp1, item)
-        offset_tmp1 = offset_tmp1 + 20
-        i1 = i1 + 1
-    if not self.ground_site_list:
-        template.drawString(80, offset_tmp1, '')
-        offset_tmp1 = offset_tmp1 + 20
-        i1 = i1 + 1
-    t = square(0, 0, 200, 20*i1+3, 1, 'black')
-    t.wrapOn(template, 300, 300)
-    t.drawOn(template, 60, pos_y_tl12 + 25)
-    template.setFont("Times",12)
-    ptext = 'ARM Sites:'
-    template.drawString(320, pos_y_tl12 + 20, ptext)
-    template.setFont("Times",10)
-    offset_tmp2 = pos_y_tl12 + 40
-    i2 = 0
-    for item in self.arm_site_list:
-        template.drawString(340, offset_tmp2, item)
-        offset_tmp2 = offset_tmp2 + 20
-        i2 = i2 + 1
-    if not self.arm_site_list:
-        template.drawString(340, offset_tmp2, '')
-        offset_tmp2 = offset_tmp2 + 20
-        i2 = i2 + 1
-    t = square(0, 0, 200, 20*i2+3, 1, 'black')
-    t.wrapOn(template, 300, 300)
-    t.drawOn(template, 320, pos_y_tl12 + 25)
-    if offset_tmp1 < offset_tmp2:
-        offset_tmp1 = offset_tmp2
-        i1 = i2
-    offset_tmp1 += 20 
-    if (len(self.research_vessel_list) * 20 + offset_tmp1 + 20) >= 800 or (len(self.arm_mobile_list)
-            * 20 + offset_tmp1 + 20) >= 800:
-        template.showPage()
-        offset_tmp1 = 80
-        deb_page = 0
-    template.setFont("Times",12)
-    ptext = 'Research Vessels:'
-    template.drawString(60, offset_tmp1, ptext)
-    offset_tmp3 = offset_tmp1 + 20
-    template.setFont("Times",10)
-    i3 = 0
-    for item in self.research_vessel_list:
-        template.drawString(80, offset_tmp3, item)
-        offset_tmp3 = offset_tmp3 + 20
-        i3 = i3 + 1
-    if not self.research_vessel_list:
-        template.drawString(80, offset_tmp3, '')
-        i3 = i3 + 1
-    t = square(0, 0, 200, 20 * i3 + 3, 1, 'black')
-    t.wrapOn(template, 300, 300)
-    t.drawOn(template, 60, offset_tmp1 + 5)
-    template.setFont("Times",12)
-    ptext = 'ARM Mobile sites:'
-    template.drawString(320, offset_tmp1, ptext)
-    offset_tmp4 = offset_tmp1 + 20
-    template.setFont("Times",10)
-    i4 = 0
-    for item in self.arm_mobile_list:
-        template.drawString(340, offset_tmp4, item)
-        offset_tmp4 = offset_tmp4 + 20
-        i4 = i4 + 1
-    if not self.arm_mobile_list:
-        template.drawString(340, offset_tmp4, '')
-        i4 = i4 + 1
-    t = square(0, 0, 200, 20 * i4 + 3, 1, 'black')
-    t.wrapOn(template, 300, 300)
-    t.drawOn(template, 320, offset_tmp1 + 5)
-
     
-    #############################
-    # Other Comments
-    ############################
-    if offset_tmp3 < offset_tmp4:
-        offset_tmp3 = offset_tmp4
-        i3 = i4
-    title = 'Additional Notes on the Flight'
-    tl = Paragraph(title, styles["asmm_par_tl"])
-    w, h = tl.wrapOn(template, 500, 100)
-    pos_y_tl13 = offset_tmp3 + 70
-    pos_x_tl13 = 25
-    if self.OtherCommentsTextBox.toPlainText():
-        p = Paragraph(self.OtherCommentsTextBox.toPlainText(), styles["asmm_par_sl"])
-        c, h10 = p.wrapOn(template, 500, 500)  # @UnusedVariable
+    # supporting observations
+    story.append(Paragraph('Supporting Surface-based Observations', styles["section_title"]))
+    sq = semi_square(-10, -13, -10, 15, page_w-70, -13, 2, 'black')
+    story.append(sq)
+    story.append(Paragraph('<br/><br/>', styles["asmm"]))
+    data = [[Paragraph('<u>Ground sites:</u>',styles["checkbox_title"]), None, Paragraph('<u>ARM sites:</u>',styles["checkbox_title"])]]
+    first_rows_num = 0
+    if len(self.arm_site_list) >= len(self.ground_site_list):
+        first_rows_num = len(self.arm_site_list)
     else:
-        ptext = 'No comment'
-        p = Paragraph(ptext, styles["asmm_par_sl"])
-        c, h10 = p.wrapOn(template, 100, 100)  # @UnusedVariable
-    if pos_y_tl13 + h10 + 20 >= 800:
-        template.showPage()
-        pos_y_tl13 = 80
-        deb_page = 1
-    tl.drawOn(template, pos_x_tl13, pos_y_tl13)
-    sq = semi_square(-10, 0, -10, -28, page_w-50, 0, 2, 'black')
-    sq.wrapOn(template, 600, 100)
-    sq.drawOn(template, pos_x_tl13, pos_y_tl13 + 3)
-    pos_y = pos_y_tl13 - h10 + 40
-    p.drawOn(template, 48, pos_y)
-
-
-    #############################
-    # Uploaded images
-    #############################
+        first_rows_num = len(self.ground_site_list)
+    if first_rows_num == 0:
+        data.append([None, None, None])
+    else:
+        for i in range(first_rows_num):
+            try:
+                left_cell = Paragraph(self.ground_site_list[i], styles["asmm"])
+            except IndexError:
+                left_cell = None
+            try:
+                right_cell = Paragraph(self.arm_site_list[i], styles["asmm"])
+            except IndexError:
+                right_cell = None
+            data.append([left_cell, None, right_cell])
+    data.append([None, None, None])
+    data.append([Paragraph('<u>Research vessels:</u>',styles["checkbox_title"]), None, Paragraph('<u>ARM mobile sites:</u>',styles["checkbox_title"])])
+    second_rows_num = 0
+    if len(self.arm_mobile_list) >= len(self.research_vessel_list):
+        second_rows_num = len(self.arm_mobile_list)
+    else:
+        second_rows_num = len(self.research_vesse_list)
+    if second_rows_num == 0:
+        data.append([None, None, None])
+    else:
+        for i in range(second_rows_num):
+            try:
+                left_cell = Paragraph(self.research_vessel_list[i], styles["asmm"])
+            except IndexError:
+                left_cell = None
+            try:
+                right_cell = Paragraph(self.arm_mobile_list[i], styles["asmm"])
+            except IndexError:
+                right_cell = None
+            data.append([left_cell, None, right_cell])
+    table=Table(data, colWidths=[240, 20, 240], rowHeights=20)
+    if first_rows_num == 0:
+        first_rows_num = 1  
+    if second_rows_num == 0:
+        second_rows_num = 1
+    table.setStyle(TableStyle([('BOX',(0,1),(0,first_rows_num), 1, colors.black)]))
+    table.setStyle(TableStyle([('BOX',(2,1),(2,first_rows_num), 1, colors.black)]))
+    table.setStyle(TableStyle([('BOX',(0,first_rows_num + 3),(0,first_rows_num + 2 + second_rows_num), 1, colors.black)]))
+    table.setStyle(TableStyle([('BOX',(2,first_rows_num + 3),(2,first_rows_num + 2 + second_rows_num), 1, colors.black)]))
+    story.append(table)
+    story.append(Paragraph('<br/><br/>', styles["asmm"]))
+    
+    
+    # additional notes
+    story.append(Paragraph('Additional Notes on the Flight', styles["section_title"]))
+    sq = semi_square(-10, -13, -10, 15, page_w-70, -13, 2, 'black')
+    story.append(sq)
+    story.append(Paragraph('<br/><br/>', styles["asmm"]))
+    story.append(Paragraph(self.OtherCommentsTextBox.toPlainText(), styles["asmm"]))
+    story.append(Paragraph('<br/><br/>', styles["asmm"]))
+    
+    
+    # images
     if self.images_pdf_path:
-        pos_x_tl14 = 25
-        pos_y_tl14 = pos_y_tl13 + h10 + 100
-        title = 'Images Included in the PDF Report'
-        tl = Paragraph(title, styles["asmm_par_tl"])
-        w, h = tl.wrapOn(template, 500, 100)
-        if pos_y_tl14 + h > 800:
-            pos_y_tl14 = 80
-            template.showPage()
-            deb_page = 1
-        tl.drawOn(template, pos_x_tl14, pos_y_tl14)
-        sq = semi_square(-10, 0, -10, -28, page_w-50, 0, 2, 'black')
-        sq.wrapOn(template, 600, 100)   
-        sq.drawOn(template, pos_x_tl14, pos_y_tl14 + 3)
+        story.append(Paragraph('Images Included in the PDF Report', styles["section_title"]))
+        sq = semi_square(-10, -13, -10, 15, page_w-70, -13, 2, 'black')
+        story.append(sq)
+        story.append(Paragraph('<br/><br/>', styles["asmm"]))
         i = 0
         for path in self.images_pdf_path:
-            img = utils.ImageReader(path)
-            width, height = img.getSize()
+            image_info = utils.ImageReader(path)
+            width, height = image_info.getSize()
             ratio = float(width) / float(height)
             if ratio > 1:
                 width = 450
                 height = 450 / float(ratio)
-                pos_x = pos_x_tl14 + 45
             elif ratio < 0.5:
                 height = 400
                 width = 400 * float(ratio)
-                pos_x = pos_x_tl14 + 70
             else:
                 height = 450
                 width = 450 * float(ratio)
-                pos_x = pos_x_tl14 + 45
-            if pos_y_tl14 + h + height > 800:
-                pos_y_tl14 = 60
-                template.showPage()
-                deb_page = 1
-            template.drawImage(img, pos_x, pos_y_tl14 + 20, width, height)
-            #title = 'Figure %s: %s' % str(i + 1), self.im_textbox[i].text()
-            title = "Figure " + str(i + 1) + ": " + self.im_textbox[i].text()
-            tl = Paragraph(str(title), styles["asmm_figure"])
-            w, h = tl.wrapOn(template, width + 50, 100)
-            pos_y_tl14 = pos_y_tl14 + height + 40
-            tl.drawOn(template, pos_x - 25, pos_y_tl14)
-            pos_y_tl14 = pos_y_tl14 + 20
-            i +=1
-
-
-    #############################
-    # Document generation
-    #############################
-    template.save()
+            image = Image(path, width=width, height=height)
+            image.hAlign = 'CENTER'
+            story.append(image)
+            story.append(Paragraph('<br/>', styles["asmm"]))
+            data = [[Paragraph('<u>Figure ' + str(i + 1) + ':</u>', styles['figure_number']),
+                     Paragraph(self.im_textbox[i].text(), styles['figure_caption'])]]
+            table=Table(data, colWidths=[100, 400], rowHeights=40)
+            table.setStyle(TableStyle([('VALIGN',(0,0),(1,0),'TOP')]))
+            story.append(table)
+            story.append(Paragraph('<br/><br/>', styles["asmm"]))
+            i += 1
+        story.pop(-1) 
+    docpdf.build(story)
     
+
+def create_date_string():
+    year = str(datetime.datetime.now().year)
+    month = str(datetime.datetime.now().month)
+    day = str(datetime.datetime.now().day)
+    if len(month) < 2:
+        month = "0" + month
+    if len(day) < 2:
+        day = "0" + day
+    string = year + '-' + month + '-'+ day
+    return string
+
     
-def check_boxes_loop(xc,yc,ofc,bc,nc,itemc,tc):
-    tc.setFont("Times",10)
-    for key, value in iter(itemc.items()):
-        idx = bc.index(value)
-        tc.drawString(int(xc[idx]), (int(yc[idx])+ofc), nc[idx])
-        if key.isChecked():
-            t = tick(0,0,8,1,1.5,'red')
-        else:
-            t = tick(0,0,8,0,1.5,'red')
-        t.wrapOn(tc, 50, 50)
-        t.drawOn(tc, int(xc[idx])-12, (int(yc[idx])+ofc))
-    tc.setFont("Times",12)
+def check_boxes(itemc):
+    if itemc.isChecked():
+        t = tick_2(0,2,8,8,1,1.5,'red')
+    else:
+        t = tick_2(0,2,8,8,0,1.5,'red')
+    return t
+
     

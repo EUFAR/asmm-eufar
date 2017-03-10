@@ -33,7 +33,7 @@ doclines = __doc__.split('\n')
 
 
 setup(name='asmm',
-      version='1.2.0',
+      version='1.2.1',
       description=doclines[0],
       long_description='\n'.join(doclines[2:]),
       author='EUFAR',
@@ -46,6 +46,6 @@ setup(name='asmm',
       keywords=['airbornescience', 'xml', 'eufar', 'science', 'metadata'],
       packages=['ui','fonts','functions','icons', 'Documentation'],
       classifiers=filter(None, classifiers.split("\n")),
-      requires=['PyQt5 (>=5.6)','reportlab (>=3.3.9)','netCDF4-python (>=1.2.4)'],
-      install_requires=['PyQt5 (>=5.6)','reportlab (>=3.3.9)','netCDF4-python (>=1.2.4)'],
+      requires=['PyQt5 (>=5.6)','reportlab (>=3.3.9)','netCDF4 (>=1.2.4)', 'Pillow (>=3.2)'],
+      install_requires=['PyQt5 >= 5.6','reportlab >= 3.3.9','netCDF4 >= 1.2.4', 'Pillow >= 3.2']
       )
