@@ -172,7 +172,6 @@ def create_asmm_pdf(self, out_file_name_pdf):
                                    ('VALIGN',(3,0),(3,3),'TOP'),
                                    ('VALIGN',(5,0),(5,3),'TOP')]))
         story.append(table)
-        story.append(Paragraph('<br/><br/>', styles["asmm"]))
     story.append(Paragraph('<u>Comments:</u>',styles["checkbox_title"]))
     if self.SAOtherTextBox.toPlainText():
         story.append(Paragraph(self.SAOtherTextBox.toPlainText(),styles["asmm_justify"]))
@@ -272,7 +271,6 @@ def create_asmm_pdf(self, out_file_name_pdf):
                                    ('VALIGN',(3,0),(3,3),'TOP'),
                                    ('VALIGN',(5,0),(5,3),'TOP')]))
         story.append(table)
-        story.append(Paragraph('<br/><br/>', styles["asmm"]))
     story.append(Paragraph('<u>Comments:</u>',styles["checkbox_title"]))
     if self.GROtherTextBox.toPlainText():
         story.append(Paragraph(self.GROtherTextBox.toPlainText(),styles["asmm_justify"]))
@@ -332,7 +330,6 @@ def create_asmm_pdf(self, out_file_name_pdf):
                                    ('VALIGN',(3,0),(3,3),'TOP'),
                                    ('VALIGN',(5,0),(5,3),'TOP')]))
         story.append(table)
-        story.append(Paragraph('<br/><br/>', styles["asmm"]))
     story.append(Paragraph('<u>Comments:</u>',styles["checkbox_title"]))
     if self.AFOtherTextBox.toPlainText():
         story.append(Paragraph(self.AFOtherTextBox.toPlainText(),styles["asmm_justify"]))
@@ -388,7 +385,6 @@ def create_asmm_pdf(self, out_file_name_pdf):
                                    ('VALIGN',(3,0),(3,3),'TOP'),
                                    ('VALIGN',(5,0),(5,3),'TOP')]))
         story.append(table)
-        story.append(Paragraph('<br/><br/>', styles["asmm"]))
     story.append(Paragraph('<u>Comments:</u>',styles["checkbox_title"]))
     if self.CTOtherTextBox.toPlainText():
         story.append(Paragraph(self.CTOtherTextBox.toPlainText(),styles["asmm_justify"]))
@@ -441,7 +437,6 @@ def create_asmm_pdf(self, out_file_name_pdf):
                                    ('VALIGN',(3,0),(3,3),'TOP'),
                                    ('VALIGN',(5,0),(5,3),'TOP')]))
         story.append(table)
-        story.append(Paragraph('<br/><br/>', styles["asmm"]))
     story.append(Paragraph('<u>Comments:</u>',styles["checkbox_title"]))
     if self.PSOtherTextBox.toPlainText():
         story.append(Paragraph(self.PSOtherTextBox.toPlainText(),styles["asmm_justify"]))
@@ -494,7 +489,6 @@ def create_asmm_pdf(self, out_file_name_pdf):
                                    ('VALIGN',(3,0),(3,3),'TOP'),
                                    ('VALIGN',(5,0),(5,3),'TOP')]))
         story.append(table)
-        story.append(Paragraph('<br/><br/>', styles["asmm"]))
     story.append(Paragraph('<u>Comments:</u>',styles["checkbox_title"]))
     if self.SOOtherTextBox.toPlainText():
         story.append(Paragraph(self.SOOtherTextBox.toPlainText(),styles["asmm_justify"]))
@@ -546,7 +540,6 @@ def create_asmm_pdf(self, out_file_name_pdf):
                                    ('VALIGN',(3,0),(3,3),'TOP'),
                                    ('VALIGN',(5,0),(5,3),'TOP')]))
         story.append(table)
-        story.append(Paragraph('<br/><br/>', styles["asmm"]))
     story.append(Paragraph('<u>Comments:</u>',styles["checkbox_title"]))
     if self.AROtherTextBox.toPlainText():
         story.append(Paragraph(self.AROtherTextBox.toPlainText(),styles["asmm_justify"]))
@@ -598,7 +591,6 @@ def create_asmm_pdf(self, out_file_name_pdf):
                                    ('VALIGN',(3,0),(3,3),'TOP'),
                                    ('VALIGN',(5,0),(5,3),'TOP')]))
         story.append(table)
-        story.append(Paragraph('<br/><br/>', styles["asmm"]))
     story.append(Paragraph('<u>Comments:</u>',styles["checkbox_title"]))
     if self.FTOtherTextBox.toPlainText():
         story.append(Paragraph(self.FTOtherTextBox.toPlainText(),styles["asmm_justify"]))
@@ -659,7 +651,6 @@ def create_asmm_pdf(self, out_file_name_pdf):
                                    ('VALIGN',(3,0),(3,3),'TOP'),
                                    ('VALIGN',(5,0),(5,3),'TOP')]))
         story.append(table)
-        story.append(Paragraph('<br/><br/>', styles["asmm"]))
     story.append(Paragraph('<u>Comments:</u>',styles["checkbox_title"]))
     if self.SCOtherTextBox.toPlainText():
         story.append(Paragraph(self.SCOtherTextBox.toPlainText(),styles["asmm_justify"]))
