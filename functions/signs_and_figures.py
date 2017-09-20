@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from reportlab.platypus import Flowable
 
 class tick(Flowable):

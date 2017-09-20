@@ -1,22 +1,20 @@
-# -*- coding: utf-8 -*-
-
-import os, urllib.request, tempfile
+import os
+import urllib.request
+import tempfile
+import logging
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QWidget, QLabel
-from PyQt5.QtGui import QCursor
-from PyQt5.QtCore import pyqtSignal
 from ui.Ui_infowindow import Ui_infoWindow
 from ui.Ui_imagewindow import Ui_ImageWindow
 from ui.Ui_addcheckbox import Ui_Addcheckbox
 from PIL import Image
 
 
-
 def add_clicked(self):
+    logging.debug('button_functions.py - add_clicked')
     self.infoWindow = MyAdd()
     self.infoWindow.setMinimumSize(QtCore.QSize(320, self.infoWindow.sizeHint().height()))
     self.infoWindow.setMaximumSize(QtCore.QSize(320, self.infoWindow.sizeHint().height()))
-    self.infoWindow.setGeometry(QCursor.pos().x() - 150, QCursor.pos().y() + 50, 320, self.infoWindow.
+    self.infoWindow.setGeometry(QtGui.QCursor.pos().x() - 150, QtGui.QCursor.pos().y() + 50, 320, self.infoWindow.
                                 sizeHint().height())
     if self.infoWindow.exec_():
         font1 = QtGui.QFont()
@@ -37,6 +35,7 @@ def add_clicked(self):
         tmp.setObjectName(self.infoWindow.ck_inputLine.text())
         tmp.setText(self.infoWindow.ck_inputLine.text())
         tmp.setStyleSheet(""".QCheckBox {margin-left: 10px;}""")
+        tmp.stateChanged.connect(lambda: self.set_modified())
         labelTitle = QtWidgets.QLabel()
         labelTitle.setFont(font1)
         labelTitle.setObjectName("labelTitle")
@@ -55,12 +54,13 @@ def add_clicked(self):
         if self.ck_xy_dict.get(str(self.sender().objectName()[:2]))[0] > 3:
             self.ck_xy_dict.get(str(self.sender().objectName()[:2]))[0] = 0
             self.ck_xy_dict.get(str(self.sender().objectName()[:2]))[1] += 1
-        self.modified = True
         self.make_window_title()
+        logging.debug('button_functions.py - add_clicked - self.infoWindow.ck_inputLine.text() ' + self.infoWindow.ck_inputLine.text())
     else:
         return
 
 def add_read(self, parent, text):
+    logging.debug('button_functions.py - add_read - parent ' + str(parent) + ' ; text ' + str(text))
     font1 = QtGui.QFont()
     font1.setFamily("font/SourceSansPro-Regular.ttf")
     font1.setPointSize(10)
@@ -84,7 +84,6 @@ def add_read(self, parent, text):
     labelTitle.setFont(font1)
     labelTitle.setObjectName("labelTitle")
     labelTitle.setText("User-defined:")    
-    
     if self.ck_xy_dict.get(str(parent).lower())[0] == 0 and self.ck_xy_dict.get(str(parent).lower())[1] == 0:
         self.ck_lay_dict.get(str(parent).lower()).addWidget(labelTitle, self.ck_xy_dict.get(str(parent).
             lower())[1], self.ck_xy_dict.get(str(parent).lower())[0])
@@ -99,6 +98,7 @@ def add_read(self, parent, text):
 
 
 def button_clicked(self):
+    logging.debug('button_functions.py - button_clicked')
     if "_infoButton" in self.sender().objectName():
         infoText = self.buttonInformation[0]
     elif "infoButton_" in self.sender().objectName():
@@ -107,8 +107,8 @@ def button_clicked(self):
             infoText = self.buttonInformation[16]
         else:
             infoText = self.buttonInformation[infoNumber]
-    x = QCursor.pos().x()
-    y = QCursor.pos().y()    
+    x = QtGui.QCursor.pos().x()
+    y = QtGui.QCursor.pos().y()    
     x = x - 175
     y = y + 50
     self.infoWindow = MyInfo(infoText)
@@ -119,6 +119,7 @@ def button_clicked(self):
  
 
 def add_image(self, filename):
+    logging.debug('button_functions.py - add_image - filename ' + str(filename))
     if "http://" in filename or "www." in filename:
         temp_name = next(tempfile._get_candidate_names())
         imagename = self.dirpath + "/" + temp_name + ".jpg"
@@ -139,7 +140,7 @@ def add_image(self, filename):
     font.setBold(True)
     font.setUnderline(True)
     font.setWeight(75)
-    font.setStyleStrategy(QtGui.QFont.PreferAntialias)
+    font.setStyleStrategy(QtGui.QFont.PreferAntialias)  # @UndefinedVariable
     font2 = QtGui.QFont()
     font2.setFamily("font/SourceSansPro-Regular.ttf")
     font2.setPointSize(10)
@@ -216,12 +217,12 @@ def add_image(self, filename):
     self.im_horlay[self.im_number].addItem(spacerItem3)
     self.verticalLayout_52.addLayout(self.im_horlay[self.im_number])
     self.im_number += 1
-    #self.images_pdf_path.append(filename2)
     self.images_pdf_path.append(filename)
     self.images_display_path.append(filename)
 
 
 def delete_image(self, index=None):
+    logging.debug('button_functions.py - delete_image - index ' + str(index))
     if index == None:
         index = int(self.sender().objectName()[-1:])
     self.im_horlay[index].deleteLater()
@@ -251,6 +252,7 @@ def delete_image(self, index=None):
 
 
 def display_image(self):
+    logging.debug('button_functions.py - display_image - index ' + self.sender().objectName()[-1:])
     index = int(self.sender().objectName()[-1:])
     tmp0 = Image.open(self.images_display_path[index])
     filename = self.images_display_path[index] 
@@ -273,8 +275,9 @@ def display_image(self):
 
 
 class MyAdd(QtWidgets.QDialog, Ui_Addcheckbox):
-    def __init__(self, parent = None):
-        QWidget.__init__(self, parent)
+    def __init__(self):
+        QtWidgets.QWidget.__init__(self)
+        logging.debug('button_functions.py - MyAdd')
         self.setupUi(self)
         self.ck_cancelButton.clicked.connect(self.closeWindow)
         self.ck_submitButton.clicked.connect(self.submitBox)
@@ -283,12 +286,14 @@ class MyAdd(QtWidgets.QDialog, Ui_Addcheckbox):
         self.close()
 
     def submitBox(self):
-        self.accept()
+        if self.ck_inputLine.text():
+            self.accept()
         
 
 class MyInfo(QtWidgets.QDialog, Ui_infoWindow):
     def __init__(self, infoText):
-        QWidget.__init__(self)
+        QtWidgets.QWidget.__init__(self)
+        logging.debug('button_functions.py - MyInfo')
         self.setupUi(self)
         self.iw_label_1.setText(infoText)
         self.iw_okButton.clicked.connect(self.closeWindow)
@@ -299,7 +304,8 @@ class MyInfo(QtWidgets.QDialog, Ui_infoWindow):
 
 class MyImage(QtWidgets.QDialog, Ui_ImageWindow):
     def __init__(self, imagePath, w2, h2):
-        QWidget.__init__(self)
+        QtWidgets.QWidget.__init__(self)
+        logging.debug('button_functions.py - MyImage - imagePath ' + str(imagePath) + ' ; w2 ' + str(w2) + ' ; h2 ' + str(h2))
         self.setupUi(self)
         self.label.setPixmap(QtGui.QPixmap(imagePath))
         self.label.setScaledContents(True)
@@ -312,11 +318,11 @@ class MyImage(QtWidgets.QDialog, Ui_ImageWindow):
         self.close()
 
 
-class ExtendedQLabel(QLabel):
+class ExtendedQLabel(QtWidgets.QLabel):
     def __init(self, parent):
         super().__init__(parent)
         
-    clicked = pyqtSignal()
+    clicked = QtCore.pyqtSignal()
  
     def mousePressEvent(self, ev):
         self.clicked.emit()

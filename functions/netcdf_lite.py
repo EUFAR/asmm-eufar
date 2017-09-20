@@ -38,14 +38,6 @@ class FileCore(object):
 
 
 class NetCdf(FileCore):
-    
-    TYPE_DICT = {'char':'c',
-        'byte':'b',
-        'short':'i2',
-        'int':'i4',
-        'float':'f4',
-        'double':'f8'}
-
     def __del__(self):
         if self.f is not None:
             self.f.close()

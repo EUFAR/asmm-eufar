@@ -1,17 +1,14 @@
-# -*- coding: utf-8 -*-
-
 import datetime
 import xml.dom.minidom
-from PyQt5.QtCore import Qt
-from PyQt5.QtCore import QDate
-from PyQt5.QtWidgets import QCheckBox
+import logging
+from PyQt5 import QtCore, QtWidgets
 from functions.button_functions import add_read
 
 
 NAMESPACE_URI = 'http://www.eufar.net/ASMM'
 
 def create_asmm_xml(self, out_file_name):
-  
+    logging.debug('asmm_xml.py - create_asmm_xml - out_file_name ' + out_file_name)
     doc = xml.dom.minidom.Document()
     doc_root = add_element(doc, "MissionMetadata", doc)
     doc_root.setAttribute("xmlns:asmm", NAMESPACE_URI)
@@ -27,26 +24,59 @@ def create_asmm_xml(self, out_file_name):
     ############################
     flightInformation = add_element(doc, "FlightInformation", doc_root)
     add_element(doc, "FlightNumber", flightInformation, self.flightNumber_ln.text())
-    add_element(doc, "Date", flightInformation, self.date_dt.date().toString(Qt.ISODate))
+    add_element(doc, "Date", flightInformation, self.date_dt.date().toString(QtCore.Qt.ISODate))
     add_element(doc, "ProjectAcronym", flightInformation, self.projectAcronym_ln.text())
     add_element(doc, "MissionScientist", flightInformation, self.missionSci_ln.text())
     add_element(doc, "FlightManager", flightInformation, self.flightManager_ln.text())
-    operator = ""
-    aircraft = ""
-    if self.operator_cb.currentText() == "Other...":
-        operator = self.newAircraft_ln.text()
-        aircraft = self.newOperator_ln.text()
-    elif self.operator_cb.currentText() != "Make a choice...":
-        for i in range(len(self.operators_aircraft)):
-            if self.operator_cb.currentText() == self.operators_aircraft[i][0]:
-                operator = self.operators_aircraft[i][2]
-                break
-        for i in range(len(self.operators_aircraft)):
-            if self.aircraft_cb.currentText() == self.operators_aircraft[i][1]:
-                aircraft = self.operators_aircraft[i][3]
-                break
+    operator = self.operator_cb.currentText()
+    aircraft = self.aircraft_cb.currentText()
+    country = ''
+    manufacturer = ''
+    registration = ''
+    if operator == 'Other...':
+        operator = self.newOperator_ln.text()
+        aircraft = self.newAircraft_ln.text()
+        registration = self.newRegistration_ln.text()
+        manufacturer = self.newManufacturer_ln.text()
+        if self.newCountry_cb.currentText() != 'Make a choice...':
+            country = self.newCountry_cb.currentText()
+    elif operator != 'Make a choice...':
+        if aircraft != 'Make a choice...':
+            index = -1
+            index = aircraft.find(' - ')
+            if (index != -1):
+                registration = aircraft[index + 3:]
+                if len(registration) > 3:
+                    aircraft = aircraft[0:index]
+            for i in range(len(self.new_operators_aircraft)):
+                if registration != '' and len(registration) > 3:
+                    if registration == self.new_operators_aircraft[i][2]:
+                        index = self.new_operators_aircraft[i][1].find(', ');
+                        manufacturer = self.new_operators_aircraft[i][1][: index]
+                        country = self.new_operators_aircraft[i][3]
+                        break
+                else:
+                    index = self.new_operators_aircraft[i][1].find(', ');
+                    aircraft_from_table = self.new_operators_aircraft[i][1][index + 2:]
+                    if aircraft == aircraft_from_table:
+                        manufacturer = self.new_operators_aircraft[i][1][: index]
+                        country = self.new_operators_aircraft[i][3]
+                        registration = self.new_operators_aircraft[i][2]
+                        break
+        else:
+            aircraft = ''
+    else:
+        operator = ''
+        aircraft = ''
+    for key, value in self.new_country_code.items():
+        if value == country:
+            country = key
+            break
     add_element(doc, "Platform", flightInformation, aircraft)
     add_element(doc, "Operator", flightInformation, operator)
+    add_element(doc, "OperatorCountry", flightInformation, country)
+    add_element(doc, "Manufacturer", flightInformation, manufacturer)
+    add_element(doc, "RegistrationNumber", flightInformation, registration)
     if self.location_cb.currentText() == "Make a choice...":
         add_element(doc, "Localisation", flightInformation, "")
     elif self.detailList.currentText() == "Make a choice...":
@@ -74,11 +104,11 @@ def create_asmm_xml(self, out_file_name):
     add_check_elements(doc, self.scientific_aims_check_dict, "SA_Code", scientificAims)
     if self.sa_ck_list:
         for i in range(self.gridLayout_5.count()):
-            if isinstance(self.gridLayout_5.itemAt(i).widget(), QCheckBox):
+            if isinstance(self.gridLayout_5.itemAt(i).widget(), QtWidgets.QCheckBox):
                 if self.gridLayout_5.itemAt(i).widget().isChecked():
                     add_element(doc,"SA_User", scientificAims, self.gridLayout_5.itemAt(i).widget().
                                 text())
-    add_comment_element(doc, "SA_Other", scientificAims, self.SAOtherTextBox.toPlainText())
+    add_element(doc, "SA_Other", scientificAims, self.SAOtherTextBox.toPlainText())
 
 
     ############################
@@ -95,11 +125,11 @@ def create_asmm_xml(self, out_file_name):
     add_check_elements(doc, self.geographical_region_check_dict, "GR_Code", geographicalRegion)
     if self.gr_ck_list:
         for i in range(self.gridLayout_8.count()):
-            if isinstance(self.gridLayout_8.itemAt(i).widget(), QCheckBox):
+            if isinstance(self.gridLayout_8.itemAt(i).widget(), QtWidgets.QCheckBox):
                 if self.gridLayout_8.itemAt(i).widget().isChecked():
                     add_element(doc,"GR_User", geographicalRegion, self.gridLayout_8.itemAt(i).
                                 widget().text())
-    add_comment_element(doc, "GR_Other", geographicalRegion, self.GROtherTextBox.toPlainText())
+    add_element(doc, "GR_Other", geographicalRegion, self.GROtherTextBox.toPlainText())
 
 
     ############################
@@ -109,11 +139,11 @@ def create_asmm_xml(self, out_file_name):
     add_check_elements(doc, self.atmospheric_features_check_dict, "AF_Code", atmosphericFeatures)
     if self.af_ck_list:
         for i in range(self.gridLayout_9.count()):
-            if isinstance(self.gridLayout_9.itemAt(i).widget(), QCheckBox):
+            if isinstance(self.gridLayout_9.itemAt(i).widget(), QtWidgets.QCheckBox):
                 if self.gridLayout_9.itemAt(i).widget().isChecked():
                     add_element(doc,"AF_User", atmosphericFeatures, self.gridLayout_9.itemAt(i).
                                 widget().text())
-    add_comment_element(doc, "AF_Other", atmosphericFeatures, self.AFOtherTextBox.toPlainText())
+    add_element(doc, "AF_Other", atmosphericFeatures, self.AFOtherTextBox.toPlainText())
 
 
     ############################
@@ -123,11 +153,11 @@ def create_asmm_xml(self, out_file_name):
     add_check_elements(doc, self.cloud_types_check_dict, "CT_Code", cloudTypes)
     if self.ct_ck_list:
         for i in range(self.gridLayout_10.count()):
-            if isinstance(self.gridLayout_10.itemAt(i).widget(), QCheckBox):
+            if isinstance(self.gridLayout_10.itemAt(i).widget(), QtWidgets.QCheckBox):
                 if self.gridLayout_10.itemAt(i).widget().isChecked():
                     add_element(doc,"CT_User", cloudTypes, self.gridLayout_10.itemAt(i).widget().
                                 text())
-    add_comment_element(doc, "CT_Other", cloudTypes, self.CTOtherTextBox.toPlainText())
+    add_element(doc, "CT_Other", cloudTypes, self.CTOtherTextBox.toPlainText())
 
 
     ############################
@@ -137,11 +167,11 @@ def create_asmm_xml(self, out_file_name):
     add_check_elements(doc, self.particles_sampled_check_dict, "PS_Code", particlesSampled)
     if self.ps_ck_list:
         for i in range(self.gridLayout_11.count()):
-            if isinstance(self.gridLayout_11.itemAt(i).widget(), QCheckBox):
+            if isinstance(self.gridLayout_11.itemAt(i).widget(), QtWidgets.QCheckBox):
                 if self.gridLayout_11.itemAt(i).widget().isChecked():
                     add_element(doc,"PS_User", particlesSampled, self.gridLayout_11.itemAt(i).
                                 widget().text())
-    add_comment_element(doc, "PS_Other", particlesSampled, self.PSOtherTextBox.toPlainText())
+    add_element(doc, "PS_Other", particlesSampled, self.PSOtherTextBox.toPlainText())
 
 
     ############################
@@ -151,11 +181,11 @@ def create_asmm_xml(self, out_file_name):
     add_check_elements(doc, self.surfaces_overflown_check_dict, "SO_Code", surfacesOverflown)
     if self.so_ck_list:
         for i in range(self.gridLayout_13.count()):
-            if isinstance(self.gridLayout_13.itemAt(i).widget(), QCheckBox):
+            if isinstance(self.gridLayout_13.itemAt(i).widget(), QtWidgets.QCheckBox):
                 if self.gridLayout_13.itemAt(i).widget().isChecked():
                     add_element(doc,"SO_User", surfacesOverflown, self.gridLayout_13.itemAt(i).
                                 widget().text())
-    add_comment_element(doc, "SO_Other", surfacesOverflown, self.SOOtherTextBox.toPlainText())
+    add_element(doc, "SO_Other", surfacesOverflown, self.SOOtherTextBox.toPlainText())
 
 
     ############################
@@ -165,11 +195,11 @@ def create_asmm_xml(self, out_file_name):
     add_check_elements(doc, self.altitude_ranges_check_dict, "AR_Code", altitudeRanges)
     if self.ar_ck_list:
         for i in range(self.gridLayout_14.count()):
-            if isinstance(self.gridLayout_14.itemAt(i).widget(), QCheckBox):
+            if isinstance(self.gridLayout_14.itemAt(i).widget(), QtWidgets.QCheckBox):
                 if self.gridLayout_14.itemAt(i).widget().isChecked():
                     add_element(doc,"AR_User", altitudeRanges, self.gridLayout_14.itemAt(i).
                                 widget().text())
-    add_comment_element(doc, "AR_Other", altitudeRanges, self.AROtherTextBox.toPlainText())
+    add_element(doc, "AR_Other", altitudeRanges, self.AROtherTextBox.toPlainText())
 
 
     ############################
@@ -179,11 +209,11 @@ def create_asmm_xml(self, out_file_name):
     add_check_elements(doc, self.flight_types_check_dict, "FT_Code", flightTypes)
     if self.fm_ck_list:
         for i in range(self.gridLayout_15.count()):
-            if isinstance(self.gridLayout_15.itemAt(i).widget(), QCheckBox):
+            if isinstance(self.gridLayout_15.itemAt(i).widget(), QtWidgets.QCheckBox):
                 if self.gridLayout_15.itemAt(i).widget().isChecked():
                     add_element(doc,"FT_User", flightTypes, self.gridLayout_15.itemAt(i).widget().
                                 text())
-    add_comment_element(doc, "FT_Other", flightTypes, self.FTOtherTextBox.toPlainText())
+    add_element(doc, "FT_Other", flightTypes, self.FTOtherTextBox.toPlainText())
 
 
     ############################
@@ -193,11 +223,11 @@ def create_asmm_xml(self, out_file_name):
     add_check_elements(doc, self.satellite_coordination_check_dict, "SC_Code", satelliteCoordination)
     if self.sc_ck_list:
         for i in range(self.gridLayout_25.count()):
-            if isinstance(self.gridLayout_25.itemAt(i).widget(), QCheckBox):
+            if isinstance(self.gridLayout_25.itemAt(i).widget(), QtWidgets.QCheckBox):
                 if self.gridLayout_25.itemAt(i).widget().isChecked():
                     add_element(doc,"SC_User", satelliteCoordination, self.gridLayout_25.itemAt(i).
                                 widget().text())
-    add_comment_element(doc, "SC_Other", satelliteCoordination, self.SCOtherTextBox.toPlainText())
+    add_element(doc, "SC_Other", satelliteCoordination, self.SCOtherTextBox.toPlainText())
 
 
     ############################
@@ -228,10 +258,11 @@ def create_asmm_xml(self, out_file_name):
     f.close()
     self.saved = True
     self.modified = False
+    logging.debug('asmm_xml.py - create_asmm_xml - file created successfully')
 
 
 def read_asmm_xml(self, in_file_name):
-
+    logging.debug('asmm_xml.py - read_asmm_xml - out_file_name ' + in_file_name)
     self.reset_all_fields()
     f = open(in_file_name, 'r')
     doc = xml.dom.minidom.parse(f)
@@ -244,47 +275,47 @@ def read_asmm_xml(self, in_file_name):
     flightInformation = get_element(doc, "FlightInformation")
     set_text_value(self.flightNumber_ln, flightInformation, "FlightNumber")
     date = get_element_value(flightInformation, "Date")
-    self.date_dt.setDate(QDate.fromString(date, Qt.ISODate))
+    self.date_dt.setDate(QtCore.QDate.fromString(date, QtCore.Qt.ISODate))
     set_text_value(self.projectAcronym_ln, flightInformation, "ProjectAcronym")
     set_text_value(self.missionSci_ln, flightInformation, "MissionScientist")
     set_text_value(self.flightManager_ln, flightInformation, "FlightManager")
     operator = get_element_value(flightInformation, "Operator")
     aircraft = get_element_value(flightInformation, "Platform")
-    operator_combo = None
-    aircraft_combo = None
-    for i in range(len(self.operators_aircraft)):
-        if operator == self.operators_aircraft[i][2]:
-            operator_combo = self.operators_aircraft[i][0]
-    for i in range(len(self.operators_aircraft)):
-        if aircraft == self.operators_aircraft[i][3]:
-            aircraft_combo = self.operators_aircraft[i][1]
-            break
-    if operator_combo == None:
-        self.operator_cb.setCurrentIndex(self.operator_cb.findText("Other..."))
-        operator_read(self)
-        self.newOperator_ln.setText(operator)
-        self.newAircraft_ln.setText(aircraft)
-    else:
-        if aircraft_combo == None and aircraft != None:
-            self.operator_cb.setCurrentIndex(self.operator_cb.findText("Other..."))
-            operator_read(self)
+    registration = get_element_value(flightInformation, "RegistrationNumber")
+    aircraft_found = False
+    if registration:
+        for i in range(len(self.new_operators_aircraft)):
+            if registration == self.new_operators_aircraft[i][2]:
+                aircraft_found = True
+                self.operator_cb.setCurrentIndex(self.operator_cb.findText(operator))
+                self.operator_changed()
+                index = self.aircraft_cb.findText(aircraft)
+                if index != -1:
+                    self.aircraft_cb.setCurrentIndex(index)
+                else:
+                    index = self.aircraft_cb.findText(aircraft + ' - ' + registration)
+                    self.aircraft_cb.setCurrentIndex(index)
+                break
+        if not aircraft_found:
+            self.operator_cb.setCurrentIndex(1)
+            self.operator_changed()
             self.newOperator_ln.setText(operator)
             self.newAircraft_ln.setText(aircraft)
-        else:
-            self.operator_cb.setCurrentIndex(self.operator_cb.findText(operator_combo))
-            self.aircraft_cb.clear()
-            self.aircraft_cb.addItem("Make a choice...")
-            self.aircraft_cb.setEnabled(True)
-            for i in range(len(self.operators_aircraft)):
-                if self.operator_cb.currentText() == self.operators_aircraft[i][0]:
-                    self.aircraft_cb.addItem(self.operators_aircraft[i][1])
-            if self.aircraft_cb.count() < 3:
-                self.aircraft_cb.removeItem(0)
-            if aircraft == None:
-                self.aircraft_cb.setCurrentIndex(0)
-            else:
-                self.aircraft_cb.setCurrentIndex(self.aircraft_cb.findText(aircraft_combo))
-
+            self.newRegistration_ln.setText(registration)
+            self.newManufacturer_ln.setText(get_element_value(flightInformation, "Manufacturer"))
+            if get_element_value(flightInformation, "OperatorCountry"):
+                self.newCountry_cb.setCurrentIndex(self.newCountry_cb.findText(get_element_value(flightInformation, "OperatorCountry"))) 
+    else:
+        self.operator_cb.setCurrentIndex(1)
+        self.operator_changed()
+        self.newOperator_ln.setText(operator)
+        self.newAircraft_ln.setText(aircraft)
+        self.newRegistration_ln.setText(registration)
+        self.newManufacturer_ln.setText(get_element_value(flightInformation, "Manufacturer"))
+        if get_element_value(flightInformation, "OperatorCountry"):
+            index = self.newCountry_cb.findText(get_element_value(flightInformation, "OperatorCountry"))
+            if index != -1:
+                self.newCountry_cb.setCurrentIndex(index) 
     combo_text = get_element_value(flightInformation, "Localisation")
     if combo_text != None:
         if combo_text in self.countries:
@@ -475,13 +506,17 @@ def read_asmm_xml(self, in_file_name):
     # Other Comments
     ##############################
     set_text_value(self.OtherCommentsTextBox, doc, "OtherComments")
+    
+    logging.debug('asmm_xml.py - create_asmm_xml - file read successfully')
 
 
 def get_element(parent, element_name):
+    logging.debug('asmm_xml.py - get_element - parent ' + str(parent) + ' ; element_name ' + str(element_name))
     return parent.getElementsByTagNameNS(NAMESPACE_URI, element_name)[0]
 
 
 def get_element_value(parent, element_name):
+    logging.debug('asmm_xml.py - get_element_value - parent ' + str(parent) + ' ; element_name ' + str(element_name))
     elements = parent.getElementsByTagNameNS(NAMESPACE_URI, element_name)
     if elements:
         element = elements[0]
@@ -492,6 +527,7 @@ def get_element_value(parent, element_name):
 
 
 def get_element_values(parent, element_name):
+    logging.debug('asmm_xml.py - get_element_values - parent ' + str(parent) + ' ; element_name ' + str(element_name))
     value_list = []
     elements = parent.getElementsByTagNameNS(NAMESPACE_URI, element_name)
     for element in elements:
@@ -500,6 +536,7 @@ def get_element_values(parent, element_name):
 
 
 def set_check_values(check_dict, parent, element_name):
+    logging.debug('asmm_xml.py - set_check_values - parent ' + str(parent) + ' ; element_name ' + str(element_name))
     elements = parent.getElementsByTagNameNS(NAMESPACE_URI, element_name)
     for element in elements:
         check_widget = find_key(check_dict, element.childNodes[0].data.strip())
@@ -508,18 +545,21 @@ def set_check_values(check_dict, parent, element_name):
 
 
 def set_text_value(text_widget, parent, element_name):
+    logging.debug('asmm_xml.py - set_text_value - parent ' + str(parent) + ' ; element_name ' + str(element_name))
     node_data = get_element_value(parent, element_name)
     if node_data:
         text_widget.setText(node_data)
         
         
 def set_text_value_coord(self, text_widget, parent, element_name):
+    logging.debug('asmm_xml.py - set_text_value_coord - parent ' + str(parent) + ' ; element_name ' + str(element_name))
     node_data = get_element_value(parent, element_name)
     if node_data:
         text_widget.setText(clean_coordinate_string(self, node_data))        
 
 
 def add_element(doc, element_name, parent, value=None):
+    logging.debug('asmm_xml.py - add_element - parent ' + str(parent) + ' ; element_name ' + str(element_name) + ' ; value ' + str(value))
     new_element = doc.createElementNS(NAMESPACE_URI, "asmm:" + element_name)
     if value:
         new_text = doc.createTextNode(value)
@@ -528,12 +568,8 @@ def add_element(doc, element_name, parent, value=None):
     return new_element
 
 
-def add_comment_element(doc, element_name, parent, value):
-    if value:
-        add_element(doc, element_name, parent, value)
-
-
 def add_check_elements(doc, check_dict, code_name, parent):
+    logging.debug('asmm_xml.py - add_check_elements - parent ' + str(parent) + ' ; element_name ' + str(code_name))
     for key, val in iter(check_dict.items()):
         if key.isChecked():
             add_element(doc, code_name, parent, val)
@@ -541,19 +577,10 @@ def add_check_elements(doc, check_dict, code_name, parent):
 
 def find_key(dic, val):
     return [k for k, v in iter(dic.items()) if v == val][0]
-
-
-def operator_read(self):
-    self.aircraft_cb.clear()
-    self.aircraft_cb.addItem("Other...")
-    self.aircraft_cb.setEnabled(True)
-    self.newOperator_ln.show()
-    self.newAircraft_ln.show()
-    self.label_38.show()
-    self.label_39.show()
     
     
 def clean_coordinate_string(self, string):
+    logging.debug('asmm_xml.py - clean_coordinate_string - string ' + string)
     for key, val in self.coordinate_units_list.items():
         try:
             string = string[:string.index(key)]
