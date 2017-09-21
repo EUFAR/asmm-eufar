@@ -1079,8 +1079,8 @@ class DownloadAndParseJSON(Qt.QThread):
     def __init__(self):
         Qt.QThread.__init__(self)
         logging.debug('mainwindow.py - DownloadAndParseJSON - starting ...')
-        self.url_list = ['http://eufar.net/api/json/ta/open/aircraft/', 
-                         'http://eufar.net/api/sad89712hhdsa89yp1/json/projects/']
+        self.url_list = ['http://xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', 
+                         'http://xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx']
         self.db_list = []
 
     def run(self):   
