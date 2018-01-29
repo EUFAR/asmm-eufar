@@ -1,5 +1,7 @@
 # asmm-eufar
 
+As the actual EUFAR project ends the 31th of January 2018, a new brach has been created for developments and updates until a new EUFAR project: Lineage.
+
 A detailed changelog can be found in the Documentation directory. Stand-alone versions for Windows and Linux can be found in the Stand-alone versions directory.
 Current version: 1.3.0
 
