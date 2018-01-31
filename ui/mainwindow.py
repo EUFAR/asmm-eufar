@@ -210,11 +210,11 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         + "version conform to v%s of the ASMM XML standard. The opensource reporting library (v%s) "
         + "used for PDF report generation is provided and owned by <a href=http://www.reportlab.com"
         + "/opensource><span style=\" text-decoration: underline; color:#0000ff;\">Reportlab</a>.<b"
-        + "r><br>For more information, or to report a bug, please contact <a href='mailto:olivier.h"
-        + "enry.at.meteo.fr'><span style=\" text-decoration: underline; color:#0000ff;\">olivier.he"
-        + "nry.at.meteo.fr</a>.<br><br>The latest offline version and source code of the ASMM Creat"
-        + "or can be found at <a href=https://github.com/eufarn7sp/asmm-eufar><span style=\" text-d"
-        + "ecoration: underline; color:#0000ff;\">https://github.com/eufarn7sp/asmm-eufar</a>.") % (_asmm_version, 
+        + "r><br>For more information, or to report a bug, please contact <a href='mailto:"
+        + "bureau.at.eufar.net'><span style=\" text-decoration: underline; color:#0000ff;\">"
+        + "bureau.at.eufar.net</a>.<br><br>The latest offline version and source code of the ASMM Creat"
+        + "or can be found at <a href=https://github.com/EUFAR/asmm-eufar><span style=\" text-d"
+        + "ecoration: underline; color:#0000ff;\">https://github.com/EUFAR/asmm-eufar</a>.") % (_asmm_version, 
                                                                                                    _eclipse_version, 
                                                                                                    _py_version, 
                                                                                                    _qt_version, 
@@ -239,8 +239,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         + "common description will allow users of the airborne science data to search past datasets"
         + " for specific meteorological conditions, geographical regions, cloud-types encountered, "
         + "particles sampled, and other parameters not evident from the data itself.<br> <br> For m"
-        + "ore information, please read the following document: <a href=https://github.com/eufarn7s"
-        + "p/asmm-eufar/blob/master/Documentation/ASMM%20-%20XML%20Implementation%20Rules.pdf   >AS"
+        + "ore information, please read the following document: <a href=https://github.com/EUFAR"
+        + "/asmm-eufar/blob/master/Documentation/ASMM%20-%20XML%20Implementation%20Rules.pdf   >AS"
         + "MM - XML Implementation Rules.pdf</a></p></body></html>")
         self.aboutWindow = MyStandard(aboutText)
         x1, y1, w1, h1 = self.geometry().getRect()
@@ -1079,8 +1079,8 @@ class DownloadAndParseJSON(Qt.QThread):
     def __init__(self):
         Qt.QThread.__init__(self)
         logging.debug('mainwindow.py - DownloadAndParseJSON - starting ...')
-        self.url_list = ['http://xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', 
-                         'http://xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx']
+        self.url_list = ['http://eufar.net/api/json/ta/open/aircraft/', 
+                         'http://eufar.net/api/sad89712hhdsa89yp1/json/projects/']
         self.db_list = []
 
     def run(self):   
@@ -1100,5 +1100,3 @@ class DownloadAndParseJSON(Qt.QThread):
         
     def stop(self):
         self.terminate()
-
-        

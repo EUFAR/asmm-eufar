@@ -1,4 +1,4 @@
-_asmm_version = '1.3.0'
+_asmm_version = '1.3.2'
 _xml_version = '1.0b'
 _py_version = '3.5.1'
 _eclipse_version = '4.6.3'

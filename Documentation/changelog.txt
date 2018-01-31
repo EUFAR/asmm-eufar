@@ -8,6 +8,12 @@ OFFLINE VERSION TESTED ON:
     - Xubuntu 15.04, 15.10 (32 and 64 bits), 16.04
     - Windows 7, 8.1, 10
 
+
+January 31 2018, Release version 1.3.1 [ONLINE]
+===============================================
+  FIXED:
+    - links to the ASMM GitHub repository have been fixed.
+
     
 September 20 2017, Release version 1.3.0 [OFFLINE]
 ========================================
